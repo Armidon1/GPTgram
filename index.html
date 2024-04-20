@@ -8,14 +8,12 @@
         <script type="text/javascript" src="script.js"></script>
     </head>
     <body>
-        <div class="header">
-            GPTgram
-            <button type="button">Backup</button>
-        </div>
-
-        <hr>
-
+        
         <div class="chatflow">
+            <div class="header">
+                <div class="title">GPTgram</div>
+                <button type="button" class="ui-button" id="settings"></button>
+            </div>
             <div class="chatbox" data-id="cvtyhujt b">
                 <div class="risposta User">
                     <p>
@@ -53,10 +51,89 @@
                         diocane, che schifo di lavoro
                     </p>
                 </div>
-                <button type="button">comprimi</button>
+                <button type="button" class="reduce">comprimi</button>
                 <hr>
             </div>
-    
+            <div class="chatbox" data-id="cvtyhujt b">
+                <div class="risposta User">
+                    <p>
+                        ciao sono simone 
+                        <img src="9187604.png" height="20" alt="User image">
+                    </p>
+                </div>
+                <div class="risposta GPTgram">
+                    <p>
+                        <img src="Microsoft_365_Copilot_Icon.svg.png" height="20" alt="GPTgram image"> 
+                        ciao sono il chatbot
+                    </p>
+                </div>
+                <div class="risposta User">
+                    <p>
+                        come va? 
+                        <img src="9187604.png" height="20" alt="User image">
+                    </p>
+                </div>
+                <div class="risposta GPTgram">
+                    <p>    
+                        <img src="Microsoft_365_Copilot_Icon.svg.png" height="20" alt="GPTgram image"> 
+                        bene. non mi interessa chiederti come stai. La gentilezza non la conosco 
+                    </p>
+                </div>
+                <div class="risposta User">
+                    <p>
+                        non me ne frega un cazzo di te in verità. parlami di come produrre la merda, coglione.
+                        <img src="9187604.png" height="20" alt="User image">
+                    </p>
+                </div>
+                <div class="risposta GPTgram">
+                    <p>
+                        <img src="Microsoft_365_Copilot_Icon.svg.png" height="20" alt="GPTgram image"> 
+                        diocane, che schifo di lavoro
+                    </p>
+                </div>
+                <button type="button" class="reduce">comprimi</button>
+                <hr>
+            </div>
+            <div class="chatbox" data-id="cvtyhujt b">
+                <div class="risposta User">
+                    <p>
+                        ciao sono simone 
+                        <img src="9187604.png" height="20" alt="User image">
+                    </p>
+                </div>
+                <div class="risposta GPTgram">
+                    <p>
+                        <img src="Microsoft_365_Copilot_Icon.svg.png" height="20" alt="GPTgram image"> 
+                        ciao sono il chatbot
+                    </p>
+                </div>
+                <div class="risposta User">
+                    <p>
+                        come va? 
+                        <img src="9187604.png" height="20" alt="User image">
+                    </p>
+                </div>
+                <div class="risposta GPTgram">
+                    <p>    
+                        <img src="Microsoft_365_Copilot_Icon.svg.png" height="20" alt="GPTgram image"> 
+                        bene. non mi interessa chiederti come stai. La gentilezza non la conosco 
+                    </p>
+                </div>
+                <div class="risposta User">
+                    <p>
+                        non me ne frega un cazzo di te in verità. parlami di come produrre la merda, coglione.
+                        <img src="9187604.png" height="20" alt="User image">
+                    </p>
+                </div>
+                <div class="risposta GPTgram">
+                    <p>
+                        <img src="Microsoft_365_Copilot_Icon.svg.png" height="20" alt="GPTgram image"> 
+                        diocane, che schifo di lavoro
+                    </p>
+                </div>
+                <button type="button" class="reduce">comprimi</button>
+                <hr>
+            </div>
             <div class="chatbox" data-id="g678">
                 <div class="risposta User">
                     <p>
@@ -94,16 +171,19 @@
                         chiedo a Copilot e ti inoltro la sua risposta
                     </p>
                 </div>
-                <button type="button">comprimi</button>
-                <hr>
+                
             </div>
     
             <div class="textArea">
-                <textarea name="testo" rows="15" cols="100" placeholder="inserisci il testo"></textarea>
-                <button type="button"><img src="microphone-69-672x1024.png" height="50" alt="microphone image"></button>
-                <button type="button">Invia</button>
+                <textarea name="testo" placeholder="chiedimi tutto quello che vuoi" id="user-input"></textarea>
+                <div class="commands-grid">
+                    <button type="button" class="ui-button input-button" id="mic"></button>
+                    <button type="button" class="ui-button input-button" id="send"></button>
+                    <button type="button" class="ui-button input-button" id="export"></button>
+                    <button type="button" class="ui-button input-button" id="sync"></button>
+                </div>
+                <p class="text-footer">Shift+Enter per andare a capo</p >
             </div>
         </div>
-
     </body>
 </html>
