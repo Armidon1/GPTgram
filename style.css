@@ -1,0 +1,28 @@
+body{
+    margin: 0px;
+    background-image: linear-gradient(to top, #cad2c5, #b4c1b2, #9eb0a0, #879f90, #708f81, #618379, #527670, #456a68, #3e5f61, #385459, #334950, #2f3e46);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+
+
+.chatflow{
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 18px;
+    color: #ffffff;
+    margin: 0px auto;
+    width: 50%;
+}
+
+.header{
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 72px;
+    color: rgb(45, 209, 121);
+    /*background-color: aquamarine;*/
+    padding: 10px 0px 10px 25px;
+    margin: 0px 0px 50px 0px;
+    /*font-weight: bold;*/
+}
+
+
