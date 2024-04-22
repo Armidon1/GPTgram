@@ -86,10 +86,12 @@ body{
 
 .default-user{
     background: url(./asset/user.svg) center center/cover no-repeat;
+    
 }
 
 .default-ai{
     background: url(./asset/cpu.svg) center center/20px 20px no-repeat;
+    border: 1px solid rgb(45, 209, 121);
 }
 
 .user-area
