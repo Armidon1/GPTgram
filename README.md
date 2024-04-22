@@ -44,7 +44,7 @@ FINE
 - [ ] implementare background le lettere fluttuanti (📕 Patrizio)
   - [ ] impostare il background
   - [ ] animazione che scrive il messaggio con le lettere (low priority)
-- [ ] sostituire le icone dell'AI e dell'utente per abbinarle a resto delle icone (📕 Patrizio)
+- [x] sostituire le icone dell'AI e dell'utente per abbinarle a resto delle icone (📕 Patrizio)
 - [ ] aggiungere un pulsante che crea una nuova chat (📗 Simone)
   - [ ] fare vibrare il tasto(?)
 - [ ] gestire i cookies (📕 Patrizio)
