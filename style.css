@@ -75,6 +75,22 @@ body{
     padding: 5px;
     margin-top: 70px;
 }
+.icon{
+    height: 24px;
+    aspect-ratio: 1;
+    margin: 0px;
+    padding: 0px;
+    border-radius: 50%;
+    border: 1px solid white;
+}
+
+.default-user{
+    background: url(./asset/user.svg) center center/cover no-repeat;
+}
+
+.default-ai{
+    background: url(./asset/cpu.svg) center center/20px 20px no-repeat;
+}
 
 .user-area
 {
