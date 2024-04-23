@@ -1,0 +1,72 @@
+@use postcss-nested;
+
+:root {
+  --send-bg: #0B93F6;
+  --send-color: white;
+  --receive-bg: #E5E5EA;
+  --receive-text: black;
+  --page-background: black;
+}
+
+body {
+	font-family: "Helvetica Neue", Helvetica, sans-serif;
+	font-size: 20px;
+	font-weight: normal;
+    max-width: 800px;
+	margin: 50px auto;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--page-background);
+}
+
+.icon{
+    height: 24px;
+    aspect-ratio: 1;
+    margin: 0px;
+    padding: 0px;
+    border-radius: 50%;
+}
+.default-user{
+    background: url(../asset/user.svg) center center/cover no-repeat; 
+    border: 1px solid white;   
+}
+
+.default-ai{
+    background: url(../asset/cpu.svg) center center/20px 20px no-repeat;
+    border: 1px solid rgb(45, 209, 121);
+}
+
+.sendbox{
+    max-width: 90%;
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    margin: 10px 0px 10px auto;
+}
+
+.receivebox{
+    max-width: 90%;
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    margin: 10px auto 10px 0px;
+}
+
+p {
+    word-wrap: break-word;
+    position: relative;
+	padding: 10px 20px;
+    margin: 0px;
+}
+
+.send {
+	color: var(--send-color); 
+	background: var(--send-bg);
+    border-radius: 25px 25px 0px 25px;
+}
+.receive {
+	background: var(--receive-bg);
+	color: black;
+    align-self: flex-start;
+	border-radius: 25px 25px 25px 0px;
+}
