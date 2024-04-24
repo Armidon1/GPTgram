@@ -9,6 +9,7 @@
 }
 
 body{
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
     margin: 0px;
     background-color: #2f3e46;
     background-repeat: no-repeat;
@@ -26,7 +27,6 @@ body{
 
 .header{
     background-color: rgba(50, 50, 50, 1);
-    font-family: "Helvetica Neue", Helvetica, sans-serif;
     margin: 0px 0px 0px 0px;
     display: flex;
     justify-content: space-between;
@@ -77,6 +77,14 @@ body{
     padding: 10px;
     border: 1px solid white;
     border-radius: var(--standard-border-radius);
+}
+
+.letters{
+    color: rgb(150, 150, 150);
+    font-size: 18px;
+    z-index: -1; 
+    position: fixed;
+    transform: translate(-50%, -50%);
 }
 
 .chatflow{
@@ -196,7 +204,6 @@ p {
     background-color: rgba(50, 50, 50, 1);;
     backdrop-filter: blur(10%);
     color: white;
-    font-family: "Helvetica Neue", Helvetica, sans-serif;
     font-size: 18px;
     margin: 5px 0px 5px 0px;
     padding: 10px;
