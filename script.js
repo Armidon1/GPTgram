@@ -1,5 +1,6 @@
 const LETTERS='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
 let lettersCanMove = true;
+const LETTERS_AMOUNT = 69
 
 function preciseSetTimeout(callback, delay) {
     let start = performance.now();
@@ -18,7 +19,7 @@ function generateFloatingLetters(){
     LetterPool.id = 'LetterPool';
     LetterPool.style.margin = '0';
 
-    for (let i = 0; i < 60; i++) {
+    for (let i = 0; i < LETTERS_AMOUNT; i++) {
         let letter = document.createElement('div');
         letter.classList.add('letters');
         let top = Math.floor(Math.random() * window.innerHeight);
@@ -27,7 +28,7 @@ function generateFloatingLetters(){
         letter.style.top = `${top}px`;
         letter.style.left = `${left}px`;
         let angle = Math.floor(Math.random() * 360);
-        let speed = (Math.random() * 3) + 1;
+        let speed = (Math.random() * 1) + 1;
         letter.setAttribute('data-angle', angle);
         letter.setAttribute('data-speed', speed);
         LetterPool.appendChild(letter);
