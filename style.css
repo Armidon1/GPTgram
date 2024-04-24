@@ -6,6 +6,7 @@
     --send-color: white;
     --receive-bg: #E5E5EA;
     --receive-text: black;
+    --message-border-radius: 10px;
 }
 
 body{
@@ -154,13 +155,13 @@ p {
 .send {
 	color: var(--send-color); 
 	background: var(--send-bg);
-    border-radius: 25px 25px 0px 25px;
+    border-radius: var(--message-border-radius) var(--message-border-radius) 0px var(--message-border-radius);
 }
 .receive {
 	background: var(--receive-bg);
 	color: black;
     align-self: flex-start;
-	border-radius: 25px 25px 25px 0px;
+	border-radius: var(--message-border-radius) var(--message-border-radius) var(--message-border-radius) 0px;
 }
 
 .separator{
@@ -268,4 +269,5 @@ p {
     text-align: center;
     position: relative;
     margin: 0px 0px 10px 0px;
+    backdrop-filter: blur(20px);
 }
