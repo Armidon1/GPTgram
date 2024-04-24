@@ -38,6 +38,13 @@ body{
     overflow: auto;
     top: 0;
     min-width: var(--ui-min-width);
+    
+    z-index: 999; /*sempre in primo piano*/
+    
+
+    /*responsibilità*/
+    width: 50vw; /* Adatta la larghezza alla larghezza del viewport */
+    min-width: 325px; /* Imposta una larghezza minima per evitare che il chatflow diventi troppo piccolo */
 }
 
 .title{
@@ -75,13 +82,25 @@ body{
 .chatflow{
     font-family: "Helvetica Neue", Helvetica, sans-serif;
     position: relative;
-    font-size: 18px;
+    /*font-size: 18px;*/
     color: white;
     margin: 0px auto;
-    width: var(--ui-width-percentage);
-    min-width: var(--ui-min-width);
+    /*width: var(--ui-width-percentage);*/
+    /*min-width: var(--ui-min-width);*/
     display: flex;
     flex-direction: column;
+
+    z-index: 1; /*piano base*/
+
+    /*responsibilità*/
+    @media (max-width: 1200px) {    /*font size da un minimo di 10px fino ad un massimo di calc(10px+1vm) con laghezza massima 1200px*/
+        font-size: calc(10px + 1vw);
+    }
+    @media (min-width: 1201px) {    /*font size da 22px per laghezze maggiori di 1200px*/
+        font-size: 22px; 
+    }
+    width: 50vw; /* Adatta la larghezza alla larghezza del viewport */
+    min-width: 300px; /* Imposta una larghezza minima per evitare che il chatflow diventi troppo piccolo */
 }
 
 .chatbox{
@@ -136,7 +155,9 @@ p {
 	border-radius: 25px 25px 25px 0px;
 }
 
-
+.separator{
+    margin: 0px 0px 150px 0px;
+}
 
 
 .user-area
@@ -149,6 +170,18 @@ p {
     min-width: var(--ui-min-width);
     position: fixed;
     bottom:0;
+
+    z-index: 999; /*sempre in primo piano*/
+
+    /*responsibilità*/
+    @media (max-width: 1200px) {    /*font size da un minimo di 10px fino ad un massimo di calc(10px+1vm) con laghezza massima 1200px*/
+        font-size: calc(10px + 1vw);
+    }
+    @media (min-width: 1201px) {    /*font size da 22px per laghezze maggiori di 1200px*/
+        font-size: 22px; 
+    }
+    width: 50vw; /* Adatta la larghezza alla larghezza del viewport */
+    min-width: 300px; /* Imposta una larghezza minima per evitare che il chatflow diventi troppo piccolo */
 }
 
 .input-grid{
