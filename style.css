@@ -252,6 +252,9 @@ p {
 {
     background-image: url('./asset/refresh-cw.svg');
 }
+#newchat{
+    background-image: url('./asset/newchat.svg'); /* cambiare icona 😊 */
+}
 
 .text-footer{
     color: rgb(170, 170, 170);
