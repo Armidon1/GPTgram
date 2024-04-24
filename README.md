@@ -28,24 +28,27 @@ a better chatGPT
 FINE
 
 ## TODO lato client (entro il 7 maggio)
+- [ ] creare template per gli elementi della chat
+  - [ ] messagio utente/ai
+  - [ ] chat
+  - [ ] components ui
+    - [ ] header
+    - [ ] user-area
 - [ ] sistemare le chat
-  - [ ] creare la msgbox per user e AI (📗 Simone)
-    - [ ] creare la forma del messaggio
-    - [ ] fare si che la dimensione sia dinamica in base al messaggio
-  - [ ] allineare i messaggi per bene in base a chi manda il messaggio (📗 Simone)
   - [ ] reimplementare la divisione delle chat (📗 Simone)
     - [ ] togliere le linee orizzontali
     - [ ] aggiungere un contorno
     - [ ] implementare il titolo della chat in base al contenuto della chat
+  - [ ] implementare la tendina dei bottoni
   - [ ] inserire la barra di ricerca (📕 Patrizio)
     - [ ] implementare la tendina con le ricerche recenti
       - [ ] implentare il record con domanda e risposta
     - [ ] implementare un sistema di ricerca per le query simili
-- [ ] implementare background le lettere fluttuanti (📕 Patrizio)
-  - [ ] impostare il background
+- [X] implementare background le lettere fluttuanti (📕 Patrizio)
+  - [X] impostare il background
   - [ ] animazione che scrive il messaggio con le lettere (low priority)
-- [x] sostituire le icone dell'AI e dell'utente per abbinarle a resto delle icone (📕 Patrizio)
-- [ ] aggiungere un pulsante che crea una nuova chat (📗 Simone)
+
+- [ ] sistemare un pulsante che crea una nuova chat (📕 Patrizio)
   - [ ] fare vibrare il tasto(?)
 - [ ] gestire i cookies (📕 Patrizio)
 
@@ -58,6 +61,13 @@ FINE
 - [ ] pdf pptx csv
 - [ ] backup/sync
 
+## done
+- [x] sostituire le icone dell'AI e dell'utente per abbinarle a resto delle icone (📕 Patrizio)
+- [X] allineare i messaggi per bene in base a chi manda il messaggio (📗 Simone)
+- [X] creare la msgbox per user e AI (📗 Simone)
+    - [X] creare la forma del messaggio
+    - [X] fare si che la dimensione sia dinamica in base al messaggio
+  
 
 ## link interessanti
 https://www.youtube.com/watch?v=p5O-_AiKD_Q&ab_channel=AllAboutAI
