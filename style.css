@@ -2,6 +2,10 @@
     --ui-width-percentage: 50%;
     --ui-min-width: 1000px;
     --standard-border-radius: 5px;
+    --send-bg: #19603d;
+    --send-color: white;
+    --receive-bg: #E5E5EA;
+    --receive-text: black;
 }
 
 body{
@@ -9,6 +13,15 @@ body{
     background-color: #2f3e46;
     background-repeat: no-repeat;
     background-attachment: fixed;
+}
+
+.icon{
+    height: 24px;
+    aspect-ratio: 1;
+    margin: 0px;
+    padding: 0px;
+    border-radius: 50%;
+    border: 1px solid white;
 }
 
 .header{
@@ -75,23 +88,56 @@ body{
     padding: 5px;
     margin-top: 70px;
 }
-.icon{
-    height: 24px;
-    aspect-ratio: 1;
-    margin: 0px;
-    padding: 0px;
-    border-radius: 50%;
-    border: 1px solid white;
-}
+
 
 .default-user{
-    background: url(./asset/user.svg) center center/cover no-repeat;    
+    background: url(../asset/user.svg) center center/cover no-repeat; 
+    border: 1px solid white;      
 }
 
 .default-ai{
-    background: url(./asset/cpu.svg) center center/20px 20px no-repeat;
+    background: url(../asset/cpu.svg) center center/20px 20px no-repeat;
     border: 1px solid rgb(45, 209, 121);
 }
+
+.sendbox{
+    max-width: 90%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    gap: 10px;
+    margin: 10px 0px 10px auto;
+}
+
+.receivebox{
+    max-width: 90%;
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    margin: 10px auto 10px 0px;
+}
+
+p {
+    word-wrap: break-word;
+    position: relative;
+	padding: 10px 20px;
+    margin: 0px;
+}
+
+.send {
+	color: var(--send-color); 
+	background: var(--send-bg);
+    border-radius: 25px 25px 0px 25px;
+}
+.receive {
+	background: var(--receive-bg);
+	color: black;
+    align-self: flex-start;
+	border-radius: 25px 25px 25px 0px;
+}
+
+
+
 
 .user-area
 {
