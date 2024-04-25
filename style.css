@@ -114,7 +114,6 @@ body{
 
 .chatbox{
     padding: 5px;
-    margin-top: 70px;
 }
 
 
@@ -164,8 +163,12 @@ p {
 	border-radius: var(--message-border-radius) var(--message-border-radius) var(--message-border-radius) 0px;
 }
 
-.separator{
-    margin: 0px 0px 150px 0px;
+.top-separator{
+    margin: 75px 0px 0px 0px
+}
+
+.end-separator{
+    margin: 0px 0px 130px 0px;
 }
 
 
@@ -261,7 +264,7 @@ p {
     background-image: url('./asset/refresh-cw.svg');
 }
 #newchat{
-    background-image: url('./asset/newchat.svg'); /* cambiare icona 😊 */
+    background-image: url('./asset/edit.svg');
 }
 
 .text-footer{
