@@ -91,11 +91,8 @@ body{
 .chatflow{
     font-family: "Helvetica Neue", Helvetica, sans-serif;
     position: relative;
-    /*font-size: 18px;*/
     color: white;
     margin: 0px auto;
-    /*width: var(--ui-width-percentage);*/
-    /*min-width: var(--ui-min-width);*/
     display: flex;
     flex-direction: column;
 
