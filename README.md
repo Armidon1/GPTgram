@@ -11,7 +11,7 @@ a better chatGPT
 - [ ] mandare messaggi audio, il server li trascrive e l'AI ti risponde come se fosse un messaggio normale. Mettere text to speach (TTS) tramite WisperAI
 - [ ] invio dei pdf
 - [ ] quando in ricerca si apre una tendina sopra la chat con le vecchie ricerche composta da domanda e risposta con eventuale preview
-
+- [ ] implementare user area
 
 ## SERVER (scritto interamente in javascript, nodejs)
 - [ ] aprire socket TCP
@@ -47,10 +47,11 @@ FINE
 - [X] implementare background le lettere fluttuanti (📕 Patrizio)
   - [X] impostare il background
   - [ ] animazione che scrive il messaggio con le lettere (low priority)
-
 - [ ] sistemare un pulsante che crea una nuova chat (📕 Patrizio)
   - [ ] fare vibrare il tasto(?)
 - [ ] gestire i cookies (📕 Patrizio)
+- [ ] implementare la risposta con reference ai messaggi
+- [ ] implementare tendina funzionalità extra
 
 ### login
 - [ ] fare la pagina di login
@@ -62,7 +63,7 @@ FINE
 - [ ] backup/sync
 
 ## done
-- [x] sostituire le icone dell'AI e dell'utente per abbinarle a resto delle icone (📕 Patrizio)
+- [X] sostituire le icone dell'AI e dell'utente per abbinarle a resto delle icone (📕 Patrizio)
 - [X] allineare i messaggi per bene in base a chi manda il messaggio (📗 Simone)
 - [X] creare la msgbox per user e AI (📗 Simone)
     - [X] creare la forma del messaggio
