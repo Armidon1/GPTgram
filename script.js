@@ -6,7 +6,7 @@ const TYPEMSG = 'MSG';
 let lettersCanMove = true;
 let currentChatId = 'g67sdfgcvbn8';
 let sendAsUser = true;
-
+let isTiping = false;
 
 function preciseSetTimeout(callback, delay) {
     let start = performance.now();
@@ -33,7 +33,10 @@ function generateFloatingLetters(){
         letter.innerText = LETTERS.charAt(Math.floor(Math.random() * LETTERS.length));
         letter.style.top = `${top}px`;
         letter.style.left = `${left}px`;
-        let angle = Math.floor(Math.random() * 360);
+        let angle = 0;
+        while(angle % 90 === 0){
+            angle = Math.floor(Math.random() * 360);
+        };
         let speed = (Math.random() * 1) + 1;
         letter.setAttribute('data-angle', angle);
         letter.setAttribute('data-speed', speed);
@@ -52,9 +55,11 @@ function moveFloatingletters(){
 
         if (x < 0 || x > window.innerWidth) {
             angle = 180 - angle;
+            letter.innerText = LETTERS.charAt(Math.floor(Math.random() * LETTERS.length));
         }
         if (y < 0 || y > window.innerHeight) {
             angle = 360 - angle;
+            letter.innerText = LETTERS.charAt(Math.floor(Math.random() * LETTERS.length));
         }
 
         letter.style.left = `${x}px`;
@@ -99,7 +104,7 @@ async function createMessage(asUser = true){
     let newMessageText = document.createElement('p');
     newMessageText.classList.add(asUser ? 'send' : 'receive');
     let userInput = document.querySelector('#user-input');
-    newMessageText.innerText = userInput.value;
+    newMessageText.innerText = userInput.value.trim();
     userInput.value = '';
     let Icon = document.createElement('div');
     Icon.classList.add('icon', asUser ? 'default-user' : 'default-ai');
@@ -122,11 +127,13 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementsByClassName('end-separator')[0].scrollIntoView();
 });
 
-document.getElementById('user-input').addEventListener('keydown', function(event){
-    const userInput = document.querySelector('#user-input');
-    if(event.key === 'Enter' && userInput.value!=''){
-        createMessage(sendAsUser);
+document.addEventListener('keydown', function(event){
+    if(event.key === 'Enter'){
         event.preventDefault();
+        let userInput = document.querySelector('#user-input');
+        if(userInput.value.trim()!=''){
+            createMessage(sendAsUser);
+        }
     }
 })
 
