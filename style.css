@@ -55,9 +55,9 @@ body{
     flex-grow: 3;
 }
 
-#settings
+#search
 {
-    background-image: url('./asset/settings.svg');
+    background-image: url('./asset/search.svg');
     background-size: 32px;
     min-width: 60px;
     aspect-ratio: 1;
