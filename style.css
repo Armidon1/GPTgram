@@ -39,9 +39,8 @@ body{
     overflow: auto;
     top: 0;
     min-width: var(--ui-min-width);
-    
     z-index: 999; /*sempre in primo piano*/
-    
+    border-radius: 10px;
 
     /*responsibilità*/
     width: 50vw; /* Adatta la larghezza alla larghezza del viewport */
