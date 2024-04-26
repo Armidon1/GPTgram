@@ -148,7 +148,7 @@ p {
     margin: 0px;
 }
 
-.text{
+.send{
 	color: var(--send-color); 
 	background: var(--send-bg);
     border-radius: var(--message-border-radius) var(--message-border-radius) 0px var(--message-border-radius);
