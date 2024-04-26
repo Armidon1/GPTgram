@@ -74,3 +74,12 @@ FINE
 https://www.youtube.com/watch?v=p5O-_AiKD_Q&ab_channel=AllAboutAI
 https://www.youtube.com/watch?v=Oe-7dGDyzPM&ab_channel=AllAboutAI
 https://www.youtube.com/watch?v=ztBJqzBU5kc&ab_channel=TonyKipkemboi
+
+
+https://codepen.io/clintabrown/pen/kBPpZO
+https://codepen.io/sajadhsm/pen/odaBdd
+https://codepen.io/drumilpatel/pen/aEbNMK
+https://codepen.io/leenalavanya/pen/MyjjjY
+https://codepen.io/samuelkraft/pen/kYrjwX
+https://codepen.io/jh3y/pen/bmNVNQ 
+https://codepen.io/borntofrappe/pen/rbbZBL
