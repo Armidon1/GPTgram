@@ -148,11 +148,13 @@ p {
 }
 
 .send{
+    max-width: 90%;
 	color: var(--send-color); 
 	background: var(--send-bg);
     border-radius: var(--message-border-radius) var(--message-border-radius) 0px var(--message-border-radius);
 }
 .receive {
+    max-width: 90%;
 	background: var(--receive-bg);
 	color: black;
     align-self: flex-start;
@@ -261,6 +263,10 @@ p {
 }
 #newchat{
     background-image: url('./asset/edit.svg');
+}
+
+#more{
+    background-image: url('./asset/more-horizontal.svg');
 }
 
 .text-footer{
