@@ -83,7 +83,7 @@ function animateFloatingLetters(){
     animate();
 }
 
-async function createID(type, classString,date){
+async function createID(type, classString, date){
     let ID = `${type}${classString}${date}`;
     const encoder = new TextEncoder();
     ID = encoder.encode(ID);
@@ -122,7 +122,7 @@ async function createMessage(asUser = true){
     let currentChat = document.getElementById(currentChatId);
     currentChat.appendChild(newMessage);
     document.getElementsByClassName('end-separator')[0].scrollIntoView();
-;}
+}
 
 document.addEventListener("DOMContentLoaded", function() {
     generateFloatingLetters();
