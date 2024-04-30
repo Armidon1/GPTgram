@@ -8,6 +8,11 @@ let currentChatId = 'g67sdfgcvbn8';
 let sendAsUser = true;
 let isTiping = false;
 
+let history = {};
+let lastChat;
+
+
+
 function preciseSetTimeout(callback, delay) {
     let start = performance.now();
 
@@ -98,6 +103,34 @@ async function createID(type, classString,date){
 async function createMessage(asUser = true){
     let newMessage = document.createElement('div');
     newMessage.classList.add(asUser ? 'sendbox' : 'receivebox');
+
+    // added dblclick event on new message
+    newMessage.addEventListener('dblclick', function(event){
+        let textToCopy = event.target.innerText;
+        navigator.clipboard.writeText(textToCopy).then(function() {
+            console.log('Copiato nella clipboard: ' + textToCopy);
+    
+            // Crea un elemento per mostrare il messaggio
+            let notification = document.createElement('div');
+            notification.classList.add("notification");
+            let notification_body = document.createElement('div');
+            notification_body.classList.add("notification_body");
+            notification_body.innerText = "Copiato nella ClipBoard!\n";
+            let notification_progress = document.createElement("div");
+            notification_progress.classList.add("notification_progress");
+            notification.appendChild(notification_body);
+            notification.appendChild(notification_progress);
+            document.body.appendChild(notification);
+    
+            // Rimuovi l'elemento dopo 2 secondi
+            setTimeout(function() {
+                document.body.removeChild(notification);
+            }, 10000);
+        }).catch(function(error) {
+            console.error('Errore durante la copia nella clipboard: ', error);
+        });
+    });
+
     let msgDate = (new Date()).getTime();
     newMessage.id = await createID(TYPEMSG, SENDTEXTCLASS, msgDate);
     newMessage.setAttribute('data-time', msgDate);
@@ -119,7 +152,29 @@ async function createMessage(asUser = true){
     let currentChat = document.getElementById(currentChatId);
     currentChat.appendChild(newMessage);
     document.getElementsByClassName('end-separator')[0].scrollIntoView();
-;}
+}
+
+async function newChat(){
+    let oldChat = document.querySelector(".chatbox");
+    history[oldChat.id] = oldChat;
+    let chatflow = document.querySelector(".chatflow")
+    chatflow.removeChild(oldChat);
+    chatflow.removeChild(document.querySelector(".end-separator"));
+    
+    let newChat = document.createElement("div"); /* ci servirà per la struttura dati*/
+    newChat.classList.add("chatbox");
+
+    let newDate = (new Date()).getTime();
+    newChat.id = await createID(TYPECHAT, "chatbox", newDate);
+    currentChatId = newChat.id
+    newChat.setAttribute("data-time", newDate);
+    chatflow.appendChild(newChat);
+    let endSeparator = document.createElement("div");
+    endSeparator.classList.add("end-separator");
+    chatflow.appendChild(endSeparator);
+    lastChat = oldChat;
+    console.log(lastChat);
+}
 
 document.addEventListener("DOMContentLoaded", function() {
     generateFloatingLetters();
@@ -142,5 +197,22 @@ document.addEventListener('keydown', function(event){
         sendAsUser = false;
     } else if(event.ctrlKey && event.shiftKey && event.key === 'U'){
         sendAsUser = true;
+    } else if(event.ctrlKey && event.shiftKey && (event.key.toLocaleLowerCase() === 'z')) {
+        console.log(lastChat);
+        let currentChat = document.querySelector(".chatbox");
+        console.log(currentChat);
+        if (currentChat != null){
+            history[currentChat.id] = currentChat;
+            let chatflow = document.querySelector(".chatflow");
+            chatflow.removeChild(currentChat);
+            chatflow.removeChild(document.querySelector(".end-separator"));
+            chatflow.appendChild(lastChat);
+            currentChatId = lastChat.id;
+            lastChat = currentChat;
+            let endSeparator = document.createElement("div"); 
+            endSeparator.classList.add("end-separator");
+            chatflow.appendChild(endSeparator);
+        }   
     }
 })
+
