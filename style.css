@@ -271,8 +271,10 @@ p {
 
 .text-footer{
     color: rgb(170, 170, 170);
+    font-size: 14px;
     text-align: center;
     position: relative;
     margin: 0px 0px 10px 0px;
-    mix-blend-mode: difference;
+    /* background-color: rgba(50, 50, 50, 0.5); */
+    backdrop-filter: blur(30px);
 }

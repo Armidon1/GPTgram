@@ -96,6 +96,10 @@ async function createID(type, classString,date){
 }
 
 async function createMessage(asUser = true){
+    let userInput = document.querySelector('#user-input');
+    if(userInput.value.trim()==''){
+        return;
+    }
     let newMessage = document.createElement('div');
     newMessage.classList.add(asUser ? 'sendbox' : 'receivebox');
     let msgDate = (new Date()).getTime();
@@ -103,7 +107,6 @@ async function createMessage(asUser = true){
     newMessage.setAttribute('data-time', msgDate);
     let newMessageText = document.createElement('p');
     newMessageText.classList.add(asUser ? 'send' : 'receive');
-    let userInput = document.querySelector('#user-input');
     newMessageText.innerText = userInput.value.trim();
     userInput.value = '';
     let Icon = document.createElement('div');
@@ -128,12 +131,17 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 document.addEventListener('keydown', function(event){
-    if(event.key === 'Enter'){
+    if(event.key === 'Enter' && !event.shiftKey && !event.ctrlKey){
         event.preventDefault();
         let userInput = document.querySelector('#user-input');
         if(userInput.value.trim()!=''){
             createMessage(sendAsUser);
         }
+    } else if(event.key === 'Enter' && event.shiftKey){
+        console.log('Enter + Shift');
+        event.preventDefault();
+        let userInput = document.querySelector('#user-input');
+        userInput.value += '\n';
     }
 })
 
