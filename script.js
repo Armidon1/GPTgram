@@ -143,7 +143,7 @@ document.addEventListener('keydown', function(event){
         let userInput = document.querySelector('#user-input');
         userInput.value += '\n';
     }
-})
+});
 
 document.addEventListener('keydown', function(event){
     if(event.ctrlKey && event.shiftKey && event.key === 'I'){
@@ -151,4 +151,4 @@ document.addEventListener('keydown', function(event){
     } else if(event.ctrlKey && event.shiftKey && event.key === 'U'){
         sendAsUser = true;
     }
-})
+});
