@@ -112,8 +112,6 @@ async function createMessage(asUser = true){
     newMessage.addEventListener('dblclick', function(event){
         let textToCopy = event.target.innerText;
         navigator.clipboard.writeText(textToCopy).then(function() {
-            console.log('Copiato nella clipboard: ' + textToCopy);
-    
             // Crea un elemento per mostrare il messaggio
             let notification = document.createElement('div');
             notification.classList.add("notification");
@@ -133,6 +131,12 @@ async function createMessage(asUser = true){
         }).catch(function(error) {
             console.error('Errore durante la copia nella clipboard: ', error);
         });
+    });
+
+    newMessage.addEventListener('mousedown', function(event){
+        if (event.detail > 1) {
+            event.preventDefault();
+        }
     });
 
     let msgDate = (new Date()).getTime();

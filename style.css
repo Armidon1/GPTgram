@@ -2,13 +2,13 @@
     --ui-width-percentage: 50%;
     --ui-min-width: 1000px;
     --standard-border-radius: 5px;
-    --send-bg: #19603d;
+    --send-bg: rgb(29, 129, 76);
     --send-color: white;
     --receive-bg: #E5E5EA;
     --receive-text: black;
     --message-border-radius: 10px;
-    --notification-background: #56714b; /*used in notification pop-up when copy to clipboard*/
-    --notification-primary: #aaec8a;    /*used in notification pop-up when copy to clipboard*/
+    --notification-background: rgb(29, 129, 76);; /*used in notification pop-up when copy to clipboard*/
+    --notification-primary: white;    /*used in notification pop-up when copy to clipboard*/
     --background: #FAF9FF;              /*used in notification pop-up when copy to clipboard*/
 }
 
@@ -143,6 +143,7 @@ body{
     justify-content: flex-end;
     gap: 10px;
     margin: 10px 0px 10px auto;
+    user-select: text;
 }
 
 .receivebox{
@@ -151,6 +152,7 @@ body{
     align-items: flex-end;
     gap: 10px;
     margin: 10px auto 10px 0px;
+    user-select: text;
 }
 
 p {
@@ -183,7 +185,7 @@ p {
 }
 
 .notification{
-    position: absolute;
+    position: fixed;
     width: max-content;
     left: 0; 
     right: 0; 
@@ -198,7 +200,8 @@ p {
     transform: translateY(1.875rem);
     opacity: 0;
     visibility: hidden;
-    animation: fade-in 5s linear;
+    animation: fade-in 2.7s linear;
+    z-index: 2;
 }
 .notification_body{
     display: flex;
@@ -220,7 +223,7 @@ p {
         var(--notification-primary)
     );
     border-radius: inherit;
-    animation: progress 4.5s 0.3s linear;
+    animation: progress 2s 0.5s linear;
 }
 @keyframes fade-in {
     5% {
