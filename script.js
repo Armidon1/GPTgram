@@ -88,7 +88,7 @@ function animateFloatingLetters(){
     animate();
 }
 
-async function createID(type, classString,date){
+async function createID(type, classString, date){
     let ID = `${type}${classString}${date}`;
     const encoder = new TextEncoder();
     ID = encoder.encode(ID);
@@ -101,6 +101,10 @@ async function createID(type, classString,date){
 }
 
 async function createMessage(asUser = true){
+    let userInput = document.querySelector('#user-input');
+    if(userInput.value.trim()==''){
+        return;
+    }
     let newMessage = document.createElement('div');
     newMessage.classList.add(asUser ? 'sendbox' : 'receivebox');
 
@@ -122,8 +126,8 @@ async function createMessage(asUser = true){
             notification.appendChild(notification_progress);
             document.body.appendChild(notification);
     
-            // Rimuovi l'elemento dopo 2 secondi
-            setTimeout(function() {
+            // Rimuovi l'elemento dopo 10 secondi
+            preciseSetTimeout(function() {
                 document.body.removeChild(notification);
             }, 10000);
         }).catch(function(error) {
@@ -136,7 +140,6 @@ async function createMessage(asUser = true){
     newMessage.setAttribute('data-time', msgDate);
     let newMessageText = document.createElement('p');
     newMessageText.classList.add(asUser ? 'send' : 'receive');
-    let userInput = document.querySelector('#user-input');
     newMessageText.innerText = userInput.value.trim();
     userInput.value = '';
     let Icon = document.createElement('div');
@@ -176,6 +179,7 @@ async function newChat(){
     console.log(lastChat);
 }
 
+
 document.addEventListener("DOMContentLoaded", function() {
     generateFloatingLetters();
     animateFloatingLetters();
@@ -183,14 +187,19 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 document.addEventListener('keydown', function(event){
-    if(event.key === 'Enter'){
+    if(event.key === 'Enter' && !event.shiftKey && !event.ctrlKey){
         event.preventDefault();
         let userInput = document.querySelector('#user-input');
         if(userInput.value.trim()!=''){
             createMessage(sendAsUser);
         }
+    } else if(event.key === 'Enter' && event.shiftKey){
+        console.log('Enter + Shift');
+        event.preventDefault();
+        let userInput = document.querySelector('#user-input');
+        userInput.value += '\n';
     }
-})
+});
 
 document.addEventListener('keydown', function(event){
     if(event.ctrlKey && event.shiftKey && event.key === 'I'){
@@ -214,5 +223,5 @@ document.addEventListener('keydown', function(event){
             chatflow.appendChild(endSeparator);
         }   
     }
-})
+});
 
