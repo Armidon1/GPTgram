@@ -100,6 +100,36 @@ async function createID(type, classString, date){
     return hashString;
 }
 
+async function copyToClipboard(event){
+    let textToCopy = event.target.innerText;
+    try{
+        await navigator.clipboard.writeText(textToCopy);
+        let notification = document.createElement('div');
+        notification.classList.add("notification");
+        let notification_body = document.createElement('div');
+        notification_body.classList.add("notification-body");
+        notification_body.innerText = "messaggio copiato!\n";
+        let notification_progress = document.createElement("div");
+        notification_progress.classList.add("notification-progress");
+        notification.appendChild(notification_body);
+        notification.appendChild(notification_progress);
+        document.body.appendChild(notification);
+
+        preciseSetTimeout(function() {
+            document.body.removeChild(notification);
+        }, 10000);
+    
+    } catch (error){
+        console.error('Errore durante la copia nella clipboard: ', error);
+    }
+}
+
+function preventDefaultSelection(event){
+    if (event.detail > 1) {
+        event.preventDefault();
+    }
+}
+
 async function createMessage(asUser = true){
     let userInput = document.querySelector('#user-input');
     if(userInput.value.trim()==''){
@@ -107,37 +137,9 @@ async function createMessage(asUser = true){
     }
     let newMessage = document.createElement('div');
     newMessage.classList.add(asUser ? 'sendbox' : 'receivebox');
-
-    // added dblclick event on new message
-    newMessage.addEventListener('dblclick', function(event){
-        let textToCopy = event.target.innerText;
-        navigator.clipboard.writeText(textToCopy).then(function() {
-            // Crea un elemento per mostrare il messaggio
-            let notification = document.createElement('div');
-            notification.classList.add("notification");
-            let notification_body = document.createElement('div');
-            notification_body.classList.add("notification_body");
-            notification_body.innerText = "Copiato nella ClipBoard!\n";
-            let notification_progress = document.createElement("div");
-            notification_progress.classList.add("notification_progress");
-            notification.appendChild(notification_body);
-            notification.appendChild(notification_progress);
-            document.body.appendChild(notification);
     
-            // Rimuovi l'elemento dopo 10 secondi
-            preciseSetTimeout(function() {
-                document.body.removeChild(notification);
-            }, 10000);
-        }).catch(function(error) {
-            console.error('Errore durante la copia nella clipboard: ', error);
-        });
-    });
-
-    newMessage.addEventListener('mousedown', function(event){
-        if (event.detail > 1) {
-            event.preventDefault();
-        }
-    });
+    newMessage.addEventListener('dblclick', copyToClipboard);
+    newMessage.addEventListener('mousedown', preventDefaultSelection);
 
     let msgDate = (new Date()).getTime();
     newMessage.id = await createID(TYPEMSG, SENDTEXTCLASS, msgDate);
@@ -202,14 +204,6 @@ document.addEventListener('keydown', function(event){
         event.preventDefault();
         let userInput = document.querySelector('#user-input');
         userInput.value += '\n';
-    }
-});
-
-document.addEventListener('keydown', function(event){
-    if(event.ctrlKey && event.shiftKey && event.key === 'I'){
-        sendAsUser = false;
-    } else if(event.ctrlKey && event.shiftKey && event.key === 'U'){
-        sendAsUser = true;
     } else if(event.ctrlKey && event.shiftKey && (event.key.toLocaleLowerCase() === 'z')) {
         console.log(lastChat);
         let currentChat = document.querySelector(".chatbox");
@@ -227,5 +221,13 @@ document.addEventListener('keydown', function(event){
             chatflow.appendChild(endSeparator);
         }   
     }
+});
+
+document.addEventListener('keydown', function(event){
+    if(event.ctrlKey && event.shiftKey && event.key === 'I'){
+        sendAsUser = false;
+    } else if(event.ctrlKey && event.shiftKey && event.key === 'U'){
+        sendAsUser = true;
+    } 
 });
 
