@@ -9,7 +9,6 @@
     --message-border-radius: 10px;
     --notification-background: rgb(29, 129, 76);; /*used in notification pop-up when copy to clipboard*/
     --notification-primary: white;    /*used in notification pop-up when copy to clipboard*/
-    --background: #FAF9FF;              /*used in notification pop-up when copy to clipboard*/
 }
 
 * {
@@ -168,7 +167,7 @@ p {
 	background: var(--send-bg);
     border-radius: var(--message-border-radius) var(--message-border-radius) 0px var(--message-border-radius);
 }
-.receive {
+.receive{
     max-width: 90%;
 	background: var(--receive-bg);
 	color: black;
@@ -193,8 +192,7 @@ p {
     margin-left: auto; 
     margin-right: 10px; 
     border-radius: 0.375rem;
-    background-color: var(
-        --notification-background);
+    background-color: var(--notification-background);
     color: var(--notification-primary);
     box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
     transform: translateY(1.875rem);
@@ -203,13 +201,13 @@ p {
     animation: fade-in 2.7s linear;
     z-index: 2;
 }
-.notification_body{
+.notification-body{
     display: flex;
     flex-direction: row;
     align-items: center;
     padding: 1rem 0.5rem;
 }
-.notification_progress {
+.notification-progress{
     position: absolute;
     left: 0.25rem;
     bottom: 0.25rem;
@@ -225,7 +223,7 @@ p {
     border-radius: inherit;
     animation: progress 2s 0.5s linear;
 }
-@keyframes fade-in {
+@keyframes fade-in{
     5% {
         opacity: 1;
         visibility: visible;
