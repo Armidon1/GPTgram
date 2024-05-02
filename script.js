@@ -190,6 +190,8 @@ document.addEventListener("DOMContentLoaded", function() {
     generateFloatingLetters();
     animateFloatingLetters();
     document.getElementsByClassName('end-separator')[0].scrollIntoView();
+    let userInput = document.querySelector('#user-input');
+    userInput.focus();
 });
 
 document.addEventListener('keydown', function(event){
@@ -231,3 +233,7 @@ document.addEventListener('keydown', function(event){
     } 
 });
 
+window.addEventListener('focus', function(){
+    let userInput = document.querySelector('#user-input');
+    userInput.focus();
+});
