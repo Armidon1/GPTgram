@@ -152,17 +152,12 @@ async function newUserMessage(){
     userInput.value = '';
     let Icon = document.createElement('div');
     Icon.classList.add('icon', 'default-user');
-    //if(sendAsUser){
     if (!sendMessage(newMessageText.innerText)){ //sends message at the server
         alert("ERRORE: La connessione WebSocket non è aperta ancora (?)");
     }
     newMessage.appendChild(newMessageText);
     newMessage.appendChild(Icon);
-    // }
-    // else{
-    //     newMessage.appendChild(Icon);
-    //     newMessage.appendChild(newMessageText);
-    // }
+    
     let currentChat = document.getElementById(currentChatId);
     currentChat.appendChild(newMessage);
     document.getElementsByClassName('end-separator')[0].scrollIntoView();
@@ -181,17 +176,9 @@ async function newAIMessage(message){
     let newMessageText = document.createElement('p');
     newMessageText.classList.add('receive');
     newMessageText.innerText = serverMessage;
-    //userInput.value = '';
     let Icon = document.createElement('div');
     Icon.classList.add('icon', 'default-ai');
-    // if(sendAsUser){
-    //     if (!sendMessage(newMessageText.innerText)){ //sends message at the server
-    //         alert("ERRORE: La connessione WebSocket non è aperta ancora (?)");
-    //     }
-    //     newMessage.appendChild(newMessageText);
-    //     newMessage.appendChild(Icon);
-    // }
-    //else{
+    
     newMessage.appendChild(Icon);
     newMessage.appendChild(newMessageText);
     //}
@@ -235,7 +222,7 @@ document.addEventListener("DOMContentLoaded", function() {
     userInput.focus();
 });
 
-document.addEventListener('keydown', function(event){
+document.addEventListener('keydown', function(event){ //user bindings
     if(event.key === 'Enter' && !event.shiftKey && !event.ctrlKey){
         event.preventDefault();
         let userInput = document.querySelector('#user-input');
@@ -247,6 +234,14 @@ document.addEventListener('keydown', function(event){
         event.preventDefault();
         let userInput = document.querySelector('#user-input');
         userInput.value += '\n';
+    }
+});
+
+document.addEventListener('keydown', function(event){ //developer bindings 
+    if(event.ctrlKey && event.shiftKey && event.key === 'I'){
+        sendAsUser = false;
+    } else if(event.ctrlKey && event.shiftKey && event.key === 'U'){
+        sendAsUser = true;
     } else if(event.ctrlKey && event.shiftKey && (event.key.toLocaleLowerCase() === 'z')) {
         console.log(lastChat);
         let currentChat = document.querySelector(".chatbox");
@@ -266,15 +261,9 @@ document.addEventListener('keydown', function(event){
     }
 });
 
-document.addEventListener('keydown', function(event){
-    if(event.ctrlKey && event.shiftKey && event.key === 'I'){
-        sendAsUser = false;
-    } else if(event.ctrlKey && event.shiftKey && event.key === 'U'){
-        sendAsUser = true;
-    } 
-});
-
 window.addEventListener('focus', function(){
     let userInput = document.querySelector('#user-input');
     userInput.focus();
 });
+
+document.querySelector('#newchat').addEventListener('click', newChat);
