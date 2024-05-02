@@ -1,4 +1,7 @@
+import { sendMessage, serverMessage } from './connection.js';
+
 const SENDTEXTCLASS = 'sendbox';
+const RECEIVETEXTCLASS = 'receivebox'
 const LETTERS ='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
 const LETTERS_AMOUNT = 69;
 const TYPECHAT = 'CHAT';
@@ -129,14 +132,13 @@ function preventDefaultSelection(event){
         event.preventDefault();
     }
 }
-
-async function createMessage(asUser = true){
+async function newUserMessage(){
     let userInput = document.querySelector('#user-input');
     if(userInput.value.trim()==''){
         return;
     }
     let newMessage = document.createElement('div');
-    newMessage.classList.add(asUser ? 'sendbox' : 'receivebox');
+    newMessage.classList.add(SENDTEXTCLASS);
     
     newMessage.addEventListener('dblclick', copyToClipboard);
     newMessage.addEventListener('mousedown', preventDefaultSelection);
@@ -145,22 +147,61 @@ async function createMessage(asUser = true){
     newMessage.id = await createID(TYPEMSG, SENDTEXTCLASS, msgDate);
     newMessage.setAttribute('data-time', msgDate);
     let newMessageText = document.createElement('p');
-    newMessageText.classList.add(asUser ? 'send' : 'receive');
+    newMessageText.classList.add('send');
     newMessageText.innerText = userInput.value.trim();
     userInput.value = '';
     let Icon = document.createElement('div');
-    Icon.classList.add('icon', asUser ? 'default-user' : 'default-ai');
-    if(sendAsUser){
-        newMessage.appendChild(newMessageText);
-        newMessage.appendChild(Icon);
+    Icon.classList.add('icon', 'default-user');
+    //if(sendAsUser){
+    if (!sendMessage(newMessageText.innerText)){ //sends message at the server
+        alert("ERRORE: La connessione WebSocket non è aperta ancora (?)");
     }
-    else{
-        newMessage.appendChild(Icon);
-        newMessage.appendChild(newMessageText);
-    }
+    newMessage.appendChild(newMessageText);
+    newMessage.appendChild(Icon);
+    // }
+    // else{
+    //     newMessage.appendChild(Icon);
+    //     newMessage.appendChild(newMessageText);
+    // }
     let currentChat = document.getElementById(currentChatId);
     currentChat.appendChild(newMessage);
     document.getElementsByClassName('end-separator')[0].scrollIntoView();
+}
+
+async function newAIMessage(message){
+    let newMessage = document.createElement('div');
+    newMessage.classList.add(RECEIVETEXTCLASS);
+    
+    newMessage.addEventListener('dblclick', copyToClipboard);
+    newMessage.addEventListener('mousedown', preventDefaultSelection);
+
+    let msgDate = (new Date()).getTime();
+    newMessage.id = await createID(TYPEMSG, RECEIVETEXTCLASS, msgDate);
+    newMessage.setAttribute('data-time', msgDate);
+    let newMessageText = document.createElement('p');
+    newMessageText.classList.add('receive');
+    newMessageText.innerText = serverMessage;
+    //userInput.value = '';
+    let Icon = document.createElement('div');
+    Icon.classList.add('icon', 'default-ai');
+    // if(sendAsUser){
+    //     if (!sendMessage(newMessageText.innerText)){ //sends message at the server
+    //         alert("ERRORE: La connessione WebSocket non è aperta ancora (?)");
+    //     }
+    //     newMessage.appendChild(newMessageText);
+    //     newMessage.appendChild(Icon);
+    // }
+    //else{
+    newMessage.appendChild(Icon);
+    newMessage.appendChild(newMessageText);
+    //}
+    let currentChat = document.getElementById(currentChatId);
+    currentChat.appendChild(newMessage);
+    document.getElementsByClassName('end-separator')[0].scrollIntoView();
+}
+export async function createMessage(asUser = true){
+    if (asUser) newUserMessage();
+    else newAIMessage(serverMessage);
 }
 
 async function newChat(){
