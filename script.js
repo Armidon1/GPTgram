@@ -38,7 +38,7 @@ function generateFloatingLetters(){
         letter.classList.add('letters');
         let top = Math.floor(Math.random() * window.innerHeight);
         let left = Math.floor(Math.random() * window.innerWidth);
-        letter.innerText = LETTERS.charAt(Math.floor(Math.random() * LETTERS.length));
+        letter.textContent = LETTERS.charAt(Math.floor(Math.random() * LETTERS.length));
         letter.style.top = `${top}px`;
         letter.style.left = `${left}px`;
         let angle = 0;
@@ -63,11 +63,11 @@ function moveFloatingletters(){
 
         if (x < 0 || x > window.innerWidth) {
             angle = 180 - angle;
-            letter.innerText = LETTERS.charAt(Math.floor(Math.random() * LETTERS.length));
+            letter.textContent = LETTERS.charAt(Math.floor(Math.random() * LETTERS.length));
         }
         if (y < 0 || y > window.innerHeight) {
             angle = 360 - angle;
-            letter.innerText = LETTERS.charAt(Math.floor(Math.random() * LETTERS.length));
+            letter.textContent = LETTERS.charAt(Math.floor(Math.random() * LETTERS.length));
         }
 
         letter.style.left = `${x}px`;
@@ -104,14 +104,14 @@ async function createID(type, classString, date){
 }
 
 async function copyToClipboard(event){
-    let textToCopy = event.target.innerText;
+    let textToCopy = event.target.textContent;
     try{
         await navigator.clipboard.writeText(textToCopy);
         let notification = document.createElement('div');
         notification.classList.add("notification");
         let notification_body = document.createElement('div');
         notification_body.classList.add("notification-body");
-        notification_body.innerText = "messaggio copiato!\n";
+        notification_body.textContent = "messaggio copiato!\n";
         let notification_progress = document.createElement("div");
         notification_progress.classList.add("notification-progress");
         notification.appendChild(notification_body);
@@ -148,11 +148,11 @@ async function newUserMessage(){
     newMessage.setAttribute('data-time', msgDate);
     let newMessageText = document.createElement('p');
     newMessageText.classList.add('send');
-    newMessageText.innerText = userInput.value.trim();
+    newMessageText.textContent = userInput.value.trim();
     userInput.value = '';
     let Icon = document.createElement('div');
     Icon.classList.add('icon', 'default-user');
-    if (!sendMessage(newMessageText.innerText)){ //sends message at the server
+    if (!sendMessage(newMessageText.textContent)){ //sends message at the server
         alert("ERRORE: La connessione WebSocket non è aperta ancora (?)");
     }
     newMessage.appendChild(newMessageText);
@@ -175,7 +175,7 @@ async function newAIMessage(message){
     newMessage.setAttribute('data-time', msgDate);
     let newMessageText = document.createElement('p');
     newMessageText.classList.add('receive');
-    newMessageText.innerText = serverMessage;
+    newMessageText.textContent = serverMessage;
     let Icon = document.createElement('div');
     Icon.classList.add('icon', 'default-ai');
     
