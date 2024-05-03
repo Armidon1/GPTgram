@@ -1,7 +1,7 @@
 import { createMessage } from "./script.js";
 export let serverMessage = '';
 
-const ws = new WebSocket('wss://localhost:8765');
+const ws = new WebSocket('ws://localhost:8765');
 
 /* gestisci connessione*/
 ws.onopen = function() {
@@ -24,6 +24,9 @@ ws.onclose = function() {
     console.log('WebSocket connection closed');
 };
 
+ws.onerror = function(event) {
+    console.error("WebSocket error observed:", event);
+};
 
 export function sendMessage(message){
     console.log("Message sent from client: "+message);
