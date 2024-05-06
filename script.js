@@ -10,6 +10,7 @@ let lettersCanMove = true;
 let currentChatId = 'g67sdfgcvbn8';
 let sendAsUser = true;
 let isTiping = false;
+let isSearchButtonClicked = false;
 
 let history = {};
 let lastChat;
@@ -213,6 +214,28 @@ async function newChat(){
     console.log(lastChat);
 }
 
+function clickedSearchButton() {
+    let header = document.querySelector('.header');
+    let title = document.querySelector('.title');
+    if (isSearchButtonClicked){
+        isSearchButtonClicked = false;
+        let searchBar = document.querySelector('#searchBar');
+        searchBar.className = 'slide slide-out';
+        setTimeout(function() {
+            header.removeChild(searchBar);
+        }, 500); // rimuovi l'elemento dopo 0.5 secondi, che è la durata dell'animazione
+    } else {
+        isSearchButtonClicked = true;
+        let searchBar = document.createElement('input');
+        searchBar.type = 'text';
+        searchBar.placeholder = 'Cerca...';
+        searchBar.id = 'searchBar';
+        searchBar.className = 'slide slide-in';
+        header.insertBefore(searchBar, title.nextSibling);
+    }
+}
+let searchButton = document.querySelector('#search');
+searchButton.addEventListener('click', clickedSearchButton);
 
 document.addEventListener("DOMContentLoaded", function() {
     generateFloatingLetters();

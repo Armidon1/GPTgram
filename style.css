@@ -9,6 +9,8 @@
     --message-border-radius: 10px;
     --notification-background: rgb(29, 129, 76);; /*used in notification pop-up when copy to clipboard*/
     --notification-primary: white;    /*used in notification pop-up when copy to clipboard*/
+    --user-input-background-color: rgba(50, 50, 50, 1);
+    --user-input-text-color: white;
 }
 
 * {
@@ -39,6 +41,7 @@ body{
     position: fixed;
     left: 50%;
     transform: translateX(-50%);
+    overflow: hidden;
 
     margin: 0px 0px 0px 0px;
     display: flex;
@@ -48,7 +51,6 @@ body{
     margin: 0px auto;
     width: var(--ui-width-percentage);
     box-sizing: border-box;
-    overflow: auto;
     top: 0;
     min-width: var(--ui-min-width);
     z-index: 999; /*sempre in primo piano*/
@@ -76,6 +78,46 @@ body{
     float: right;
     padding: 0px;
     margin: 10px;
+    z-index: 2;
+}
+
+@keyframes slide-in {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-out {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+.slide {
+    left:auto;
+    min-width: 10px;
+    width: 400px;
+    height: 50px;
+    border-radius: 5px;
+    background-color: var(--user-input-background-color);
+    backdrop-filter: blur(10%);
+    color: var(--user-input-text-color);
+}
+.slide-out {
+    animation: slide-out 0.5s forwards;
+}
+
+.slide-in {
+    animation: slide-in 0.5s forwards;
 }
 
 .ui-button
@@ -277,9 +319,9 @@ p {
 }
 
 #user-input{
-    background-color: rgba(50, 50, 50, 1);;
+    background-color: var(--user-input-background-color);
     backdrop-filter: blur(10%);
-    color: white;
+    color: var(--user-input-text-color);
     font-size: 18px;
     margin: 5px 0px 5px 0px;
     padding: 10px;
