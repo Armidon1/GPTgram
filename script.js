@@ -10,13 +10,14 @@ let lettersCanMove = true;
 let currentChatId = 'g67sdfgcvbn8';
 let sendAsUser = true;
 let isTiping = false;
-let isSearchButtonClicked = false;
+let isSearchBarShowed = false;
+let isChronologyChatShowed = false;
 
 let history = {};
 let lastChat;
 
 
-
+//APP TOOLS
 function preciseSetTimeout(callback, delay) {
     let start = performance.now();
 
@@ -104,6 +105,8 @@ async function createID(type, classString, date){
     return hashString;
 }
 
+
+//USER TOOLS
 async function copyToClipboard(event){
     let textToCopy = event.target.textContent;
     try{
@@ -128,6 +131,7 @@ async function copyToClipboard(event){
     }
 }
 
+//GESTIONE DEI MESSAGGI
 function preventDefaultSelection(event){
     if (event.detail > 1) {
         event.preventDefault();
@@ -192,51 +196,201 @@ export async function createMessage(asUser = true){
     else newAIMessage(serverMessage);
 }
 
-async function newChat(){
-    let oldChat = document.querySelector(".chatbox");
-    history[oldChat.id] = oldChat;
-    let chatflow = document.querySelector(".chatflow")
-    chatflow.removeChild(oldChat);
-    chatflow.removeChild(document.querySelector(".end-separator"));
-    
-    let newChat = document.createElement("div"); /* ci servirà per la struttura dati*/
-    newChat.classList.add("chatbox");
-
-    let newDate = (new Date()).getTime();
-    newChat.id = await createID(TYPECHAT, "chatbox", newDate);
-    currentChatId = newChat.id
-    newChat.setAttribute("data-time", newDate);
-    chatflow.appendChild(newChat);
-    let endSeparator = document.createElement("div");
-    endSeparator.classList.add("end-separator");
+//GESTIONE DELLA CHAT
+function chatIsNotEmpty(chatbox){
+    return chatbox.childElementCount > 0;
+}
+function restoreChat(chatId){
+    let chatbox = document.querySelector('.chatbox');
+    if (chatIsNotEmpty(chatbox)){
+        history[currentChatId] = document.querySelector('.chatbox');
+    }
+    let chatflow = document.querySelector('.chatflow');
+    chatflow.removeChild(chatbox);
+    chatflow.removeChild(document.querySelector('.end-separator'));
+    chatflow.appendChild(history[chatId]);
+    let endSeparator = document.createElement('div');
+    endSeparator.classList.add('end-separator');
     chatflow.appendChild(endSeparator);
-    lastChat = oldChat;
-    console.log(lastChat);
+    currentChatId = chatId;
+    delete history[chatId];
+    removeChronologyChat();
+    removeSearchBar(document.querySelector('.header'));
+    setTimeout(function() { //perdonami Pat, ma il tuo preciseSetTimeout mi da errore
+        updateListChronologyChat(document.querySelector('#chronologyChat'), "");
+    }, 300);
+}
+async function newChat(){
+    if (chatIsNotEmpty(document.querySelector('.chatbox'))){
+        let oldChat = document.querySelector(".chatbox");
+        history[oldChat.id] = oldChat;
+        let chatflow = document.querySelector(".chatflow")
+        chatflow.removeChild(oldChat);
+        chatflow.removeChild(document.querySelector(".end-separator"));
+        
+        let newChat = document.createElement("div"); /* ci servirà per la struttura dati*/
+        newChat.classList.add("chatbox");
+
+        let newDate = (new Date()).getTime();
+        newChat.id = await createID(TYPECHAT, "chatbox", newDate);
+        currentChatId = newChat.id
+        newChat.setAttribute("data-time", newDate);
+        chatflow.appendChild(newChat);
+        let endSeparator = document.createElement("div");
+        endSeparator.classList.add("end-separator");
+        chatflow.appendChild(endSeparator);
+        lastChat = oldChat;
+        console.log(lastChat);
+        updateListChronologyChat(document.querySelector('#chronologyChat'), "");
+    }
+}
+
+//GESTIONE DELLA RICERCA
+function showSearchBar(header, title) {
+    isSearchBarShowed = true;
+    let searchBar = document.createElement('input');
+    searchBar.addEventListener('input', function(event) {
+        let text = event.target.value;
+        let chronologyChat = document.querySelector('#chronologyChat');
+        updateListChronologyChat(chronologyChat, text);
+    });
+    searchBar.type = 'text';
+    searchBar.placeholder = 'Cerca...';
+    searchBar.id = 'searchBar';
+    searchBar.className = 'slide slide-in';
+    header.insertBefore(searchBar, title.nextSibling);
+    preciseSetTimeout(function(){
+        searchBar.focus();
+    }, 300);
+}
+function removeSearchBar(header) {
+    isSearchBarShowed = false;
+    let searchBar = document.querySelector('#searchBar');
+    searchBar.className = 'slide slide-out';
+    preciseSetTimeout(function() {
+        header.removeChild(searchBar);
+        let userInput = document.querySelector('#user-input');
+        userInput.focus();
+    }, 300); 
+}
+function handleSearchBar(header, title) {   
+    if (isSearchBarShowed){
+        removeSearchBar(header);
+    } else {
+        showSearchBar(header, title);
+    }
+}
+
+function cancelContentChronologyChat() {
+    if (document.querySelector('#chronologyChat') != null) {
+        let chronologyChat = document.querySelector('#chronologyChat');
+        chronologyChat.innerHTML = '';
+    }
+}
+function updateListChronologyChat(chronologyChat, text) {
+    if (chronologyChat != null) {
+        if (text == "") {
+            var keys = Object.keys(history);
+            cancelContentChronologyChat();
+            if (keys.length == 0) {
+                let noResults = document.createElement('p');
+                noResults.textContent = "Nessun risultato trovato. Prova a divertirti con GPTgram e crea una nuova chat!";
+                noResults.style.color = 'white';
+                noResults.style.textAlign = 'center';
+                noResults.style.marginTop = '10px';
+                noResults.style.fontSize = '16px';
+                chronologyChat.appendChild(noResults);
+            } else {
+                let chronologyDelimiter = document.createElement('div');
+                chronologyDelimiter.classList.add('scroll-delimiter');
+                chronologyChat.appendChild(chronologyDelimiter)
+                let lenChronologyChat = keys.length;
+                for(let i = 0; i < lenChronologyChat; i++) {
+                    let clickableElement = document.createElement('button');
+                    clickableElement.classList.add('scroll-button');
+                    clickableElement.textContent = keys[i];
+                    clickableElement.onclick = function() {
+                        console.log('Hai cliccato la chiave ' + keys[i] + '!');
+                        restoreChat(keys[i]);
+                    };
+                    chronologyChat.appendChild(clickableElement);
+                    
+                }
+            }
+        } else { //ottimizzare il riuso del codice (?)
+            let keys = Object.keys(history);
+            let searchResults = keys.filter(function(key) {
+                return key.includes(text);
+            });
+            cancelContentChronologyChat();
+            if (searchResults.length == 0) {
+                let noResults = document.createElement('p');
+                noResults.textContent = "Nessun risultato trovato. Prova a cercare con un testo diverso!";
+                noResults.style.color = 'white';
+                noResults.style.textAlign = 'center';
+                noResults.style.marginTop = '10px';
+                noResults.style.fontSize = '16px';
+                chronologyChat.appendChild(noResults);
+            } else {
+                let chronologyDelimiter = document.createElement('div');
+                chronologyDelimiter.classList.add('scroll-delimiter');
+                chronologyChat.appendChild(chronologyDelimiter)
+                for(let i = 0; i < searchResults.length; i++) {
+                    let clickableElement = document.createElement('button');
+                    clickableElement.classList.add('scroll-button');
+                    clickableElement.textContent = searchResults[i];
+                    clickableElement.onclick = function() {
+                        console.log('Hai cliccato la chiave ' + searchResults[i] + '!');
+                        restoreChat(searchResults[i]);
+                    };
+                    chronologyChat.appendChild(clickableElement);
+                    
+                }
+            }
+        }
+    }
+}
+function removeChronologyChat() {
+    isChronologyChatShowed= false;
+    let chronologyChat = document.querySelector('#chronologyChat');
+    chronologyChat.className = 'scroll scroll-above';
+    preciseSetTimeout(function() {
+        document.body.removeChild(chronologyChat);
+    }, 300);
+}
+function showChronologyChat(header) {
+    isChronologyChatShowed = true;
+    let chatflow = document.querySelector('.chatflow');
+    let chronologyChat = document.createElement('div');
+    chronologyChat.id = 'chronologyChat';
+    chronologyChat.className = 'scroll scroll-below';
+    //chronologyChat.style.top = header.offsetHeight + 'px'; 
+    //chronologyChat.style.left = chatflow.offsetLeft + 'px';
+    
+    // Creazione di una lista di elementi cliccabili DA SISTEMARE
+    updateListChronologyChat(chronologyChat,"");
+    document.body.insertBefore(chronologyChat, chatflow);
+}
+function handleChronologyChat(header) {
+    if (isChronologyChatShowed){
+        removeChronologyChat();
+    } else {
+       showChronologyChat(header);
+    }
 }
 
 function clickedSearchButton() {
     let header = document.querySelector('.header');
     let title = document.querySelector('.title');
-    if (isSearchButtonClicked){
-        isSearchButtonClicked = false;
-        let searchBar = document.querySelector('#searchBar');
-        searchBar.className = 'slide slide-out';
-        setTimeout(function() {
-            header.removeChild(searchBar);
-        }, 500); // rimuovi l'elemento dopo 0.5 secondi, che è la durata dell'animazione
-    } else {
-        isSearchButtonClicked = true;
-        let searchBar = document.createElement('input');
-        searchBar.type = 'text';
-        searchBar.placeholder = 'Cerca...';
-        searchBar.id = 'searchBar';
-        searchBar.className = 'slide slide-in';
-        header.insertBefore(searchBar, title.nextSibling);
-    }
+    handleSearchBar(header, title);
+    handleChronologyChat(header);
 }
 let searchButton = document.querySelector('#search');
 searchButton.addEventListener('click', clickedSearchButton);
 
+
+
+//EVENT LISTENERS
 document.addEventListener("DOMContentLoaded", function() {
     generateFloatingLetters();
     animateFloatingLetters();
