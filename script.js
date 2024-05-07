@@ -186,7 +186,7 @@ async function newAIMessage(message){
     
     newMessage.appendChild(Icon);
     newMessage.appendChild(newMessageText);
-    //}
+    
     let currentChat = document.getElementById(currentChatId);
     currentChat.appendChild(newMessage);
     document.getElementsByClassName('end-separator')[0].scrollIntoView();
@@ -216,7 +216,7 @@ function restoreChat(chatId){
     delete history[chatId];
     removeChronologyChat();
     removeSearchBar(document.querySelector('.header'));
-    setTimeout(function() { //perdonami Pat, ma il tuo preciseSetTimeout mi da errore
+    preciseSetTimeout(function() {
         updateListChronologyChat(document.querySelector('#chronologyChat'), "");
     }, 300);
 }
@@ -241,7 +241,9 @@ async function newChat(){
         chatflow.appendChild(endSeparator);
         lastChat = oldChat;
         console.log(lastChat);
-        updateListChronologyChat(document.querySelector('#chronologyChat'), "");
+        let header = document.querySelector('.header');
+        let chronologyChat = document.querySelector('#chronologyChat');
+        updateListChronologyChat(chronologyChat, "");
     }
 }
 
@@ -287,69 +289,45 @@ function cancelContentChronologyChat() {
         chronologyChat.innerHTML = '';
     }
 }
+
+function createAndAppendClickableElement(parent, key) {
+    let clickableElement = document.createElement('button');
+    clickableElement.classList.add('scroll-button');
+    clickableElement.textContent = key;
+    clickableElement.onclick = function() {
+        console.log('Hai cliccato la chiave ' + key + '!');
+        restoreChat(key);
+    };
+    parent.appendChild(clickableElement);
+}
+function createAndAppendNoResults(parent, message) {
+    let noResults = document.createElement('p');
+    noResults.textContent = message;
+    noResults.style.color = 'white';
+    noResults.style.textAlign = 'center';
+    noResults.style.marginTop = '10px';
+    noResults.style.fontSize = '16px';
+    parent.appendChild(noResults);
+}
 function updateListChronologyChat(chronologyChat, text) {
     if (chronologyChat != null) {
-        if (text == "") {
-            var keys = Object.keys(history);
-            cancelContentChronologyChat();
-            if (keys.length == 0) {
-                let noResults = document.createElement('p');
-                noResults.textContent = "Nessun risultato trovato. Prova a divertirti con GPTgram e crea una nuova chat!";
-                noResults.style.color = 'white';
-                noResults.style.textAlign = 'center';
-                noResults.style.marginTop = '10px';
-                noResults.style.fontSize = '16px';
-                chronologyChat.appendChild(noResults);
-            } else {
-                let chronologyDelimiter = document.createElement('div');
-                chronologyDelimiter.classList.add('scroll-delimiter');
-                chronologyChat.appendChild(chronologyDelimiter)
-                let lenChronologyChat = keys.length;
-                for(let i = 0; i < lenChronologyChat; i++) {
-                    let clickableElement = document.createElement('button');
-                    clickableElement.classList.add('scroll-button');
-                    clickableElement.textContent = keys[i];
-                    clickableElement.onclick = function() {
-                        console.log('Hai cliccato la chiave ' + keys[i] + '!');
-                        restoreChat(keys[i]);
-                    };
-                    chronologyChat.appendChild(clickableElement);
-                    
-                }
-            }
-        } else { //ottimizzare il riuso del codice (?)
-            let keys = Object.keys(history);
-            let searchResults = keys.filter(function(key) {
-                return key.includes(text);
-            });
-            cancelContentChronologyChat();
-            if (searchResults.length == 0) {
-                let noResults = document.createElement('p');
-                noResults.textContent = "Nessun risultato trovato. Prova a cercare con un testo diverso!";
-                noResults.style.color = 'white';
-                noResults.style.textAlign = 'center';
-                noResults.style.marginTop = '10px';
-                noResults.style.fontSize = '16px';
-                chronologyChat.appendChild(noResults);
-            } else {
-                let chronologyDelimiter = document.createElement('div');
-                chronologyDelimiter.classList.add('scroll-delimiter');
-                chronologyChat.appendChild(chronologyDelimiter)
-                for(let i = 0; i < searchResults.length; i++) {
-                    let clickableElement = document.createElement('button');
-                    clickableElement.classList.add('scroll-button');
-                    clickableElement.textContent = searchResults[i];
-                    clickableElement.onclick = function() {
-                        console.log('Hai cliccato la chiave ' + searchResults[i] + '!');
-                        restoreChat(searchResults[i]);
-                    };
-                    chronologyChat.appendChild(clickableElement);
-                    
-                }
+        let keys = Object.keys(history);
+        let results = text == "" ? keys : keys.filter(key => key.includes(text));
+        cancelContentChronologyChat();
+        if (results.length == 0) {
+            let message = text == "" ? "Nessun risultato trovato. Prova a divertirti con GPTgram e crea una nuova chat!" : "Nessun risultato trovato. Prova a cercare con un testo diverso!";
+            createAndAppendNoResults(chronologyChat, message);
+        } else {
+            let chronologyDelimiter = document.createElement('div');
+            chronologyDelimiter.classList.add('scroll-delimiter');
+            chronologyChat.appendChild(chronologyDelimiter)
+            for(let i = 0; i < results.length; i++) {
+                createAndAppendClickableElement(chronologyChat, results[i]);
             }
         }
     }
 }
+
 function removeChronologyChat() {
     isChronologyChatShowed= false;
     let chronologyChat = document.querySelector('#chronologyChat');
@@ -369,11 +347,11 @@ function showChronologyChat() {
     updateListChronologyChat(chronologyChat,"");
     document.body.insertBefore(chronologyChat, chatflow);
 }
-function handleChronologyChat(header) {
+function handleChronologyChat() {
     if (isChronologyChatShowed){
         removeChronologyChat();
     } else {
-       showChronologyChat(header);
+       showChronologyChat();
     }
 }
 
@@ -381,7 +359,7 @@ function clickedSearchButton() {
     let header = document.querySelector('.header');
     let title = document.querySelector('.title');
     handleSearchBar(header, title);
-    handleChronologyChat(header);
+    handleChronologyChat();
 }
 let searchButton = document.querySelector('#search');
 searchButton.addEventListener('click', clickedSearchButton);
