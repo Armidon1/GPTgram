@@ -358,14 +358,12 @@ function removeChronologyChat() {
         document.body.removeChild(chronologyChat);
     }, 300);
 }
-function showChronologyChat(header) {
+function showChronologyChat() {
     isChronologyChatShowed = true;
     let chatflow = document.querySelector('.chatflow');
     let chronologyChat = document.createElement('div');
     chronologyChat.id = 'chronologyChat';
     chronologyChat.className = 'scroll scroll-below';
-    //chronologyChat.style.top = header.offsetHeight + 'px'; 
-    //chronologyChat.style.left = chatflow.offsetLeft + 'px';
     
     // Creazione di una lista di elementi cliccabili DA SISTEMARE
     updateListChronologyChat(chronologyChat,"");
@@ -391,10 +389,24 @@ searchButton.addEventListener('click', clickedSearchButton);
 
 
 //EVENT LISTENERS
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", async function() {
     generateFloatingLetters();
     animateFloatingLetters();
-    document.getElementsByClassName('end-separator')[0].scrollIntoView();
+    
+    let chatflow = document.querySelector('.chatflow');
+
+    let chatbox = document.createElement('div');
+    chatbox.classList.add('chatbox');
+    let date = (new Date()).getTime();
+    chatbox.id = await createID(TYPECHAT, 'chatbox', date);
+    chatbox.setAttribute('data-time', date);
+    chatflow.appendChild(chatbox);
+
+    let endSeparator = document.createElement('div');
+    endSeparator.classList.add('end-separator');
+    chatflow.appendChild(endSeparator);
+
+    endSeparator.scrollIntoView();
     let userInput = document.querySelector('#user-input');
     userInput.focus();
 });
