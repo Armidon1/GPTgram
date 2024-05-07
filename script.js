@@ -400,6 +400,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     let date = (new Date()).getTime();
     chatbox.id = await createID(TYPECHAT, 'chatbox', date);
     chatbox.setAttribute('data-time', date);
+    currentChatId = chatbox.id;
     chatflow.appendChild(chatbox);
 
     let endSeparator = document.createElement('div');
