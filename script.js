@@ -11,7 +11,8 @@ let currentChatId = 'g67sdfgcvbn8';
 let sendAsUser = true;
 let isTiping = false;
 let isSearchBarShowed = false;
-let isChronologyChatShowed = false;
+let isHistoryChatShowed = false;
+let moveHistoryChat = 0;
 
 let history = {};
 let lastChat;
@@ -214,10 +215,10 @@ function restoreChat(chatId){
     chatflow.appendChild(endSeparator);
     currentChatId = chatId;
     delete history[chatId];
-    removeChronologyChat();
+    removeHistoryChat();
     removeSearchBar(document.querySelector('.header'));
     preciseSetTimeout(function() {
-        updateListChronologyChat(document.querySelector('#chronologyChat'), "");
+        updateListHistoryChat(document.querySelector('#historyChat'), "");
     }, 300);
 }
 async function newChat(){
@@ -242,8 +243,8 @@ async function newChat(){
         lastChat = oldChat;
         console.log(lastChat);
         let header = document.querySelector('.header');
-        let chronologyChat = document.querySelector('#chronologyChat');
-        updateListChronologyChat(chronologyChat, "");
+        let historyChat = document.querySelector('#historyChat');
+        updateListHistoryChat(historyChat, "");
     }
 }
 
@@ -253,8 +254,8 @@ function showSearchBar(header, title) {
     let searchBar = document.createElement('input');
     searchBar.addEventListener('input', function(event) {
         let text = event.target.value;
-        let chronologyChat = document.querySelector('#chronologyChat');
-        updateListChronologyChat(chronologyChat, text);
+        let historyChat = document.querySelector('#historyChat');
+        updateListHistoryChat(historyChat, text);
     });
     searchBar.type = 'text';
     searchBar.placeholder = 'Cerca...';
@@ -283,10 +284,10 @@ function handleSearchBar(header, title) {
     }
 }
 
-function cancelContentChronologyChat() {
-    if (document.querySelector('#chronologyChat') != null) {
-        let chronologyChat = document.querySelector('#chronologyChat');
-        chronologyChat.innerHTML = '';
+function cancelContentHistoryChat() {
+    if (document.querySelector('#historyChat') != null) {
+        let historyChat = document.querySelector('#historyChat');
+        historyChat.innerHTML = '';
     }
 }
 
@@ -309,49 +310,50 @@ function createAndAppendNoResults(parent, message) {
     noResults.style.fontSize = '16px';
     parent.appendChild(noResults);
 }
-function updateListChronologyChat(chronologyChat, text) {
-    if (chronologyChat != null) {
+function updateListHistoryChat(historyChat, text) {
+    if (historyChat != null) {
         let keys = Object.keys(history);
         let results = text == "" ? keys : keys.filter(key => key.includes(text));
-        cancelContentChronologyChat();
+        cancelContentHistoryChat();
         if (results.length == 0) {
             let message = text == "" ? "Nessun risultato trovato. Prova a divertirti con GPTgram e crea una nuova chat!" : "Nessun risultato trovato. Prova a cercare con un testo diverso!";
-            createAndAppendNoResults(chronologyChat, message);
+            createAndAppendNoResults(historyChat, message);
         } else {
-            let chronologyDelimiter = document.createElement('div');
-            chronologyDelimiter.classList.add('scroll-delimiter');
-            chronologyChat.appendChild(chronologyDelimiter)
             for(let i = 0; i < results.length; i++) {
-                createAndAppendClickableElement(chronologyChat, results[i]);
+                createAndAppendClickableElement(historyChat, results[i]);
             }
         }
     }
 }
 
-function removeChronologyChat() {
-    isChronologyChatShowed= false;
-    let chronologyChat = document.querySelector('#chronologyChat');
-    chronologyChat.className = 'scroll scroll-above';
+function removeHistoryChat() {
+    isHistoryChatShowed= false;
+    let historyChat = document.querySelector('#historyChat');
+    historyChat.className = 'scroll scroll-above';
+    let header = document.querySelector('.header');
+    header.style.borderRadius = '10px';
     preciseSetTimeout(function() {
-        document.body.removeChild(chronologyChat);
+        document.body.removeChild(historyChat);
     }, 300);
 }
-function showChronologyChat() {
-    isChronologyChatShowed = true;
+function showHistoryChat() {
+    isHistoryChatShowed = true;
     let chatflow = document.querySelector('.chatflow');
-    let chronologyChat = document.createElement('div');
-    chronologyChat.id = 'chronologyChat';
-    chronologyChat.className = 'scroll scroll-below';
+    let historyChat = document.createElement('div');
+    historyChat.id = 'historyChat';
+    historyChat.className = 'scroll scroll-below';
+    let header = document.querySelector('.header');
+    header.style.borderRadius = '10px 10px 0 0';
     
     // Creazione di una lista di elementi cliccabili DA SISTEMARE
-    updateListChronologyChat(chronologyChat,"");
-    document.body.insertBefore(chronologyChat, chatflow);
+    updateListHistoryChat(historyChat,"");
+    document.body.insertBefore(historyChat, chatflow);
 }
-function handleChronologyChat() {
-    if (isChronologyChatShowed){
-        removeChronologyChat();
+function handleHistoryChat() {
+    if (isHistoryChatShowed){
+        removeHistoryChat();
     } else {
-       showChronologyChat();
+       showHistoryChat();
     }
 }
 
@@ -359,7 +361,7 @@ function clickedSearchButton() {
     let header = document.querySelector('.header');
     let title = document.querySelector('.title');
     handleSearchBar(header, title);
-    handleChronologyChat();
+    handleHistoryChat();
 }
 let searchButton = document.querySelector('#search');
 searchButton.addEventListener('click', clickedSearchButton);
