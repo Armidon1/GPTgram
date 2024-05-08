@@ -12,6 +12,7 @@ let sendAsUser = true;
 let isTiping = false;
 let isSearchBarShowed = false;
 let isChronologyChatShowed = false;
+let moveHistoryChat = 0;
 
 let history = {};
 let lastChat;
@@ -318,9 +319,6 @@ function updateListChronologyChat(chronologyChat, text) {
             let message = text == "" ? "Nessun risultato trovato. Prova a divertirti con GPTgram e crea una nuova chat!" : "Nessun risultato trovato. Prova a cercare con un testo diverso!";
             createAndAppendNoResults(chronologyChat, message);
         } else {
-            let chronologyDelimiter = document.createElement('div');
-            chronologyDelimiter.classList.add('scroll-delimiter');
-            chronologyChat.appendChild(chronologyDelimiter)
             for(let i = 0; i < results.length; i++) {
                 createAndAppendClickableElement(chronologyChat, results[i]);
             }
@@ -332,6 +330,8 @@ function removeChronologyChat() {
     isChronologyChatShowed= false;
     let chronologyChat = document.querySelector('#chronologyChat');
     chronologyChat.className = 'scroll scroll-above';
+    let header = document.querySelector('.header');
+    header.style.borderRadius = '10px';
     preciseSetTimeout(function() {
         document.body.removeChild(chronologyChat);
     }, 300);
@@ -342,6 +342,8 @@ function showChronologyChat() {
     let chronologyChat = document.createElement('div');
     chronologyChat.id = 'chronologyChat';
     chronologyChat.className = 'scroll scroll-below';
+    let header = document.querySelector('.header');
+    header.style.borderRadius = '10px 10px 0 0';
     
     // Creazione di una lista di elementi cliccabili DA SISTEMARE
     updateListChronologyChat(chronologyChat,"");
