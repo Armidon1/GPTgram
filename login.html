@@ -33,8 +33,9 @@
       defer
     ></script>
   </head>
-  <body translate="no" class="body-style">
-    <div class="container z-depth-2 container-style">
+  <body translate="no">
+    <div class="blur-background"></div>
+    <div class="big-box z-depth-5">
       <ul class="tabs tabs-style">
         <li class="tab col s3">
           <a class="white-text active" href="#login">login</a>
@@ -43,93 +44,99 @@
           <a class="white-text" href="#register">register</a>
         </li>
       </ul>
-      <div class="indicator" style="right: 200px; left: 0px"></div>
-      <div id="login" class="col s12">
-        <form class="col s12">
-          <div class="form-container">
-            <h3 class="title">Hello</h3>
-            <div class="row">
-              <div class="input-field col s12">
-                <input id="login-email" type="email" class="validate" />
-                <label for="login-email">Email</label>
+      <div class="container">
+        <div class="indicator"></div>
+        <div id="login" class="col s12">
+          <form class="col s12">
+            <div class="form-container">
+              <h3 class="title">Hello</h3>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input id="login-email" type="email" class="validate text" />
+                  <label class="text-label" for="login-email">Email</label>
+                </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s12">
-                <input id="password-confirm" type="password" class="validate" />
-                <label for="password-confirm">Password Confirmation</label>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input
+                    id="password-confirm"
+                    type="password"
+                    class="validate"
+                  />
+                  <label for="password-confirm">Password Confirmation</label>
+                </div>
               </div>
-            </div>
-            <br />
-            <div class="center">
-              <button
-                class="btn waves-effect waves-light submit-button"
-                type="submit"
-                name="action"
-              >
-                Submit
-              </button>
               <br />
-              <br />
-              <a href="" class="link-color">Forgotten password?</a>
-            </div>
-          </div>
-        </form>
-      </div>
-      <div id="register" class="col s12" style="display: none">
-        <form class="col s12">
-          <div class="form-container">
-            <h3 class="text" style="color: rgb(45, 209, 121)">Welcome</h3>
-            <div class="row">
-              <div class="input-field col s12">
-                <input id="register-email" type="email" class="validate" />
-                <label for="register-email">Email</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s12">
-                <input
-                  id="register-email-confirm"
-                  type="email"
-                  class="validate"
-                />
-                <label for="register-email-confirm">Email Confirmation</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s12">
-                <input
-                  id="register-password"
-                  type="password"
-                  class="validate"
-                />
-                <label for="register-password">Password</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s12">
-                <input
-                  id="register-password-confirm"
-                  type="password"
-                  class="validate"
-                />
-                <label for="register-password-confirm"
-                  >Password Confirmation</label
+              <div class="center">
+                <button
+                  class="btn waves-effect waves-light submit-button"
+                  type="submit"
+                  name="action"
                 >
+                  Submit
+                </button>
+                <br />
+                <br />
+                <a href="" class="link-color">Forgotten password?</a>
               </div>
             </div>
-            <div style="text-align: center">
-              <button
-                class="btn waves-effect waves-light"
-                style="background-color: rgb(29, 129, 76)"
-                type="submit"
-                name="action"
-              >
-                Submit
-              </button>
+          </form>
+        </div>
+        <div id="register" class="col s12" style="display: none">
+          <form class="col s12">
+            <div class="form-container">
+              <h3 class="title">Welcome</h3>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input id="register-email" type="email" class="validate" />
+                  <label for="register-email">Email</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input
+                    id="register-email-confirm"
+                    type="email"
+                    class="validate"
+                  />
+                  <label for="register-email-confirm">Email Confirmation</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input
+                    id="register-password"
+                    type="password"
+                    class="validate"
+                  />
+                  <label for="register-password">Password</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input
+                    id="register-password-confirm"
+                    type="password"
+                    class="validate"
+                  />
+                  <label for="register-password-confirm"
+                    >Password Confirmation</label
+                  >
+                </div>
+              </div>
+              <div style="text-align: center">
+                <button
+                  class="btn waves-effect waves-light"
+                  style="background-color: rgb(29, 129, 76)"
+                  type="submit"
+                  name="action"
+                >
+                  Submit
+                </button>
+              </div>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
     <div class="hiddendiv common"></div>

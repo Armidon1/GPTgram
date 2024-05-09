@@ -1,15 +1,47 @@
-body {
+:root{
   background-color: #2f3e46;
+  --button-color:  rgb(29,129,76);
+  --title-color: rgb(45, 209, 121);;
 }
 
 h5 {
   font-weight: 400;
 }
-
-.container {
-  margin-top: 80px;
-  width: 400px;
+.big-box{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 30%; 
   height: 700px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  transform: translate(-50%, -50%);
+  background-color: rgba(50, 50, 50, 1); 
+  border-radius: 10px;
+  box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.6);
+  overflow-y: auto; /* per permettere lo scrolling se il contenuto è troppo grande */
+}
+.container {
+  position: relative;
+  border-radius: 10px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px; /* aggiungi padding come necessario */
+  overflow-x: hidden; /* per permettere lo scrolling se il contenuto è troppo grande */
+  width: 100%; /* adatta la larghezza al contenuto */
+  height: 100%;
+}
+@media screen and (max-width: 600px) {
+  .container {
+      width: 80%;
+  }
+  .big-box {
+    width: 80%;
+    height: 80%;
+}
 }
 
 .tabs .indicator {
@@ -18,17 +50,45 @@ h5 {
   opacity: 0.3;
 }
 
+.blur-background{
+  background-color:var(--background-color);
+  width: 100%;
+  height: 100%;
+  filter: blur(1.75px);
+  z-index: 0;
+}
+
+.active{
+  color: var(--button-color)
+}
 .center {
   text-align: center;
-}
+} 
 
 .submit-button {
   background-color: rgb(29, 129, 76);
 }
+.text {
+  font-size: 1.5em; /* dimensione del testo relativa alla dimensione del testo del suo elemento genitore */
+  color: white;
+}
 
 .form-container {
-  padding: 40px;
-  padding-top: 10px;
+  position: relative;
+  width: 100%; /* adatta la larghezza al contenuto */
+  max-width: 600px; /* limita la larghezza massima del form */
+  margin: 0 auto; /* centra il form orizzontalmente */
+
+}
+
+@media screen and (max-width: 600px) {
+  .form-container {
+      padding: 1em;
+  }
+
+  .text {
+    font-size: em; /* riduci la dimensione del testo per schermi piccoli */
+  }
 }
 
 .confirmation-tabs-btn {
@@ -43,25 +103,26 @@ h5 {
   transform: translate(-50%, -50%);
 }
 
-.body-style {
-  background-color: rgba(50, 50, 50, 1);
-}
-
-.container-style {
-  background-color: rgba(50, 50, 50, 1);
-}
-
 .tabs-style {
+  position: relative; 
+  top: 0;
+  left: 0;
   width: 100%;
   background-color: rgb(29, 129, 76);
+  border-radius: 10px 10px 0 0;
 }
 
-.text-color {
-  color: rgb(45, 209, 121);
-}
 
-.btn-color {
-  background-color: rgb(29, 129, 76);
+.btn {
+  background-color:var(--button-color);
+  font-size: 1.0em; /* dimensione del testo relativa alla dimensione del testo del suo elemento genitore */
+   /* padding relativo alla dimensione del testo del suo elemento genitore */
+}
+@media screen and (max-width: 600px) {
+  .btn {
+      font-size: 1em; /* dimensione del testo più piccola per schermi più piccoli */
+       /* padding più piccolo per schermi più piccoli */
+  }
 }
 
 .link-color {
@@ -69,7 +130,8 @@ h5 {
 }
 
 .title {
-  color: rgb(45, 209, 121);
+  color: var(--title-color)
+
 }
 
 input[type="email"].validate,
@@ -77,6 +139,21 @@ input[type="password"].validate {
   color: white;
 }
 
-.text {
-  color: white;
+
+/* Cambia il colore della linea sotto l'input e l'area di testo quando sono in focus */
+.input-field input:focus,
+.input-field textarea:focus {
+  color: var(--title-color); /* Cambia questo al colore che preferisci */
+}
+
+.input-field input:focus:not(.no-autoinit),
+.input-field textarea:focus:not(.no-autoinit) {
+  border-bottom: 1px solid var(--title-color); /* Cambia questo al colore che preferisci */
+  box-shadow: 0 1px 0 0 var(--title-color); /* Cambia questo al colore che preferisci */
+}
+
+/* Cambia il colore dell'etichetta quando l'input o l'area di testo associati sono in focus */
+.input-field input:focus:not(.no-autoinit) + label,
+.input-field textarea:focus:not(.no-autoinit) + label {
+  color: var(--title-color); /* Cambia questo al colore che preferisci */
 }

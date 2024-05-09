@@ -43,7 +43,8 @@ function generateFloatingLetters() {
     letter.setAttribute("data-speed", speed);
     LetterPool.appendChild(letter);
   }
-  document.body.appendChild(LetterPool);
+  let blurBackground = document.querySelector(".blur-background");
+  blurBackground.appendChild(LetterPool);
 }
 
 function moveFloatingletters() {
