@@ -1,0 +1,137 @@
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      rel="apple-touch-icon"
+      type="image/png"
+      href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png"
+    />
+    <meta name="apple-mobile-web-app-title" content="CodePen" />
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico"
+    />
+    <link
+      rel="mask-icon"
+      type="image/x-icon"
+      href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg"
+      color="#111"
+    />
+    <title>GPTgram - Login/Register</title>
+    <link rel="canonical" href="https://codepen.io/malikbekhelouf/pen/Kzwgbb" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css"
+    />
+
+    <link rel="stylesheet" type="text/css" href="login-style.css" />
+    <script type="module" src="login-script.js" defer></script>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js" defer></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"
+      defer
+    ></script>
+  </head>
+  <body translate="no" class="body-style">
+    <div class="container z-depth-2 container-style">
+      <ul class="tabs tabs-style">
+        <li class="tab col s3">
+          <a class="white-text active" href="#login">login</a>
+        </li>
+        <li class="tab col s3">
+          <a class="white-text" href="#register">register</a>
+        </li>
+      </ul>
+      <div class="indicator" style="right: 200px; left: 0px"></div>
+      <div id="login" class="col s12">
+        <form class="col s12">
+          <div class="form-container">
+            <h3 class="title">Hello</h3>
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="login-email" type="email" class="validate" />
+                <label for="login-email">Email</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="password-confirm" type="password" class="validate" />
+                <label for="password-confirm">Password Confirmation</label>
+              </div>
+            </div>
+            <br />
+            <div class="center">
+              <button
+                class="btn waves-effect waves-light submit-button"
+                type="submit"
+                name="action"
+              >
+                Submit
+              </button>
+              <br />
+              <br />
+              <a href="" class="link-color">Forgotten password?</a>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div id="register" class="col s12" style="display: none">
+        <form class="col s12">
+          <div class="form-container">
+            <h3 class="text" style="color: rgb(45, 209, 121)">Welcome</h3>
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="register-email" type="email" class="validate" />
+                <label for="register-email">Email</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input
+                  id="register-email-confirm"
+                  type="email"
+                  class="validate"
+                />
+                <label for="register-email-confirm">Email Confirmation</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input
+                  id="register-password"
+                  type="password"
+                  class="validate"
+                />
+                <label for="register-password">Password</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input
+                  id="register-password-confirm"
+                  type="password"
+                  class="validate"
+                />
+                <label for="register-password-confirm"
+                  >Password Confirmation</label
+                >
+              </div>
+            </div>
+            <div style="text-align: center">
+              <button
+                class="btn waves-effect waves-light"
+                style="background-color: rgb(29, 129, 76)"
+                type="submit"
+                name="action"
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="hiddendiv common"></div>
+  </body>
+</html>

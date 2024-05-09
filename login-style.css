@@ -1,0 +1,82 @@
+body {
+  background-color: #2f3e46;
+}
+
+h5 {
+  font-weight: 400;
+}
+
+.container {
+  margin-top: 80px;
+  width: 400px;
+  height: 700px;
+}
+
+.tabs .indicator {
+  background-color: #e0f2f1;
+  height: 60px;
+  opacity: 0.3;
+}
+
+.center {
+  text-align: center;
+}
+
+.submit-button {
+  background-color: rgb(29, 129, 76);
+}
+
+.form-container {
+  padding: 40px;
+  padding-top: 10px;
+}
+
+.confirmation-tabs-btn {
+  position: absolute;
+}
+
+.letters {
+  color: rgb(150, 150, 150);
+  font-size: 18px;
+  z-index: -1;
+  position: fixed;
+  transform: translate(-50%, -50%);
+}
+
+.body-style {
+  background-color: rgba(50, 50, 50, 1);
+}
+
+.container-style {
+  background-color: rgba(50, 50, 50, 1);
+}
+
+.tabs-style {
+  width: 100%;
+  background-color: rgb(29, 129, 76);
+}
+
+.text-color {
+  color: rgb(45, 209, 121);
+}
+
+.btn-color {
+  background-color: rgb(29, 129, 76);
+}
+
+.link-color {
+  color: rgb(63, 224, 138);
+}
+
+.title {
+  color: rgb(45, 209, 121);
+}
+
+input[type="email"].validate,
+input[type="password"].validate {
+  color: white;
+}
+
+.text {
+  color: white;
+}
