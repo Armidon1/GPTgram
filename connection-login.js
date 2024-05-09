@@ -1,7 +1,5 @@
-import { createMessage } from "./script.js";
 export let serverMessage = '';
 
-let TYPE_CHAT_MESSAGE = "chat";
 
 const ws = new WebSocket('ws://localhost:8765');
 
@@ -13,16 +11,12 @@ ws.onopen = function() {
 
 ws.onmessage = function(event) {
     console.log('Message from server: ' + event.data);
-    let data = JSON.parse(event.data);
-    if (data.typeMessage === TYPE_CHAT_MESSAGE) {
-        serverMessage = data.message;
-        console.log(serverMessage);
-        // checks if ws is ready to transmit
-        if (ws.readyState === WebSocket.OPEN) {
-            createMessage(false);
-        } else {
-            console.log('Cannot send message, WebSocket connection is not open');
-        }
+    // checks if ws is ready to transmit
+    if (ws.readyState === WebSocket.OPEN) {
+        serverMessage = JSON.parse(event.data);
+        console.log("Message received from server: ", serverMessage);
+    } else {
+        console.log('Cannot send message, WebSocket connection is not open');
     }
 }
 
@@ -38,11 +32,7 @@ export function sendMessage(message){
     console.log("Message sent from client: "+message);
     // checks if ws is ready to transmit
     if (ws.readyState === WebSocket.OPEN) {
-        let messageJSON = {
-            'typeMessage': TYPE_CHAT_MESSAGE,
-            'message': message
-        };
-        ws.send(JSON.stringify(messageJSON));
+        ws.send(JSON.stringify(message));
         return true;
     } else {
         console.log('Cannot send message, WebSocket connection is not open');

@@ -27,6 +27,7 @@
 
     <link rel="stylesheet" type="text/css" href="login-style.css" />
     <script type="module" src="login-script.js" defer></script>
+    <script type="module" src="connection-login.js" defer></script>
     <script src="https://code.jquery.com/jquery-2.1.1.min.js" defer></script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"
@@ -59,7 +60,7 @@
               <div class="row">
                 <div class="input-field col s12">
                   <input
-                    id="password-confirm"
+                    id="login-password"
                     type="password"
                     class="validate"
                   />
@@ -69,7 +70,7 @@
               <br />
               <div class="center">
                 <button
-                  class="btn waves-effect waves-light submit-button"
+                  class="btn waves-effect waves-light submit-button login-button"
                   type="submit"
                   name="action"
                 >
@@ -126,7 +127,7 @@
               </div>
               <div style="text-align: center">
                 <button
-                  class="btn waves-effect waves-light"
+                  class="btn waves-effect waves-light register-button"
                   style="background-color: rgb(29, 129, 76)"
                   type="submit"
                   name="action"

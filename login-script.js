@@ -1,12 +1,14 @@
+import { sendMessage } from "./connection-login.js";
+
 const SENDTEXTCLASS = "sendbox";
 const RECEIVETEXTCLASS = "receivebox";
-const LETTERS =
-  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+const LETTERS ="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 const LETTERS_AMOUNT = 69;
-const TYPECHAT = "CHAT";
-const TYPEMSG = "MSG";
 let lettersCanMove = true;
+let TYPE_REGISTER_MESSAGE = "register";
+let TYPE_LOGIN_MESSAGE = "login";
 
+//TOOLS
 function preciseSetTimeout(callback, delay) {
   let start = performance.now();
 
@@ -19,6 +21,15 @@ function preciseSetTimeout(callback, delay) {
   tick();
 }
 
+function popUpMessage(message){
+  //da implementare
+  console.log("implementare la funzione popUpMessage");
+  alert(message);
+  console.log(message);
+  //inserire i messaggi pop-up belli
+}
+
+//FLOATING LETTERS
 function generateFloatingLetters() {
   let LetterPool = document.createElement("div");
   LetterPool.id = "LetterPool";
@@ -90,7 +101,79 @@ function animateFloatingLetters() {
 
   animate();
 }
+
+//FUNCTIONs
+//prevent form submit to refresh the page
+// Register Functions
+function checkRegisterEmail(email){
+  let emailConfirm = document.getElementById("register-email-confirm").value;
+  if (email.includes("@") && email.includes(".")){
+    if (email === emailConfirm){
+      return true;
+    }
+  }
+  return false;
+}
+function checkRegisterPassword(password){
+  let passwordConfirm = document.getElementById("register-password-confirm").value;
+  if (password === passwordConfirm){
+    return true;
+  }
+  return false;
+}
+
+function clickedRegisterButton(){
+  let email = document.getElementById("register-email").value;
+  let password = document.getElementById("register-password").value;
+  if (!checkRegisterEmail(email)){
+    popUpMessage("wrong email format");
+  } else if (!checkRegisterPassword(password)){
+    popUpMessage("wrong password format");
+  } else{
+    console.log("typeMessage: "+TYPE_REGISTER_MESSAGE+" email: "+email+" password: "+password);
+    sendMessage({typeMessage: TYPE_REGISTER_MESSAGE ,email: email, password: password});
+    console.log("message sent");
+  }
+}
+
+//Login functions
+function checkLoginEmail(email){
+  if (email.includes("@") && email.includes(".")){
+    return true;
+  }
+  return false;
+}
+function clickedLogginButton(){
+  let email = document.getElementById("login-email").value;
+  let password = document.getElementById("login-password").value;
+  if (!checkLoginEmail(email)){
+    popUpMessage("wrong email format");
+  } else{
+    console.log("typeMessage: "+TYPE_LOGIN_MESSAGE+" email: "+email+" password: "+password);
+    sendMessage({typeMessage: TYPE_LOGIN_MESSAGE ,email: email, password: password});
+    console.log("message sent");
+  }
+}
+
+
+//EVENT LISTENERS
 document.addEventListener("DOMContentLoaded", async function () {
+  //letters animation
   generateFloatingLetters();
   animateFloatingLetters();
+
+  //login form
+  let loginForm = document.querySelector('#login form');
+  loginForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    clickedLogginButton();
+  });
+
+
+  //register form
+  let registerForm = document.querySelector('#register form');
+  registerForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    clickedRegisterButton()
+  });
 });
