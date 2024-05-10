@@ -4,6 +4,10 @@
   --title-color: rgb(45, 209, 121);
 }
 
+body{
+  overflow: hidden;
+}
+
 h5 {
   font-weight: 400;
 }
@@ -20,7 +24,7 @@ h5 {
   transform: translate(-50%, -50%);
   background-color: rgba(50, 50, 50, 1); 
   border-radius: 10px;
-  box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 20px 7px rgba(0, 0, 0, 0.6);
   overflow-y: auto; /* per permettere lo scrolling se il contenuto è troppo grande */
 }
 .container {
@@ -54,7 +58,7 @@ h5 {
   background-color:var(--background-color);
   width: 100%;
   height: 100%;
-  filter: blur(1.75px);
+  filter: blur(3px);
   z-index: 0;
 }
 
