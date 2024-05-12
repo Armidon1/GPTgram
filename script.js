@@ -39,12 +39,18 @@ function preciseSetTimeout(callback, delay) {
     tick();
 }
 
-function generateFloatingLetters(){
-    let LetterPool = document.createElement('div');
-    LetterPool.id = 'LetterPool';
-    LetterPool.style.margin = '0';
+function generateFloatingLetters(letterAmount = LETTERS_AMOUNT){
+    let LetterPool;
 
-    for (let i = 0; i < LETTERS_AMOUNT; i++) {
+    if (document.querySelector('#letter-pool') != null) {
+        letterPool = document.querySelector('#letter-pool');
+    } else {
+        LetterPool = document.createElement('div');
+        LetterPool.id = 'letter-pool';
+        LetterPool.style.margin = '0';
+    }
+
+    for (let i = 0; i < letterAmount; i++) {
         let letter = document.createElement('div');
         letter.classList.add('letters');
         let top = Math.floor(Math.random() * window.innerHeight);
