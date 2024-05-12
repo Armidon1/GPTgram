@@ -12,9 +12,11 @@ let sendAsUser = true;
 let isTiping = false;
 let isSearchBarShowed = false;
 let isHistoryChatShowed = false;
+let isAllHistoryChatShowed = false;
 let moveHistoryChat = 0;
 
-let history = {};
+let history = {};               //contiene dall'ID della chat associata all'intera chatbox
+let sortedHistoryChat = {};     //contiene la data associata all'ID della chat
 let lastChat;
 
 
@@ -104,6 +106,10 @@ async function createID(type, classString, date){
     let hashString = hashArray.map(n => n.toString(16).padStart(2, '0')).join('');
     
     return hashString;
+}
+function printHistory(){
+    for (let i = 0; i<sortedHistoryChat.length; i++)
+        console.log(history[sortedHistoryChat[i]]);
 }
 
 
@@ -219,12 +225,17 @@ function restoreChat(chatId){
     removeSearchBar(document.querySelector('.header'));
     preciseSetTimeout(function() {
         updateListHistoryChat(document.querySelector('#historyChat'), "");
+        updateListAllHistoryChat(document.querySelector('#allHistoryChat'));
     }, 300);
 }
 async function newChat(){
     if (chatIsNotEmpty(document.querySelector('.chatbox'))){
         let oldChat = document.querySelector(".chatbox");
+        printHistory();
+        //console.log(oldChat.dateTime);
         history[oldChat.id] = oldChat;
+        sortedHistoryChat[oldChat.dateTime] = oldChat.id;
+
         let chatflow = document.querySelector(".chatflow")
         chatflow.removeChild(oldChat);
         chatflow.removeChild(document.querySelector(".end-separator"));
@@ -234,6 +245,7 @@ async function newChat(){
 
         let newDate = (new Date()).getTime();
         newChat.id = await createID(TYPECHAT, "chatbox", newDate);
+        newChat.dateTime = newDate;
         currentChatId = newChat.id
         newChat.setAttribute("data-time", newDate);
         chatflow.appendChild(newChat);
@@ -244,7 +256,10 @@ async function newChat(){
         console.log(lastChat);
         let header = document.querySelector('.header');
         let historyChat = document.querySelector('#historyChat');
+        let allHistoryChat = document.querySelector('#allHistoryChat');
+
         updateListHistoryChat(historyChat, "");
+        updateListAllHistoryChat(allHistoryChat);
     }
 }
 
@@ -290,7 +305,6 @@ function cancelContentHistoryChat() {
         historyChat.innerHTML = '';
     }
 }
-
 function createAndAppendClickableElement(parent, key) {
     let clickableElement = document.createElement('button');
     clickableElement.classList.add('scroll-button');
@@ -303,11 +317,9 @@ function createAndAppendClickableElement(parent, key) {
 }
 function createAndAppendNoResults(parent, message) {
     let noResults = document.createElement('p');
+    noResults.className = 'no-result-all-history-list';
+    noResults.id = 'noResultAllHistoryList';
     noResults.textContent = message;
-    noResults.style.color = 'white';
-    noResults.style.textAlign = 'center';
-    noResults.style.marginTop = '10px';
-    noResults.style.fontSize = '16px';
     parent.appendChild(noResults);
 }
 function updateListHistoryChat(historyChat, text) {
@@ -319,7 +331,7 @@ function updateListHistoryChat(historyChat, text) {
             let message = text == "" ? "Nessun risultato trovato. Prova a divertirti con GPTgram e crea una nuova chat!" : "Nessun risultato trovato. Prova a cercare con un testo diverso!";
             createAndAppendNoResults(historyChat, message);
         } else {
-            for(let i = 0; i < results.length; i++) {
+            for(let i = 0; (i < results.length && i<5); i++) {
                 createAndAppendClickableElement(historyChat, results[i]);
             }
         }
@@ -357,11 +369,94 @@ function handleHistoryChat() {
     }
 }
 
+
+function insertTitleToAllHistoryChat(allHistoryChat){
+    let allHistoryChatTitle = document.createElement('p'); // Crea un nuovo elemento <p>
+    allHistoryChatTitle.id = 'allHistoryChatTitle'; // Assegna un ID all'elemento
+    allHistoryChatTitle.className = 'all-history-title'; // Assegna una classe all'elemento
+    let textNode = document.createTextNode("History Chat"); // Crea un nodo di testo
+    allHistoryChatTitle.appendChild(textNode); // Aggiunge il nodo di testo all'elemento
+    allHistoryChat.appendChild(allHistoryChatTitle);
+}
+function cancelContentAllHistoryChat(){
+    if (document.querySelector('#allHistoryChat') != null) {
+        let allHistoryChatButtonList = allHistoryChat.querySelector("#allHistoryChatButtonList");
+        allHistoryChatButtonList.innerHTML = '';
+    }
+}
+function createAndAppendClickableAllHistoryButton(parent, key) {
+    let clickableElement = document.createElement('button');
+    clickableElement.classList.add('scroll-button');
+    clickableElement.classList.add('all-history-button');
+    //console.log("inserito con la chiave: "+key+", valore: "+History[key]);
+    clickableElement.textContent = key;
+    clickableElement.onclick = function() {
+        console.log('Hai cliccato la chiave ' + key + '!');
+        restoreChat(key);
+    };
+    parent.appendChild(clickableElement);
+    return clickableElement;
+}
+function updateListAllHistoryChat(allHistoryChat){
+    if (allHistoryChat != null) {
+        let keys = Object.keys(history);
+        let results = keys;
+        cancelContentAllHistoryChat();
+        if (results.length == 0) {
+            let message = "La lista è vuota! Premi il pulsante \"nuova chat\" per scoprirne di più ;)";
+            createAndAppendNoResults(allHistoryChat.querySelector('#allHistoryChatButtonList'), message);
+        } else {
+            //printHistory();
+            let allHistoryChatButtonList = allHistoryChat.querySelector("#allHistoryChatButtonList");
+            for(let i = 0; i < results.length; i++) {
+                if (allHistoryChatButtonList.querySelector('#noResultAllHistoryList')!=null){
+                    allHistoryChat.removeChild(document.querySelector('#noResultAllHistoryList'));
+                }
+                createAndAppendClickableAllHistoryButton(allHistoryChatButtonList, results[i]);
+            }
+            //printHistory();
+        }
+    }
+}
+
+function removeAllHistoryChat(){
+    isAllHistoryChatShowed= false;
+    let allHistoryChat = document.querySelector('#allHistoryChat');
+    allHistoryChat.className = 'all-history all-history-slide-right';
+    preciseSetTimeout(function() {
+        document.body.removeChild(allHistoryChat);
+    }, 300);
+}
+function showAllHistoryChat(){
+    isAllHistoryChatShowed = true;
+    let allHistoryChat = document.createElement('div');
+    allHistoryChat.id = 'allHistoryChat';
+    allHistoryChat.className = 'all-history all-history-slide-left';
+    insertTitleToAllHistoryChat(allHistoryChat);
+    
+    // Creazione di una lista di elementi cliccabili 
+    let allHistoryChatButtonList = document.createElement('div');
+    allHistoryChatButtonList.id = 'allHistoryChatButtonList';
+    allHistoryChatButtonList.className = 'all-history-button-list';
+    allHistoryChat.appendChild(allHistoryChatButtonList);
+    updateListAllHistoryChat(allHistoryChat);
+    document.body.appendChild(allHistoryChat);
+}
+function handleAllHistoryChat(){
+    if (isAllHistoryChatShowed){
+        removeAllHistoryChat();
+    } else {
+       showAllHistoryChat();
+    }
+}
+
+
 function clickedSearchButton() {
     let header = document.querySelector('.header');
     let title = document.querySelector('.title');
     handleSearchBar(header, title);
     handleHistoryChat();
+    handleAllHistoryChat();
 }
 let searchButton = document.querySelector('#search');
 searchButton.addEventListener('click', clickedSearchButton);
@@ -379,6 +474,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     chatbox.classList.add('chatbox');
     let date = (new Date()).getTime();
     chatbox.id = await createID(TYPECHAT, 'chatbox', date);
+    chatbox.dateTime = date;
     chatbox.setAttribute('data-time', date);
     currentChatId = chatbox.id;
     chatflow.appendChild(chatbox);
