@@ -324,18 +324,34 @@ function createAndAppendNoResults(parent, message) {
 }
 function updateListHistoryChat(historyChat, text) {
     if (historyChat != null) {
-        let keys = Object.keys(history);
-        let results = text == "" ? keys : keys.filter(key => key.includes(text));
+        let sortedDateKeys = Object.keys(sortedHistoryChat).sort((a, b) => b - a);   //continene una lista ordinata delle date delle chat. 
+                                                                                    //le chiavi ordinate verrano usate nuovamente su sortedHistoryChat 
+                                                                                    //per ottenere l'ID della chat in ordine
+        let sortedChatIds = sortedDateKeys.map(date => sortedHistoryChat[date]);
+        let results = text == "" ? sortedChatIds : sortedChatIds.filter(id => id.includes(text));
+        
+
         cancelContentHistoryChat();
-        if (results.length == 0) {
-            let message = text == "" ? "Nessun risultato trovato. Prova a divertirti con GPTgram e crea una nuova chat!" : "Nessun risultato trovato. Prova a cercare con un testo diverso!";
-            createAndAppendNoResults(historyChat, message);
-        } else {
-            for(let i = 0; (i < results.length && i<5); i++) {
-                createAndAppendClickableElement(historyChat, results[i]);
+        if (text == ""){
+            if (results.length == 0) {
+                let message = "Nessun risultato trovato. Prova a divertirti con GPTgram e crea una nuova chat!" ;
+                createAndAppendNoResults(historyChat, message);
+            } else {
+                for(let i = 0; (i < results.length && i<5); i++) {
+                    createAndAppendClickableElement(historyChat, results[i]);
+                }
+            }
+        } else{
+            if (results.length == 0) {
+                let message = "Nessun risultato trovato. Prova a cercare con un testo diverso!";
+                createAndAppendNoResults(historyChat, message);
+            } else {
+                for(let i = 0; (i < results.length && i<5); i++) {
+                    createAndAppendClickableElement(historyChat, results[i]);
+                }
             }
         }
-    }
+        }
 }
 
 function removeHistoryChat() {
@@ -399,26 +415,24 @@ function createAndAppendClickableAllHistoryButton(parent, key) {
 }
 function updateListAllHistoryChat(allHistoryChat){
     if (allHistoryChat != null) {
-        let keys = Object.keys(history);
-        let results = keys;
+        let sortedDateKeys = Object.keys(sortedHistoryChat).sort((a, b) => b - a);   //continene una lista ordinata delle date delle chat. 
+                                                                                                        //le chiavi ordinate verrano usate nuovamente su sortedHistoryChat 
+                                                                                                        //per ottenere l'ID della chat in ordine
         cancelContentAllHistoryChat();
-        if (results.length == 0) {
+        if (sortedDateKeys.length == 0) {
             let message = "La lista è vuota! Premi il pulsante \"nuova chat\" per scoprirne di più ;)";
             createAndAppendNoResults(allHistoryChat.querySelector('#allHistoryChatButtonList'), message);
         } else {
-            //printHistory();
             let allHistoryChatButtonList = allHistoryChat.querySelector("#allHistoryChatButtonList");
-            for(let i = 0; i < results.length; i++) {
+            for(let i = 0; i < sortedDateKeys.length; i++) {
                 if (allHistoryChatButtonList.querySelector('#noResultAllHistoryList')!=null){
                     allHistoryChat.removeChild(document.querySelector('#noResultAllHistoryList'));
                 }
-                createAndAppendClickableAllHistoryButton(allHistoryChatButtonList, results[i]);
+                createAndAppendClickableAllHistoryButton(allHistoryChatButtonList, sortedHistoryChat[sortedDateKeys[i]]);
             }
-            //printHistory();
         }
     }
 }
-
 function removeAllHistoryChat(){
     isAllHistoryChatShowed= false;
     let allHistoryChat = document.querySelector('#allHistoryChat');
