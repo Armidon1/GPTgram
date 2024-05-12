@@ -24,7 +24,7 @@ let lastChat;
 let audioDuration = null;
 let audioRecorder = null;
 let audioStream = null;
-let temporaryAudioChuncks = [];
+let temporaryAudioChunks = [];
 let audios = [] // temporaneo
 
 //APP TOOLS
@@ -494,17 +494,17 @@ function setupStream(audioStream) {
     audioRecorder = new MediaRecorder(audioStream);
     
     audioRecorder.ondataavailable = function(event) {
-        temporaryAudioChuncks.push(event.data);
+        temporaryAudioChunks.push(event.data);
     }
 
     audioRecorder.onstop = function() {
-        const audioBlob = new Blob(temporaryAudioChuncks, {type: 'audio/ogg; codecs=opus'}); 
+        const audioBlob = new Blob(temporaryAudioChunks, {type: 'audio/ogg; codecs=opus'}); 
         const audioUrl = URL.createObjectURL(audioBlob);
         audios.push(audioUrl); // temporaneo
         const audio = new Audio(audioUrl);
 
 
-        temporaryAudioChuncks = [];
+        temporaryAudioChunks = [];
 
         if (audioStream) {
             audioStream.getTracks().forEach(track => track.stop());
