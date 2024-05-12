@@ -1,4 +1,5 @@
 import { sendMessage, serverMessage } from './connection.js';
+import WaveSurfer from 'https://cdn.jsdelivr.net/npm/wavesurfer.js@7/dist/wavesurfer.esm.js'
 
 const SENDTEXTCLASS = 'sendbox';
 const RECEIVETEXTCLASS = 'receivebox'
@@ -10,6 +11,7 @@ let lettersCanMove = true;
 let currentChatId = 'g67sdfgcvbn8';
 let sendAsUser = true;
 let isTiping = false;
+let isRecording = false;
 let isSearchBarShowed = false;
 let isHistoryChatShowed = false;
 let isAllHistoryChatShowed = false;
@@ -19,6 +21,10 @@ let history = {};               //contiene dall'ID della chat associata all'inte
 let sortedHistoryChat = {};     //contiene la data associata all'ID della chat
 let lastChat;
 
+let audioRecorder = null;
+let audioStream = null;
+let temporaryAudioChuncks = [];
+let audios = [] // temporaneo
 
 //APP TOOLS
 function preciseSetTimeout(callback, delay) {
@@ -381,7 +387,7 @@ function handleHistoryChat() {
     if (isHistoryChatShowed){
         removeHistoryChat();
     } else {
-       showHistoryChat();
+        showHistoryChat();
     }
 }
 
@@ -475,12 +481,78 @@ function clickedSearchButton() {
 let searchButton = document.querySelector('#search');
 searchButton.addEventListener('click', clickedSearchButton);
 
+function canRecordAudio() {
+    return navigator.mediaDevices && navigator.mediaDevices.getUserMedia;
+}
 
+function setupStream(audioStream) {
+    audioRecorder = new MediaRecorder(audioStream);
+    
+    audioRecorder.ondataavailable = function(event) {
+        temporaryAudioChuncks.push(event.data);
+    }
+
+    audioRecorder.onstop = function() {
+        const audioBlob = new Blob(temporaryAudioChuncks, {type: 'audio/mpeg'}); 
+        const audioUrl = URL.createObjectURL(audioBlob);
+        console.log(audioUrl);
+        temporaryAudioChuncks = [];
+
+        // const downloadLink = document.createElement('a'); proof of concept: il blob può essere usato come file normale mp3
+        // downloadLink.href = audioUrl;
+        // downloadLink.download = `audio-${(new Date()).getTime()}.mp3`;
+        // document.body.appendChild(downloadLink); 
+        // downloadLink.click();
+        // document.body.removeChild(downloadLink);
+
+        if (audioStream) {
+            audioStream.getTracks().forEach(track => track.stop());
+        }
+    }
+}
+
+async function setupAudio() {
+    if(canRecordAudio()) {
+        let audioStream = await navigator.mediaDevices.getUserMedia({audio: true})
+        setupStream(audioStream)
+        // audioRecorder.stop();
+        // audioStream.getTracks().forEach(track => track.stop());
+    }
+}
+
+
+
+async function handleAudio() {
+
+    if(!canRecordAudio()) {
+        alert('ci sono problemi con la registrazione audio: il tuo browser non supporta questa funzionalità oppure non hai dato i permessi necessari');
+        return;
+    }
+
+    isRecording = !isRecording;
+
+    let mic = document.querySelector('#mic');
+    if (isRecording) {
+        mic.style.backgroundImage = 'url(./asset/recording.svg)';
+
+        if (!audioStream) {
+            await setupAudio();
+        }
+        audioRecorder.start();
+        console.log('Recording...');
+    } else{
+        mic.style.backgroundImage = 'url(./asset/mic.svg)';
+        audioRecorder.stop();
+        console.log('Stopped recording');
+    }
+}
 
 //EVENT LISTENERS
 document.addEventListener("DOMContentLoaded", async function() {
     generateFloatingLetters();
     animateFloatingLetters();
+
+    // await setupAudio();
     
     let chatflow = document.querySelector('.chatflow');
 
@@ -547,3 +619,4 @@ window.addEventListener('focus', function(){
 });
 
 document.querySelector('#newchat').addEventListener('click', newChat);
+document.querySelector('#mic').addEventListener('click', handleAudio);
