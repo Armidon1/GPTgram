@@ -21,6 +21,7 @@ let history = {};               //contiene dall'ID della chat associata all'inte
 let sortedHistoryChat = {};     //contiene la data associata all'ID della chat
 let lastChat;
 
+let audioDuration = null;
 let audioRecorder = null;
 let audioStream = null;
 let temporaryAudioChuncks = [];
@@ -472,7 +473,7 @@ function handleAllHistoryChat(){
     if (isAllHistoryChatShowed){
         removeAllHistoryChat();
     } else {
-       showAllHistoryChat();
+        showAllHistoryChat();
     }
 }
 
@@ -484,8 +485,6 @@ function clickedSearchButton() {
     handleHistoryChat();
     handleAllHistoryChat();
 }
-let searchButton = document.querySelector('#search');
-searchButton.addEventListener('click', clickedSearchButton);
 
 function canRecordAudio() {
     return navigator.mediaDevices && navigator.mediaDevices.getUserMedia;
@@ -499,17 +498,13 @@ function setupStream(audioStream) {
     }
 
     audioRecorder.onstop = function() {
-        const audioBlob = new Blob(temporaryAudioChuncks, {type: 'audio/mpeg'}); 
+        const audioBlob = new Blob(temporaryAudioChuncks, {type: 'audio/ogg; codecs=opus'}); 
         const audioUrl = URL.createObjectURL(audioBlob);
-        console.log(audioUrl);
-        temporaryAudioChuncks = [];
+        audios.push(audioUrl); // temporaneo
+        const audio = new Audio(audioUrl);
 
-        // const downloadLink = document.createElement('a'); proof of concept: il blob può essere usato come file normale mp3
-        // downloadLink.href = audioUrl;
-        // downloadLink.download = `audio-${(new Date()).getTime()}.mp3`;
-        // document.body.appendChild(downloadLink); 
-        // downloadLink.click();
-        // document.body.removeChild(downloadLink);
+
+        temporaryAudioChuncks = [];
 
         if (audioStream) {
             audioStream.getTracks().forEach(track => track.stop());
@@ -521,12 +516,8 @@ async function setupAudio() {
     if(canRecordAudio()) {
         let audioStream = await navigator.mediaDevices.getUserMedia({audio: true})
         setupStream(audioStream)
-        // audioRecorder.stop();
-        // audioStream.getTracks().forEach(track => track.stop());
     }
 }
-
-
 
 async function handleAudio() {
 
@@ -626,3 +617,4 @@ window.addEventListener('focus', function(){
 
 document.querySelector('#newchat').addEventListener('click', newChat);
 document.querySelector('#mic').addEventListener('click', handleAudio);
+document.querySelector('#search').addEventListener('click', clickedSearchButton);
