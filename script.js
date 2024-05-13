@@ -589,20 +589,26 @@ async function toggleRecording() {
         }
     } else {
         if (audioRecorder) {
-            audioRecorder.onstop = function() {
-                const audioBlob = new Blob(temporaryAudioChunks, {type: 'audio/mpeg'}); 
-                const audioUrl = URL.createObjectURL(audioBlob);
-                audios.push(audioUrl);
-
-                temporaryAudioChunks = [];
-
-                if (audioRecorder.stream) {
-                    audioRecorder.stream.getTracks().forEach(track => track.stop());
-                }
-            };
-
-            audioRecorder.stop();
+            await new Promise((resolve) => {
+                audioRecorder.onstop = function() {
+                    const audioBlob = new Blob(temporaryAudioChunks, {type: 'audio/mpeg'}); 
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    audios.push(audioUrl);
+    
+                    temporaryAudioChunks = [];
+    
+                    if (audioRecorder.stream) {
+                        audioRecorder.stream.getTracks().forEach(track => track.stop());
+                    }
+    
+                    resolve();
+                };
+    
+                audioRecorder.stop();
+            });
+    
             console.log('Stopped recording');
+            console.log(audios.length);
         }
     }
 }
