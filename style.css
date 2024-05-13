@@ -532,6 +532,12 @@ p {
 #more{
     background-image: url('./asset/more-horizontal.svg');
 }
+#account{
+    background-image: url('./asset/user.svg');
+    padding: 30px;
+    margin: 10px 0 0 10px;
+    position: absolute;
+}
 
 .text-footer{
     color: rgb(170, 170, 170);
