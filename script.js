@@ -40,6 +40,18 @@ function preciseSetTimeout(callback, delay) {
     tick();
 }
 
+function scrollToEnd() {
+    let endSeparator = document.querySelector('.end-separator');
+    endSeparator.scrollIntoView();
+
+}
+
+function focusUserInput() {
+    let userInput = document.querySelector('#user-input');
+    userInput.focus();
+
+}
+
 function generateFloatingLetters(letterAmount = LETTERS_AMOUNT){
     let LetterPool;
 
@@ -242,32 +254,32 @@ function restoreChat(chatId){
     }, 300);
 }
 async function newChat(){
-    if (chatIsNotEmpty(document.querySelector('.chatbox'))){
+    let chatflow = document.querySelector('.chatflow');
+    let newChat = document.createElement('div');
+    newChat.classList.add('chatbox');
+    let newDate = (new Date()).getTime();
+    newChat.id = await createID(TYPECHAT, "chatbox", newDate);
+    newChat.setAttribute("data-time", newDate);
+
+    let endSeparator = document.querySelector('.end-separator');
+
+    if (!document.querySelector('.chatbox')){
+        currentChatId = newChat.id;
+        chatflow.insertBefore(newChat, endSeparator);
+
+    } else if (chatIsNotEmpty(document.querySelector('.chatbox'))){
         let oldChat = document.querySelector(".chatbox");
         printHistory();
-        //console.log(oldChat.dateTime);
         history[oldChat.id] = oldChat;
         sortedHistoryChat[oldChat.dateTime] = oldChat.id;
-
-        let chatflow = document.querySelector(".chatflow")
         chatflow.removeChild(oldChat);
-        chatflow.removeChild(document.querySelector(".end-separator"));
+        // chatflow.removeChild(document.querySelector(".end-separator"));
         
-        let newChat = document.createElement("div"); /* ci servirà per la struttura dati*/
-        newChat.classList.add("chatbox");
-
-        let newDate = (new Date()).getTime();
-        newChat.id = await createID(TYPECHAT, "chatbox", newDate);
-        newChat.dateTime = newDate;
         currentChatId = newChat.id
-        newChat.setAttribute("data-time", newDate);
-        chatflow.appendChild(newChat);
-        let endSeparator = document.createElement("div");
-        endSeparator.classList.add("end-separator");
-        chatflow.appendChild(endSeparator);
+        chatflow.insertBefore(newChat, endSeparator);
         lastChat = oldChat;
         console.log(lastChat);
-        let header = document.querySelector('.header');
+
         let historyChat = document.querySelector('#historyChat');
         let allHistoryChat = document.querySelector('#allHistoryChat');
 
@@ -490,57 +502,108 @@ function canRecordAudio() {
     return navigator.mediaDevices && navigator.mediaDevices.getUserMedia;
 }
 
-function setupStream(audioStream) {
-    audioRecorder = new MediaRecorder(audioStream);
+// function setupStream(audioStream) {
+//     audioRecorder = new MediaRecorder(audioStream);
     
-    audioRecorder.ondataavailable = function(event) {
-        temporaryAudioChunks.push(event.data);
-    }
+//     audioRecorder.ondataavailable = function(event) {
+//         temporaryAudioChunks.push(event.data);
+//     }
 
-    audioRecorder.onstop = function() {
-        const audioBlob = new Blob(temporaryAudioChunks, {type: 'audio/ogg; codecs=opus'}); 
-        const audioUrl = URL.createObjectURL(audioBlob);
-        audios.push(audioUrl); // temporaneo
-        const audio = new Audio(audioUrl);
+//     let onStopPromiseResolver;
+//     let onStopPromise = new Promise((resolve, reject) => {
+//         onStopPromiseResolver = resolve;
+//     });
 
+//     audioRecorder.onstop = function() {
+//         const audioBlob = new Blob(temporaryAudioChunks, {type: 'audio/mpeg'}); 
+//         const audioUrl = URL.createObjectURL(audioBlob);
+//         audios.push(audioUrl);
 
-        temporaryAudioChunks = [];
+//         temporaryAudioChunks = [];
 
-        if (audioStream) {
-            audioStream.getTracks().forEach(track => track.stop());
-        }
-    }
-}
+//         if (audioStream) {
+//             audioStream.getTracks().forEach(track => track.stop());
+//         }
 
-async function setupAudio() {
-    if(canRecordAudio()) {
-        let audioStream = await navigator.mediaDevices.getUserMedia({audio: true})
-        setupStream(audioStream)
-    }
-}
+//         onStopPromiseResolver();
+//     }
 
-async function handleAudio() {
+//     return {
+//         start: () => audioRecorder.start(),
+//         stop: () => {
+//             audioRecorder.stop();
+//             return onStopPromise;
+//         }
+//     }
+// }
 
-    if(!canRecordAudio()) {
-        alert('ci sono problemi con la registrazione audio: il tuo browser non supporta questa funzionalità oppure non hai dato i permessi necessari');
-        return;
-    }
+// async function setupAudio() {
+//     if(canRecordAudio()) {
+//         let audioStream = await navigator.mediaDevices.getUserMedia({audio: true})
+//         setupStream(audioStream)
+//     }
+// }
 
+// async function handleAudio() {
+
+//     if(!canRecordAudio()) {
+//         alert('ci sono problemi con la registrazione audio: il tuo browser non supporta questa funzionalità oppure non hai dato i permessi necessari');
+//         return;
+//     }
+
+//     isRecording = !isRecording;
+
+//     let mic = document.querySelector('#mic');
+//     if (isRecording) {
+//         mic.style.backgroundImage = 'url(./asset/recording.svg)';
+//         let recorder;
+//         if (!audioStream) {
+//             await setupAudio();
+//         }
+//         audioRecorder.start();
+//         console.log('Recording...');
+//     } else{
+//         mic.style.backgroundImage = 'url(./asset/mic.svg)';
+//         await audioRecorder.stop();
+//         console.log(audios.length)
+//         console.log('Stopped recording');
+//     }
+// }
+
+async function toggleRecording() {
     isRecording = !isRecording;
 
-    let mic = document.querySelector('#mic');
     if (isRecording) {
-        mic.style.backgroundImage = 'url(./asset/recording.svg)';
+        if (canRecordAudio()) {
+            let audioStream = await navigator.mediaDevices.getUserMedia({audio: true});
+            audioRecorder = new MediaRecorder(audioStream);
 
-        if (!audioStream) {
-            await setupAudio();
+            audioRecorder.ondataavailable = function(event) {
+                temporaryAudioChunks.push(event.data);
+            };
+
+            audioRecorder.start();
+            console.log('Recording...');
+        } else {
+            console.error("Impossibile registrare l'audio: il dispositivo non supporta la registrazione audio.");
         }
-        audioRecorder.start();
-        console.log('Recording...');
-    } else{
-        mic.style.backgroundImage = 'url(./asset/mic.svg)';
-        audioRecorder.stop();
-        console.log('Stopped recording');
+    } else {
+        if (audioRecorder) {
+            audioRecorder.onstop = function() {
+                const audioBlob = new Blob(temporaryAudioChunks, {type: 'audio/mpeg'}); 
+                const audioUrl = URL.createObjectURL(audioBlob);
+                audios.push(audioUrl);
+
+                temporaryAudioChunks = [];
+
+                if (audioRecorder.stream) {
+                    audioRecorder.stream.getTracks().forEach(track => track.stop());
+                }
+            };
+
+            audioRecorder.stop();
+            console.log('Stopped recording');
+        }
     }
 }
 
@@ -548,27 +611,9 @@ async function handleAudio() {
 document.addEventListener("DOMContentLoaded", async function() {
     generateFloatingLetters();
     animateFloatingLetters();
-
-    // await setupAudio();
-    
-    let chatflow = document.querySelector('.chatflow');
-
-    let chatbox = document.createElement('div');
-    chatbox.classList.add('chatbox');
-    let date = (new Date()).getTime();
-    chatbox.id = await createID(TYPECHAT, 'chatbox', date);
-    chatbox.dateTime = date;
-    chatbox.setAttribute('data-time', date);
-    currentChatId = chatbox.id;
-    chatflow.appendChild(chatbox);
-
-    let endSeparator = document.createElement('div');
-    endSeparator.classList.add('end-separator');
-    chatflow.appendChild(endSeparator);
-
-    endSeparator.scrollIntoView();
-    let userInput = document.querySelector('#user-input');
-    userInput.focus();
+    newChat();
+    scrollToEnd();
+    focusUserInput();
 });
 
 document.addEventListener('keydown', function(event){ //user bindings
@@ -611,10 +656,9 @@ document.addEventListener('keydown', function(event){ //developer bindings
 });
 
 window.addEventListener('focus', function(){
-    let userInput = document.querySelector('#user-input');
-    userInput.focus();
+    focusUserInput();
 });
 
 document.querySelector('#newchat').addEventListener('click', newChat);
-document.querySelector('#mic').addEventListener('click', handleAudio);
+document.querySelector('#mic').addEventListener('click', toggleRecording);
 document.querySelector('#search').addEventListener('click', clickedSearchButton);
