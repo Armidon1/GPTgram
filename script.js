@@ -504,9 +504,11 @@ function canRecordAudio() {
 
 async function toggleRecording() {
     isRecording = !isRecording;
+    let mic  = document.querySelector('#mic');
 
     if (isRecording) {
         if (canRecordAudio()) {
+            mic.style.backgroundImage = 'url("./asset/recording.svg")';
             let audioStream = await navigator.mediaDevices.getUserMedia({audio: true});
             audioRecorder = new MediaRecorder(audioStream);
 
@@ -521,6 +523,7 @@ async function toggleRecording() {
         }
     } else {
         if (audioRecorder) {
+            mic.style.backgroundImage = 'url("./asset/mic.svg")';
             await new Promise((resolve) => {
                 audioRecorder.onstop = function() {
                     const audioBlob = new Blob(temporaryAudioChunks, {type: 'audio/mpeg'}); 
