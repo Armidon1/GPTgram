@@ -39,6 +39,7 @@ body{
     background-color: var(--background-color);
     background-repeat: no-repeat;
     background-attachment: fixed;
+    overflow-x: hidden;
 }
 
 .icon{
@@ -284,6 +285,69 @@ body{
 }
 
 /*User Account area*/
+.account{
+    position: absolute;
+}
+
+.account-button{
+    display: flex;
+    align-items: center; /* Allinea verticalmente gli elementi al centro */
+    max-width: 23vw;
+    height: 65px;
+    background-color: var(--user-input-background-color);
+    padding: 10px;
+    margin: 10px 0 0 10px;
+    border: 1px solid white;
+    border-radius: var(--standard-border-radius);
+    overflow: hidden; /* Nasconde il contenuto che sfora */
+    text-overflow: ellipsis; /* Mostra '...' se il testo sfora */
+    white-space: nowrap; /* Impedisce al testo di andare a capo */
+    z-index: 999; /*sempre in primo piano*/
+    position: relative;
+}
+.account-image{
+    background-image: var(--default-user-path);
+    height: 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    z-index: 999;
+}
+.account-email{
+    color: rgb(45, 209, 121);
+    font-size: 20px;
+    margin: 10px;
+    padding: 0px;
+    flex-grow: 3;
+    overflow: hidden; /* Nasconde il contenuto che sfora */
+    text-overflow: ellipsis; /* Mostra '...' se il testo sfora */
+    white-space: nowrap; /* Impedisce al testo di andare a capo */
+    z-index: 999;
+}
+
+.account-grid{
+    z-index: 998;
+    position: absolute;
+    display: flex;
+    background-color: var(--user-input-background-color);
+    flex-wrap: wrap;
+    margin-left: auto; /* Centra l'elemento */
+    margin-right: auto; /* Centra l'elemento */
+    margin: 0 0 0 10px;
+    background-color: var(--user-input-background-color);
+    padding: 5px 10px 7px 10px;
+    border-radius: 0 0 10px 10px;
+    /*responsibilità*/
+    width: 23vw;
+}
+.account-grid-show{
+    animation: scroll-below-animation var(--time-slide-animation) forwards;
+}
+.account-grid-hide{
+    animation: scroll-above-animation var(--time-slide-animation) forwards;
+}
+.account-grid-buttons{
+    
+}
 
 
 /*moving letterls*/
@@ -539,12 +603,6 @@ p {
 
 #more{
     background-image: var(--more-path);
-}
-#account{
-    background-image: var(--default-user-path);
-    padding: 30px;
-    margin: 10px 0 0 10px;
-    position: absolute;
 }
 
 .text-footer{

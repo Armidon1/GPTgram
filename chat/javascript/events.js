@@ -3,6 +3,7 @@ import { clickedSearchButton } from './history.js';
 import { createMessage , newChat} from './chat.js';
 import { generateFloatingLetters } from './letters.js';
 import { toggleRecording } from './audio.js';
+import { insertEmail , clickedAccountButton } from './account.js';
 
 let sendAsUser = true;
 let isTiping = false;
@@ -10,6 +11,7 @@ let isTiping = false;
 //EVENT LISTENERS
 document.addEventListener("DOMContentLoaded", async function() {
     generateFloatingLetters();
+    insertEmail();
     newChat();
     scrollToEnd();
     focusUserInput();
@@ -43,3 +45,4 @@ document.querySelector('#newchat').addEventListener('click', newChat);
 document.querySelector('#send').addEventListener('click', function(){createMessage(sendAsUser);})
 document.querySelector('#mic').addEventListener('click', toggleRecording);
 document.querySelector('#search').addEventListener('click', clickedSearchButton);
+document.querySelector('.account-button').addEventListener('click', clickedAccountButton);
