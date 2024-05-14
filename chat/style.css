@@ -292,6 +292,7 @@ body{
 .account-button{
     display: flex;
     align-items: center; /* Allinea verticalmente gli elementi al centro */
+    width: 23vw;
     max-width: 23vw;
     height: 65px;
     background-color: var(--user-input-background-color);
@@ -338,6 +339,7 @@ body{
     border-radius: 0 0 10px 10px;
     /*responsibilità*/
     width: 23vw;
+    max-width: 23vw;
 }
 .account-grid-show{
     animation: scroll-below-animation var(--time-slide-animation) forwards;
