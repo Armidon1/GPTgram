@@ -1,11 +1,8 @@
-import { sendMessage, serverMessage } from './connection.js';
-import { copyToClipboard , focusUserInput , scrollToEnd} from './utils.js';
+import { focusUserInput , scrollToEnd} from './utils.js';
 import { clickedSearchButton } from './history.js';
 import { createMessage , newChat} from './chat.js';
 import { generateFloatingLetters } from './letters.js';
 import { toggleRecording } from './audio.js';
-
-import WaveSurfer from 'https://cdn.jsdelivr.net/npm/wavesurfer.js@7/dist/wavesurfer.esm.js'
 
 let sendAsUser = true;
 let isTiping = false;

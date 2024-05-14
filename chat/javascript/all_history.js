@@ -51,7 +51,7 @@ export function updateListAllHistoryChat(allHistoryChat){
         }
     }
 }
-function removeAllHistoryChat(){
+export function removeAllHistoryChat(){
     isAllHistoryChatShowed= false;
     let allHistoryChat = document.querySelector('#allHistoryChat');
     allHistoryChat.className = 'all-history all-history-slide-right';

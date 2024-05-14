@@ -1,7 +1,7 @@
 import { preciseSetTimeout , createID , preventDefaultSelection , copyToClipboard} from './utils.js';
 import { sendMessage , serverMessage} from './connection.js';
 import { updateListHistoryChat, removeHistoryChat, removeSearchBar} from './history.js';
-import { updateListAllHistoryChat} from './all_history.js';
+import { updateListAllHistoryChat, removeAllHistoryChat} from './all_history.js';
 
 const SENDTEXTCLASS = 'sendbox';
 const RECEIVETEXTCLASS = 'receivebox'
@@ -80,7 +80,7 @@ function chatIsNotEmpty(chatbox){
 }
 export function restoreChat(chatId){
     let chatbox = document.querySelector('.chatbox');
-    if (chatIsNotEmpty(chatbox)){
+    if (chatIsNotEmpty(chatbox)){       //salva la chat corrente nella history se non è vuota
         history[currentChatId] = document.querySelector('.chatbox');
     }
     let chatflow = document.querySelector('.chatflow');
@@ -92,7 +92,9 @@ export function restoreChat(chatId){
     chatflow.appendChild(endSeparator);
     currentChatId = chatId;
     delete history[chatId];
+    delete sortedHistoryChat[document.getElementById(chatId).dateTime];
     removeHistoryChat();
+    removeAllHistoryChat();
     removeSearchBar(document.querySelector('.header'));
     preciseSetTimeout(function() {
         updateListHistoryChat(document.querySelector('#historyChat'), "");
@@ -106,6 +108,7 @@ export async function newChat(){
     let newDate = (new Date()).getTime();
     newChat.id = await createID(TYPECHAT, "chatbox", newDate);
     newChat.setAttribute("data-time", newDate);
+    newChat.dateTime = newDate;
 
     let endSeparator = document.querySelector('.end-separator');
 

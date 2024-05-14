@@ -71,8 +71,6 @@ export function updateListHistoryChat(historyChat, text) {
                                                                                     //per ottenere l'ID della chat in ordine
         let sortedChatIds = sortedDateKeys.map(date => sortedHistoryChat[date]);
         let results = text == "" ? sortedChatIds : sortedChatIds.filter(id => id.includes(text));
-        
-
         cancelContentHistoryChat();
         if (text == ""){
             if (results.length == 0) {
@@ -93,7 +91,7 @@ export function updateListHistoryChat(historyChat, text) {
                 }
             }
         }
-        }
+    }
 }
 export function removeHistoryChat() {
     isHistoryChatShowed= false;
