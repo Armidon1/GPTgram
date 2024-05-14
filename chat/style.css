@@ -15,7 +15,17 @@
     --user-input-text-color: white;
     --time-slide-animation: 0.3s;
     --user-font-size: 16px;
-}
+
+    --search-path: url('../asset/search.svg');
+    --default-user-path: url('../asset/user.svg');
+    --default-ai-path: url('../asset/cpu.svg');
+    --mic-path: url('../asset/mic.svg');
+    --send-path: url('../asset/send.svg');
+    --export-path: url('../asset/download.svg');
+    --sync-path: url('../asset/refresh-cw.svg');
+    --new-chat-path: url('../asset/edit.svg');
+    --more-path: url('../asset/more-horizontal.svg');
+}   
 
 * {
     box-sizing: border-box;
@@ -89,7 +99,7 @@ body{
 /*search button*/
 #search
 {
-    background-image: url('./asset/search.svg');
+    background-image: var(--search-path);
     background-size: 32px;
     min-width: 60px;
     aspect-ratio: 1;
@@ -273,10 +283,8 @@ body{
     width: 90%;
 }
 
-
-
-
 /*User Account area*/
+
 
 /*moving letterls*/
 .letters{
@@ -314,12 +322,12 @@ body{
 }
 
 .default-user{
-    background: url(./asset/user.svg) center center/cover no-repeat; 
+    background: var(--default-user-path) center center/cover no-repeat; 
     border: 1px solid white;      
 }
 
 .default-ai{
-    background: url(./asset/cpu.svg) center center/20px 20px no-repeat;
+    background: var(--default-ai-path) center center/20px 20px no-repeat;
     border: 1px solid rgb(45, 209, 121);
 }
 
@@ -508,32 +516,32 @@ p {
 
 #mic
 {
-    background-image: url('./asset/mic.svg');
+    background-image: var(--mic-path);
 }
 
 #send
 {
-    background-image: url('./asset/send.svg');
+    background-image: var(--send-path);
 }
 
 #export
 {
-    background-image: url('./asset/download.svg');
+    background-image: var(--export-path);
 }
 
 #sync
 {
-    background-image: url('./asset/refresh-cw.svg');
+    background-image: var(--sync-path);
 }
 #newchat{
-    background-image: url('./asset/edit.svg');
+    background-image: var(--new-chat-path);
 }
 
 #more{
-    background-image: url('./asset/more-horizontal.svg');
+    background-image: var(--more-path);
 }
 #account{
-    background-image: url('./asset/user.svg');
+    background-image: var(--default-user-path);
     padding: 30px;
     margin: 10px 0 0 10px;
     position: absolute;

@@ -1,4 +1,4 @@
-import { createMessage } from "./script.js";
+import { createMessage } from "./chat.js";
 export let serverMessage = '';
 
 let TYPE_CHAT_MESSAGE = "chat";
