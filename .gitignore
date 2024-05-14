@@ -2,3 +2,5 @@
 *.old*
 /ollamarag/
 *.pem
+.DS_Store
+*test*
