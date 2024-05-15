@@ -19,8 +19,7 @@ export function scrollToEnd() {
 
 export function focusUserInput() {
     let userInput = document.querySelector('#user-input');
-    userInput.focus();
-
+    if (userInput) userInput.focus();
 }
 
 export async function createID(type, classString, date){
