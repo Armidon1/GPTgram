@@ -10,54 +10,42 @@ export function canRecordAudio() {
   return navigator.mediaDevices && navigator.mediaDevices.getUserMedia;
 }
 
+function testRecord(blob) {
+  const recordedUrl = URL.createObjectURL(blob);
+  console.log(recordedUrl);
+}
+
 export async function toggleRecording() {
   isRecording = !isRecording;
   let mic = document.querySelector("#mic");
+  let inputGrid = document.querySelector(".input-grid");
+  let commandsGrid = inputGrid.querySelector(".commands-grid");
 
   if (isRecording) {
-    if (canRecordAudio()) {
-      mic.style.backgroundImage = 'url("../asset/recording.svg")';
-      let audioStream = await navigator.mediaDevices.getUserMedia({
-        audio: true,
-      });
-      audioRecorder = new MediaRecorder(audioStream);
-
-      audioRecorder.ondataavailable = function (event) {
-        temporaryAudioChunks.push(event.data);
-      };
-
-      audioRecorder.start();
-      console.log("Recording...");
-    } else {
-      console.error(
-        "Impossibile registrare l'audio: il dispositivo non supporta la registrazione audio."
-      );
-    }
+      mic.style.backgroundImage = 'var(--recording-path)';
+      let userInput = inputGrid.querySelector("#user-input");
+      userInput.remove();
+      let userRecord = document.createElement("div");
+      userRecord.id = "user-record";
+      inputGrid.insertBefore(userRecord, commandsGrid);
+      let mics = await RecordPlugin.getAvailableAudioDevices();
+      let deviceId = mics[0].deviceId;
+      record = WaveSurfer.create({container: '#user-record'});
+      record.setOptions(wavesurferOptions);
+      record = record.registerPlugin(RecordPlugin.create({ scrollingWaveform: true, renderRecordedAudio: false}));
+      record.on('record-end',testRecord);
+      record.startRecording({ deviceId })
   } else {
-    if (audioRecorder) {
-      mic.style.backgroundImage = 'url("../asset/mic.svg")';
-      await new Promise((resolve) => {
-        audioRecorder.onstop = function () {
-          const audioBlob = new Blob(temporaryAudioChunks, {
-            type: "audio/mpeg",
-          });
-          const audioUrl = URL.createObjectURL(audioBlob);
-          audios.push(audioUrl);
+      if (record.isRecording() || record.isPaused()) {
+          record.stopRecording();
+      }
 
-          temporaryAudioChunks = [];
-
-          if (audioRecorder.stream) {
-            audioRecorder.stream.getTracks().forEach((track) => track.stop());
-          }
-
-          resolve();
-        };
-
-        audioRecorder.stop();
-      });
-
-      console.log("Stopped recording");
-      console.log(audios.length);
-    }
+      mic.style.backgroundImage = 'var(--mic-path)';
+      let userRecord = inputGrid.querySelector("#user-record");
+      userRecord.remove();
+      let userInput = document.createElement("textarea");
+      userInput.id = "user-input";
+      userInput.placeholder = "chiedimi tutto quello che vuoi";
+      inputGrid.insertBefore(userInput, commandsGrid);
   }
 }
