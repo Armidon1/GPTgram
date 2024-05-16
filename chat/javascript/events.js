@@ -7,6 +7,7 @@ import { insertEmail , clickedAccountButton } from './account.js';
 
 let sendAsUser = true;
 let isTiping = false;
+export let fakeAI = false;
 
 //EVENT LISTENERS
 document.addEventListener("DOMContentLoaded", async function() {
@@ -33,10 +34,12 @@ document.addEventListener('keydown', function(event){ //user bindings
 });
 
 document.addEventListener('keydown', function(event){ //developer bindings 
-    if(event.ctrlKey && event.shiftKey && event.key === 'I'){
-        sendAsUser = false;
-    } else if(event.ctrlKey && event.shiftKey && event.key === 'U'){
-        sendAsUser = true;
+    if(event.ctrlKey && event.shiftKey && event.altKey && event.key === 'I'){
+        fakeAI = true;
+        console.log('AI mode');
+    } else if(event.ctrlKey && event.shiftKey && event.altKey  && event.key === 'U'){
+        fakeAI = false;
+        console.log('User mode');
     } 
 });
 

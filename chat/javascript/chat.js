@@ -2,9 +2,10 @@ import { preciseSetTimeout , createID , preventDefaultSelection , copyToClipboar
 import { sendMessage , serverMessage} from './connection.js';
 import { updateListHistoryChat, removeHistoryChat, removeSearchBar} from './history.js';
 import { updateListAllHistoryChat, removeAllHistoryChat} from './all_history.js';
+import { fakeAI } from './events.js';
 
-const SENDTEXTCLASS = 'sendbox';
-const RECEIVETEXTCLASS = 'receivebox'
+export const SENDTEXTCLASS = 'sendbox';
+export const RECEIVETEXTCLASS = 'receivebox'
 
 const TYPECHAT = 'CHAT';
 const TYPEMSG = 'MSG';
@@ -13,6 +14,9 @@ export let currentChatId = null;
 
 export let history = {};               //contiene dall'ID della chat associata all'intera chatbox
 export let sortedHistoryChat = {};     //contiene la data associata all'ID della chat
+
+let devMode = true;
+
 
 //GESTIONE DEI MESSAGGI
 async function newUserMessage(){
@@ -46,7 +50,7 @@ async function newUserMessage(){
     document.getElementsByClassName('end-separator')[0].scrollIntoView();
 }
 
-async function newAIMessage(message){
+async function newAIMessage(){
     let newMessage = document.createElement('div');
     newMessage.classList.add(RECEIVETEXTCLASS);
     
@@ -58,7 +62,7 @@ async function newAIMessage(message){
     newMessage.setAttribute('data-time', msgDate);
     let newMessageText = document.createElement('p');
     newMessageText.classList.add('receive');
-    newMessageText.textContent = serverMessage;
+    newMessageText.textContent = devMode && fakeAI ? document.querySelector('#user-input').value.trim() : serverMessage;
     let Icon = document.createElement('div');
     Icon.classList.add('icon', 'default-ai');
     
@@ -71,7 +75,7 @@ async function newAIMessage(message){
 }
 export async function createMessage(asUser = true){
     if (asUser) newUserMessage();
-    else newAIMessage(serverMessage);
+    else newAIMessage();
 }
 
 //GESTIONE DELLA CHAT
