@@ -1,7 +1,7 @@
 import { SENDTEXTCLASS, RECEIVETEXTCLASS, currentChatId } from "./chat.js";
 import { createID, focusUserInput } from "./utils.js";
-import WaveSurfer from "../../wavesurfer.js/dist/wavesurfer.js";
-import RecordPlugin from "../../wavesurfer.js/dist/plugins/record.js";
+import WaveSurfer from "https://cdn.jsdelivr.net/npm/wavesurfer.js@7.7.14/dist/wavesurfer.js";
+import RecordPlugin from "https://cdn.jsdelivr.net/npm/wavesurfer.js@7.7.14/dist/plugins/record.js";
 
 const TYPEAUDIO = "AUDIO";
 
