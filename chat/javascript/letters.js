@@ -1,6 +1,10 @@
-let lettersCanMove = true;
+export let lettersCanMove = true;
 export const LETTERS ='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
 export const LETTERS_AMOUNT = 69;
+
+export function setLettersCanMove(value) {
+    lettersCanMove = value;
+}
 
 export function generateFloatingLetters(letterAmount = LETTERS_AMOUNT){
     let LetterPool;
@@ -57,7 +61,7 @@ function moveFloatingletters(){
     }
 }
 
-function animateFloatingLetters(){
+export function animateFloatingLetters(){
     function update(){
         moveFloatingletters();
     }
