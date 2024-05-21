@@ -28,6 +28,7 @@
     --more-path: url('../asset/more-horizontal.svg');
     --play-path: url('../asset/play-circle.svg');
     --pause-path: url('../asset/pause-circle.svg');
+    --minecraft-font-path: url('../asset/Monocraft-nerd-fonts-patched.ttf');
 }   
 
 * {
@@ -351,6 +352,46 @@ body{
     animation: scroll-above-animation var(--time-slide-animation) forwards;
 }
 
+/*settings*/
+.settings-grid{
+    width: 100%;
+    padding-right: 5px;
+}
+.settings-grid-show{
+    animation: scroll-below-animation var(--time-slide-animation) forwards;
+}
+.settings-grid-hide{
+    animation: scroll-above-animation var(--time-slide-animation) forwards;
+}
+.font-grid {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 5px;
+    flex-wrap: wrap;
+}
+.font-button{
+    background-color: var(--user-input-background-color);
+    color: white;
+    padding: 10px;
+    border: 1px solid white;
+    border-radius: var(--standard-border-radius);
+    margin: 2px;
+}
+.themes-grid{
+    display: flex;
+    justify-content: space-between;
+    margin-right: 5px;
+    flex-wrap: wrap;
+}
+.theme-button{
+    background-color: var(--user-input-background-color);
+    color: white;
+    padding: 10px;
+    border: 1px solid white;
+    border-radius: var(--standard-border-radius);
+    margin: 2px;
+}
+
 
 /*moving letterls*/
 .letters{
@@ -653,4 +694,9 @@ p {
     margin: 0px 0px 10px 0px;
     /* background-color: rgba(50, 50, 50, 0.5); */
     backdrop-filter: blur(30px);
+}
+
+@font-face {
+    font-family: 'Minecraft';
+    src: --minecraft-font-path; /* Aggiorna con il percorso corretto del tuo file di font */
 }
