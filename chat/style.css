@@ -290,7 +290,7 @@ body{
 
 /*User Account area*/
 .account{
-    position: absolute;
+    position: fixed;
 }
 
 .account-button{
