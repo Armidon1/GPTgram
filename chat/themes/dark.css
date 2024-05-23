@@ -1,0 +1,110 @@
+:root{
+    --dark-background-color: #0A0717;
+    --dark-title-color: #787197;
+    --dark-ui-button-color: white;
+    --dark-send-bg: #4E4A5F;
+    --dark-send-color: white;
+    --dark-receive-bg: #E5E5EA;
+    --dark-receive-text: black;
+    --dark-notification-background: #4E4A5F; /*used in notification pop-up when copy to clipboard*/
+    --dark-notification-primary: white;    /*used in notification pop-up when copy to clipboard*/
+    --dark-user-input-background-color: #292631;
+    --dark-user-input-text-color: white;
+    --dark-default-user-path: url('../../asset/dark-user.svg');
+    --dark-default-ai-path: url('../../asset/dark-cpu.svg');
+    --dark-floating-letters-color: rgb(150, 150, 150);
+}
+
+.dark-body{
+    background-color: var(--dark-background-color);
+}
+.dark-header{
+    background-color: var(--dark-user-input-background-color) !important;
+}
+.dark-ui-button{
+    background-color: var(--dark-user-input-background-color);
+    color: white;
+    border: 1px solid white;
+}
+.dark-title{
+    color: var(--dark-title-color);
+}
+.dark-ui-button{
+    background-color: var(--dark-user-input-background-color);
+    color: var(--dark-ui-button-color);
+}
+.dark-account-button{
+    background-color: var(--dark-user-input-background-color);
+}
+.dark-account-email{
+    color: var(--dark-title-color);
+}
+.dark-user-input{
+    background-color: var(--dark-user-input-background-color);
+    color: var(--dark-user-input-text-color);
+}
+.dark-slide {
+    background-color: var(--dark-user-input-background-color);
+    color: var(--dark-user-input-text-color);
+    border: 1px solid white;
+}
+.dark-scroll {
+    background-color: var(--dark-user-input-background-color);
+}
+.dark-scroll-button{
+    background-color: var(--dark-user-input-background-color);
+    color: var(--dark-user-input-text-color);
+    border: 1px solid white;
+}
+.dark-all-history{
+    background-color: var(--dark-user-input-background-color);
+}
+.dark-all-history-title{
+    color: var(--dark-title-color);
+}
+.dark-account-grid{
+    background-color: var(--dark-user-input-background-color);
+    background-color: var(--dark-user-input-background-color);
+}
+.dark-theme-button{
+    background-color: var(--dark-user-input-background-color);
+    color: white;
+    border: 1px solid white;
+}
+.dark-font-button{
+    background-color: var(--dark-user-input-background-color);
+    color: white;
+    border: 1px solid white;
+}
+.dark-settings-button-clicked{
+    background-color: var(--dark-title-color)
+}
+.dark-send{
+	color: var(--dark-send-color); 
+	background: var(--dark-send-bg);
+}
+.dark-send-audio{
+    color: var(--dark-send-color); 
+    background: var(--dark-send-bg);
+}
+.dark-user-record{
+    background-color: var(--dark-user-input-background-color);
+    color: var(--dark-user-input-text-color);
+    border: 1px solid white;
+}
+.dark-receive{
+	background: var(--dark-receive-bg);
+	color: black;
+}
+.dark-default-user{
+    background: var(--dark-default-user-path) center center/cover no-repeat; 
+    border: 1px solid white;      
+}
+
+.dark-default-ai{
+    background: var(--dark-default-ai-path) center center/20px 20px no-repeat;
+    border: 1px solid rgb(45, 209, 121);
+}
+.letters{
+    color: var(--dark-floating-letters-color);
+}

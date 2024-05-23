@@ -1,13 +1,16 @@
 import { createAndAppendNoResults } from './history.js';
 import { history, sortedHistoryChat , restoreChat} from './chat.js';
 import { preciseSetTimeout } from './utils.js';
+import { applyClassTheme } from './settings.js';
 
 let isAllHistoryChatShowed = false;
+let isAllHistoryChatEmpty = true;
 
 function insertTitleToAllHistoryChat(allHistoryChat){
     let allHistoryChatTitle = document.createElement('p'); // Crea un nuovo elemento <p>
     allHistoryChatTitle.id = 'allHistoryChatTitle'; // Assegna un ID all'elemento
     allHistoryChatTitle.className = 'all-history-title'; // Assegna una classe all'elemento
+    applyClassTheme("all-history-title",allHistoryChatTitle);
     let textNode = document.createTextNode("History Chat"); // Crea un nodo di testo
     allHistoryChatTitle.appendChild(textNode); // Aggiunge il nodo di testo all'elemento
     allHistoryChat.appendChild(allHistoryChatTitle);
@@ -21,6 +24,7 @@ function cancelContentAllHistoryChat(){
 function createAndAppendClickableAllHistoryButton(parent, key) {
     let clickableElement = document.createElement('button');
     clickableElement.classList.add('scroll-button');
+    applyClassTheme("scroll-button",clickableElement);
     clickableElement.classList.add('all-history-button');
     //console.log("inserito con la chiave: "+key+", valore: "+History[key]);
     clickableElement.textContent = key;
@@ -38,9 +42,11 @@ export function updateListAllHistoryChat(allHistoryChat){
                                                                                                         //per ottenere l'ID della chat in ordine
         cancelContentAllHistoryChat();
         if (sortedDateKeys.length == 0) {
+            isAllHistoryChatEmpty = true;
             let message = "La lista è vuota! Premi il pulsante \"nuova chat\" per scoprirne di più ;)";
             createAndAppendNoResults(allHistoryChat.querySelector('#allHistoryChatButtonList'), message);
         } else {
+            isAllHistoryChatEmpty = false;
             let allHistoryChatButtonList = allHistoryChat.querySelector("#allHistoryChatButtonList");
             for(let i = 0; i < sortedDateKeys.length; i++) {
                 if (allHistoryChatButtonList.querySelector('#noResultAllHistoryList')!=null){
@@ -54,7 +60,8 @@ export function updateListAllHistoryChat(allHistoryChat){
 export function removeAllHistoryChat(){
     isAllHistoryChatShowed= false;
     let allHistoryChat = document.querySelector('#allHistoryChat');
-    allHistoryChat.className = 'all-history all-history-slide-right';
+    allHistoryChat.classList.remove('all-history-slide-left');
+    allHistoryChat.classList.add('all-history-slide-right');
     preciseSetTimeout(function() {
         document.body.removeChild(allHistoryChat);
     }, 300);
@@ -64,6 +71,7 @@ function showAllHistoryChat(){
     let allHistoryChat = document.createElement('div');
     allHistoryChat.id = 'allHistoryChat';
     allHistoryChat.className = 'all-history all-history-slide-left';
+    applyClassTheme("all-history",allHistoryChat);
     insertTitleToAllHistoryChat(allHistoryChat);
     
     // Creazione di una lista di elementi cliccabili 
@@ -79,5 +87,20 @@ export function handleAllHistoryChat(){
         removeAllHistoryChat();
     } else {
         showAllHistoryChat();
+    }
+}
+
+export function updateAllHistoryTheme(theme){
+    if (isAllHistoryChatShowed){
+        let allHistoryChat = document.querySelector('#allHistoryChat');
+        applyClassTheme("all-history",allHistoryChat);
+        applyClassTheme("all-history-title",allHistoryChat.querySelector('#allHistoryChatTitle'));
+        if (isAllHistoryChatEmpty)
+            applyClassTheme("no-results",allHistoryChat.querySelector('#noResultAllHistoryList'));
+        else{
+            allHistoryChat.querySelectorAll('.scroll-button').forEach((button) => {
+                applyClassTheme("scroll-button",button);
+            });
+        }
     }
 }

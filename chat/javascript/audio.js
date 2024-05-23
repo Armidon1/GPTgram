@@ -2,10 +2,11 @@ import { SENDTEXTCLASS, RECEIVETEXTCLASS, currentChatId } from "./chat.js";
 import { createID, focusUserInput } from "./utils.js";
 import WaveSurfer from "https://cdn.jsdelivr.net/npm/wavesurfer.js@7.7.14/dist/wavesurfer.js";
 import RecordPlugin from "https://cdn.jsdelivr.net/npm/wavesurfer.js@7.7.14/dist/plugins/record.js";
+import { applyClassTheme, currentTheme } from "./settings.js";
 
 const TYPEAUDIO = "AUDIO";
 
-let isRecording = false;
+export let isRecording = false;
 let micDeviceId = 0;
 
 let audioDuration = null;
@@ -40,6 +41,7 @@ export async function userAudioMessage(blob) {
     Icon.classList.add("icon", "default-user");
     let audioMessage = document.createElement("div");
     audioMessage.classList.add('send-audio');
+    applyClassTheme("send-audio", audioMessage);
     let recordedUrl = URL.createObjectURL(blob);
     let wavesurferAudio = WaveSurfer.create({container: audioMessage, url: recordedUrl});
     wavesurferAudio.setOptions(wavesurferOptions);
@@ -109,6 +111,8 @@ export async function toggleRecording() {
         userInput.remove();
         let userRecord = document.createElement("div");
         userRecord.id = "user-record";
+        userRecord.classList.add("user-record");
+        applyClassTheme("user-record", userRecord);
         inputGrid.insertBefore(userRecord, commandsGrid);
         let mics = await RecordPlugin.getAvailableAudioDevices();
         let deviceId = mics[0].deviceId;
@@ -118,14 +122,27 @@ export async function toggleRecording() {
         if (audioRecorder.isRecording() || audioRecorder.isPaused()) {
             audioRecorder.stopRecording();
         }
-
         mic.style.backgroundImage = "var(--mic-path)";
         let userRecord = inputGrid.querySelector("#user-record");
         userRecord.remove();
         let userInput = document.createElement("textarea");
         userInput.id = "user-input";
+        userInput.classList.add("user-input");
+        applyClassTheme("user-input", userInput);
         userInput.placeholder = "chiedimi tutto quello che vuoi";
         inputGrid.insertBefore(userInput, commandsGrid);
         focusUserInput();
     }
+}
+
+export function updateVoiceRecorderTheme(){ //da implementare
+    let allSendAudio = document.querySelectorAll('.send-audio');
+    allSendAudio.forEach((audio) => {
+        applyClassTheme("send-audio", audio);
+    });
+    if (isRecording) {
+        let userRecord = document.querySelector(".user-record");
+        applyClassTheme("user-record", userRecord);
+    }
+
 }

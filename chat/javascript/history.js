@@ -1,9 +1,11 @@
 import { restoreChat, sortedHistoryChat } from './chat.js';
 import { handleAllHistoryChat } from './all_history.js';
 import { preciseSetTimeout } from './utils.js';
+import { applyClassTheme } from './settings.js';
 
 let isSearchBarShowed = false;
 let isHistoryChatShowed = false;
+let isHistoryChatEmpty = true;
 
 //GESTIONE DELLA RICERCA
 function showSearchBar(header, title) {
@@ -18,6 +20,7 @@ function showSearchBar(header, title) {
     searchBar.placeholder = 'Cerca...';
     searchBar.id = 'searchBar';
     searchBar.className = 'slide slide-in';
+    applyClassTheme('slide',searchBar);
     header.insertBefore(searchBar, title.nextSibling);
     preciseSetTimeout(function(){
         searchBar.focus();
@@ -26,7 +29,8 @@ function showSearchBar(header, title) {
 export function removeSearchBar(header) {
     isSearchBarShowed = false;
     let searchBar = document.querySelector('#searchBar');
-    searchBar.className = 'slide slide-out';
+    searchBar.classList.remove('slide-in');
+    searchBar.classList.add('slide-out');
     preciseSetTimeout(function() {
         header.removeChild(searchBar);
         let userInput = document.querySelector('#user-input');
@@ -50,6 +54,7 @@ function cancelContentHistoryChat() {
 function createAndAppendClickableElement(parent, key) {
     let clickableElement = document.createElement('button');
     clickableElement.classList.add('scroll-button');
+    applyClassTheme('scroll-button',clickableElement);
     clickableElement.textContent = key;
     clickableElement.onclick = function() {
         console.log('Hai cliccato la chiave ' + key + '!');
@@ -60,6 +65,7 @@ function createAndAppendClickableElement(parent, key) {
 export function createAndAppendNoResults(parent, message) {
     let noResults = document.createElement('p');
     noResults.className = 'no-result-all-history-list';
+    applyClassTheme('no-result-all-history-list',noResults);
     noResults.id = 'noResultAllHistoryList';
     noResults.textContent = message;
     parent.appendChild(noResults);
@@ -75,14 +81,17 @@ export function updateListHistoryChat(historyChat, text) {
         if (text == ""){
             if (results.length == 0) {
                 let message = "Nessun risultato trovato. Prova a divertirti con GPTgram e crea una nuova chat!" ;
+                isHistoryChatEmpty = true;
                 createAndAppendNoResults(historyChat, message);
             } else {
                 for(let i = 0; (i < results.length && i<5); i++) {
                     createAndAppendClickableElement(historyChat, results[i]);
                 }
+                isHistoryChatEmpty = false;
             }
         } else{
             if (results.length == 0) {
+                isHistoryChatEmpty = true;
                 let message = "Nessun risultato trovato. Prova a cercare con un testo diverso!";
                 createAndAppendNoResults(historyChat, message);
             } else {
@@ -96,7 +105,8 @@ export function updateListHistoryChat(historyChat, text) {
 export function removeHistoryChat() {
     isHistoryChatShowed= false;
     let historyChat = document.querySelector('#historyChat');
-    historyChat.className = 'scroll scroll-above';
+    historyChat.classList.remove('scroll-below');
+    historyChat.classList.add('scroll-above');
     let header = document.querySelector('.header');
     header.style.borderRadius = '10px';
     preciseSetTimeout(function() {
@@ -109,12 +119,33 @@ function showHistoryChat() {
     let historyChat = document.createElement('div');
     historyChat.id = 'historyChat';
     historyChat.className = 'scroll scroll-below';
+    applyClassTheme('scroll',historyChat);
     let header = document.querySelector('.header');
     header.style.borderRadius = '10px 10px 0 0';
     
     // Creazione di una lista di elementi cliccabili DA SISTEMARE
     updateListHistoryChat(historyChat,"");
     document.body.insertBefore(historyChat, chatflow);
+}
+
+//themes
+export function updateSearchBarTheme(){
+    if (isSearchBarShowed){
+        let searchBar = document.querySelector('#searchBar');
+        applyClassTheme('slide',searchBar);
+    }
+}
+export function updateHistoryTheme(){ 
+    if (isHistoryChatShowed){
+        let historyChat = document.querySelector('#historyChat');
+        applyClassTheme('scroll',historyChat);
+        if (isHistoryChatEmpty){
+            applyClassTheme('no-result-all-history-list',document.querySelector('#noResultAllHistoryList'));
+        } else {
+            let scrollButtons = document.querySelectorAll('.scroll-button');
+            scrollButtons.forEach(button => applyClassTheme('scroll-button',button));
+        }
+    }
 }
 
 function handleHistoryChat() {

@@ -15,6 +15,8 @@
     --user-input-text-color: white;
     --time-slide-animation: 0.3s;
     --user-font-size: 16px;
+    --title-color: rgb(45, 209, 121);
+    --floating-letters-color: rgb(150, 150, 150);
 
     --search-path: url('../asset/search.svg');
     --default-user-path: url('../asset/user.svg');
@@ -38,7 +40,7 @@
 }
 
 body{
-    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    font-family: "Georgia";
     margin: 0px;
     background-color: var(--background-color);
     background-repeat: no-repeat;
@@ -81,7 +83,7 @@ body{
 }
 
 .title{
-    color: rgb(45, 209, 121);
+    color: var(--title-color);
     font-size: 52px;
     margin: 10px;
     padding: 0px;
@@ -318,7 +320,7 @@ body{
     z-index: 999;
 }
 .account-email{
-    color: rgb(45, 209, 121);
+    color: var(--title-color);
     font-size: 20px;
     margin: 10px;
     padding: 0px;
@@ -357,6 +359,7 @@ body{
     width: 100%;
     padding-right: 5px;
 }
+
 .settings-grid-show{
     animation: scroll-below-animation var(--time-slide-animation) forwards;
 }
@@ -395,7 +398,7 @@ body{
 
 /*moving letterls*/
 .letters{
-    color: rgb(150, 150, 150);
+    color: var(--floating-letters-color);
     font-size: 18px;
     z-index: -1; 
     position: fixed;
@@ -605,7 +608,7 @@ p {
     width: 100%;
 }
 
-#user-input{
+.user-input{
     background-color: var(--user-input-background-color);
     backdrop-filter: blur(10%);
     color: var(--user-input-text-color);
@@ -629,10 +632,7 @@ p {
 }
 
 #user-record{
-    background-color: var(--user-input-background-color);
     backdrop-filter: blur(10%);
-    color: var(--user-input-text-color);
-    border: 1px solid white;
     border-radius: 5px;
     margin: 5px 0px 5px 0px;
     padding: 0px 10px 0px 10px;
@@ -641,7 +641,11 @@ p {
     flex-grow: 1;
     resize: none;
 }
-
+.user-record{
+    background-color: var(--user-input-background-color);
+    color: var(--user-input-text-color);
+    border: 1px solid white;
+}
 .commands-grid
 {
     display: grid;
@@ -696,7 +700,9 @@ p {
     backdrop-filter: blur(30px);
 }
 
-@font-face {
-    font-family: 'Minecraft';
-    src: --minecraft-font-path; /* Aggiorna con il percorso corretto del tuo file di font */
+
+
+/*high priority*/
+.settings-button-clicked{
+    background-color: var(--title-color)
 }

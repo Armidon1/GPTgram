@@ -3,6 +3,7 @@ import { sendMessage , serverMessage} from './connection.js';
 import { updateListHistoryChat, removeHistoryChat, removeSearchBar} from './history.js';
 import { updateListAllHistoryChat, removeAllHistoryChat} from './all_history.js';
 import { fakeAI } from './events.js';
+import { applyClassTheme } from './settings.js';
 
 export const SENDTEXTCLASS = 'sendbox';
 export const RECEIVETEXTCLASS = 'receivebox'
@@ -35,6 +36,7 @@ async function newUserMessage(){
     newMessage.setAttribute('data-time', msgDate);
     let newMessageText = document.createElement('p');
     newMessageText.classList.add('send');
+    applyClassTheme('send',newMessageText);
     newMessageText.textContent = userInput.value.trim();
     userInput.value = '';
     let Icon = document.createElement('div');
@@ -62,6 +64,7 @@ async function newAIMessage(){
     newMessage.setAttribute('data-time', msgDate);
     let newMessageText = document.createElement('p');
     newMessageText.classList.add('receive');
+    applyClassTheme('receive', newMessageText);
     newMessageText.textContent = devMode && fakeAI ? document.querySelector('#user-input').value.trim() : serverMessage;
     let Icon = document.createElement('div');
     Icon.classList.add('icon', 'default-ai');
@@ -135,5 +138,19 @@ export async function newChat(){
 
         updateListHistoryChat(historyChat, "");
         updateListAllHistoryChat(allHistoryChat);
+    }
+}
+
+export function updateChatTheme(theme){ //da implementare
+    let chatbox = document.querySelector('.chatbox');
+    if (chatbox){
+        let messages = chatbox.querySelectorAll('.send, .receive');
+        messages.forEach(message => {
+            applyClassTheme(message.classList[0], message);
+        });
+        let icons = chatbox.querySelectorAll('.default-user, .default-ai');
+        icons.forEach(icon => {
+            applyClassTheme(icon.classList[1], icon);
+        });
     }
 }

@@ -1,5 +1,6 @@
 import {insertButtonsInsideSettingsGrid, setIsFontClicked, setIsThemeClicked} from './settings.js';
 export let emailAccount = "account@email.com"; 
+import {applyClassTheme, removeClassTheme, updateSettingsTheme} from './settings.js';
 let accountButtons = ['Settings', 'Logout'];
 let isAccountClicked = false;
 let isSettingsClicked = false;
@@ -25,6 +26,7 @@ function findAccountGridButton(buttonText){
 function createAndAppendClickableAccountButton(accountGrid, textContent) {
     let clickableElement = document.createElement('button');
     clickableElement.classList.add('scroll-button');
+    applyClassTheme("scroll-button",clickableElement);
     clickableElement.classList.add('account-grid-button');
     clickableElement.textContent = textContent;
     switch(textContent){
@@ -51,6 +53,7 @@ function showAccountGrid(){
     let account = document.querySelector('.account');
     let accountGrid = document.createElement('div');
     accountGrid.classList.add('account-grid');
+    applyClassTheme("account-grid",accountGrid);
     insertButtonsInsideAccountGrid(accountGrid);
     account.appendChild(accountGrid);
     accountGrid.classList.add('account-grid-show');
@@ -79,6 +82,22 @@ export function clickedAccountButton(){
 }
 
 //Settings
+export function updateAccountTheme(){ //da implementare, considerare anche updateSettingsTheme
+    if (isAccountClicked){
+        let accountGrid = document.querySelector('.account-grid');
+        applyClassTheme("account-grid",accountGrid);
+        let accountButtons = accountGrid.querySelectorAll('.account-grid-button');
+        accountButtons.forEach(button => {
+            applyClassTheme("scroll-button",button);
+            if (button.classList.contains('settings-button-clicked')){
+                applyClassTheme("settings-button-clicked",button);
+            }
+        });
+        if (isSettingsClicked){
+            updateSettingsTheme();
+        } 
+    }
+}
 function showSettingsGrid(){
     let settingsGrid = document.createElement('div');
     settingsGrid.classList.add('settings-grid');
@@ -102,10 +121,12 @@ function clickedAccountSettingsButton(){
     let settingsButton = findAccountGridButton('Settings');
     if (!isSettingsClicked){
         isSettingsClicked = true;
-        settingsButton.style.backgroundColor = 'green';
+        settingsButton.classList.add('settings-button-clicked');
+        applyClassTheme("settings-button-clicked",settingsButton);
         showSettingsGrid();
     } else {
-        settingsButton.style.backgroundColor = 'transparent';
+        settingsButton.classList.remove('settings-button-clicked');
+        removeClassTheme("settings-button-clicked",settingsButton);
         isSettingsClicked = false;
         hideSettingsGrid();
     }

@@ -8,6 +8,11 @@ import { insertEmail , clickedAccountButton } from './account.js';
 let sendAsUser = true;
 let isTiping = false;
 export let fakeAI = false;
+export let currentFont = null; //current font of the chat will be updated after DOMContentLoaded
+
+export function setCurrentFont(newFont){
+    currentFont = newFont;
+}
 
 //EVENT LISTENERS
 document.addEventListener("DOMContentLoaded", async function() {
@@ -16,7 +21,15 @@ document.addEventListener("DOMContentLoaded", async function() {
     newChat();
     scrollToEnd();
     focusUserInput();
+    updateCurrentFont();
 });
+
+function updateCurrentFont(){
+    let bodyElement = document.body;
+    let style = window.getComputedStyle(bodyElement);
+    currentFont = style.fontFamily;
+    console.log(currentFont);
+}
 
 document.addEventListener('keydown', function(event){ //user bindings
     if(event.key === 'Enter' && !event.shiftKey && !event.ctrlKey){
