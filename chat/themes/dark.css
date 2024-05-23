@@ -105,6 +105,6 @@
     background: var(--dark-default-ai-path) center center/20px 20px no-repeat;
     border: 1px solid rgb(45, 209, 121);
 }
-.letters{
+.dark-letters{
     color: var(--dark-floating-letters-color);
 }
