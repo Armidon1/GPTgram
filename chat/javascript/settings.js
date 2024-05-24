@@ -109,6 +109,7 @@ function showFontGrid(){
         fontButton.addEventListener('click', function() {
             // Cambia il font di tutta la pagina quando il pulsante viene cliccato
             document.body.style.fontFamily = font;
+            updateChatFont(font);
             updateClickedFontButton(fontButton, fonts);
         });
         fontButton.classList.add('font-button');
@@ -118,6 +119,16 @@ function showFontGrid(){
 
     // Aggiungi il div al body della pagina
     settingsGrid.insertBefore(fontDiv, findSettingsGridButton('Change theme'));
+}
+function updateChatFont(font){
+    let sendList = document.querySelectorAll('.send');
+    sendList.forEach((send) => {
+        send.style.fontFamily = font;
+    });
+    let receivedList = document.querySelectorAll('.receive');
+    receivedList.forEach((received) => {
+        received.style.fontFamily = font;
+    });
 }
 function updateClickedFontButton(fontButton, fonts){
     let buttons = document.querySelectorAll('.font-button');
