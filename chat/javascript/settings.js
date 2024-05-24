@@ -331,12 +331,12 @@ function clickedThemesButton(){
     if (!isThemeClicked){
         isThemeClicked = true;
         themesButton.classList.add('settings-button-clicked');
-        applyClassTheme("button-clicked",themesButton);
+        applyClassTheme("settings-button-clicked",themesButton);
         showThemesGrid();
     } else {
         isThemeClicked = false;
         themesButton.classList.remove('settings-button-clicked');
-        removeClassTheme("button-clicked",themesButton);
+        removeClassTheme("settings-button-clicked",themesButton);
         hideThemesGrid();
     }
 }
