@@ -1,0 +1,110 @@
+:root{
+    --light-background-color: #CFCFB1;
+    --light-title-color: #8E8E5E;
+    --light-ui-button-color: white;
+    --light-send-bg: #8E8E5E;
+    --light-send-color: #fffff2;
+    --light-receive-bg: #fffff2;
+    --light-receive-text: #636342;
+    --light-notification-background: #8E8E5E; /*used in notification pop-up when copy to clipboard*/
+    --light-notification-primary: white;    /*used in notification pop-up when copy to clipboard*/
+    --light-user-input-background-color: #ADAD85;
+    --light-user-input-text-color: white;
+    --light-default-user-path: url('../../asset/light-user.svg');
+    --light-default-ai-path: url('../../asset/light-cpu.svg');
+    --light-floating-letters-color: #8E8E5E;
+}
+
+.light-body{
+    background-color: var(--light-background-color);
+}
+.light-header{
+    background-color: var(--light-user-input-background-color) !important;
+}
+.light-ui-button{
+    background-color: var(--light-user-input-background-color);
+    color: white;
+    border: 1px solid white;
+}
+.light-title{
+    color: var(--light-title-color);
+}
+.light-ui-button{
+    background-color: var(--light-user-input-background-color);
+    color: var(--light-ui-button-color);
+}
+.light-account-button{
+    background-color: var(--light-user-input-background-color);
+}
+.light-account-email{
+    color: var(--light-title-color);
+}
+.light-user-input{
+    background-color: var(--light-user-input-background-color);
+    color: var(--light-user-input-text-color);
+}
+.light-slide {
+    background-color: var(--light-user-input-background-color);
+    color: var(--light-user-input-text-color);
+    border: 1px solid white;
+}
+.light-scroll {
+    background-color: var(--light-user-input-background-color);
+}
+.light-scroll-button{
+    background-color: var(--light-user-input-background-color);
+    color: var(--light-user-input-text-color);
+    border: 1px solid white;
+}
+.light-all-history{
+    background-color: var(--light-user-input-background-color);
+}
+.light-all-history-title{
+    color: var(--light-title-color);
+}
+.light-account-grid{
+    background-color: var(--light-user-input-background-color);
+    background-color: var(--light-user-input-background-color);
+}
+.light-theme-button{
+    background-color: var(--light-user-input-background-color);
+    color: white;
+    border: 1px solid white;
+}
+.light-font-button{
+    background-color: var(--light-user-input-background-color);
+    color: white;
+    border: 1px solid white;
+}
+.light-settings-button-clicked{
+    background-color: var(--light-title-color)
+}
+.light-send{
+	color: var(--light-send-color); 
+	background: var(--light-send-bg);
+}
+.light-send-audio{
+    color: var(--light-send-color); 
+    background: var(--light-send-bg);
+}
+.light-user-record{
+    background-color: var(--light-user-input-background-color);
+    color: var(--light-user-input-text-color);
+    border: 1px solid white;
+}
+.light-receive{
+	background: var(--light-receive-bg);
+	color: var(--light-receive-text);
+}
+.light-default-user{
+    background: var(--light-default-user-path) center center/cover no-repeat; 
+    border: 1px solid white;      
+}
+
+.light-default-ai{
+    background: var(--light-default-ai-path) center center/20px 20px no-repeat;
+    border: 1px solid rgb(45, 209, 121);
+}
+.light-letters{
+    color: var(--light-floating-letters-color);
+}

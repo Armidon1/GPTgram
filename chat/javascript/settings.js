@@ -184,42 +184,72 @@ export function removeClassTheme(classTheme, element){
             break;
     }
 }
-function changeTheme(theme){ //da implementare meglio: prendere ogni componente ed inserirgli una classe custom in base al tema. nel caso Default, levare l'ultima classe inserita attraverso la variabile globale lastTheme
+function removeTheme(){
+    let body = document.querySelector('body');
+    let header = document.querySelector('.header');
+    let buttons = document.querySelectorAll('.ui-button');
+    let accountButton = document.querySelector(".account-button");
+    removeClassTheme('body',body);   
+    //header Area
+    removeClassTheme('header',header);
+    removeClassTheme('title',header.querySelector('.title'));
+    buttons.forEach((button) => {
+        removeClassTheme('ui-button',button);
+    });
+    if (!isRecording){
+        removeClassTheme("user-input",document.querySelector('#user-input'));
+    }
+    //account Area
+    removeClassTheme('account-button',accountButton);
+    removeClassTheme('account-email',accountButton.querySelector('.account-email'));
+    //ora aggiornare tutte le componenti dinamici del sito, considerando se sono mostrate o no
+    removeSearchBarTheme();
+    removeHistoryTheme();
+    removeAllHistoryTheme();
+    removeChatTheme();
+    removeAccountTheme();
+    removeVoiceRecorderTheme();
+    removeFloatingLettersTheme();
+}
+function changeTheme(theme){ 
     let body = document.querySelector('body');
     let header = document.querySelector('.header');
     let buttons = document.querySelectorAll('.ui-button');
     let accountButton = document.querySelector(".account-button");
     switch(theme){ //other changes implemented inside all javascript files
         case 'Default':
-            removeClassTheme('body',body);   
-            //header Area
-            removeClassTheme('header',header);
-            removeClassTheme('title',header.querySelector('.title'));
-            buttons.forEach((button) => {
-                removeClassTheme('ui-button',button);
-            });
-            if (!isRecording){
-                removeClassTheme("user-input",document.querySelector('#user-input'));
-            }
-            //account Area
-            removeClassTheme('account-button',accountButton);
-            removeClassTheme('account-email',accountButton.querySelector('.account-email'));
-            //ora aggiornare tutte le componenti dinamici del sito, considerando se sono mostrate o no
-            removeSearchBarTheme();
-            removeHistoryTheme();
-            removeAllHistoryTheme();
-            removeChatTheme();
-            removeAccountTheme();
-            removeVoiceRecorderTheme();
-            removeFloatingLettersTheme();
+            removeTheme();
             currentTheme = 'Default';
             break;
         case 'Light':
+            removeTheme();
+            console.log('sono in Light');
             currentTheme = 'Light';
-            body.style.backgroundColor = 'lightgray';   //esempio giocattolo
-            body.style.color = 'black';
+            body.classList.add('light-body');   
+            //header Area
+            header.classList.add('light-header');
+            header.querySelector('.title').classList.add('light-title');
+            buttons.forEach((button) => {
+                button.classList.add('light-ui-button');
+            });
+            if (!isRecording){
+                applyClassTheme("user-input",document.querySelector('#user-input'))
+            }
+            //account Area
+            accountButton.classList.add('light-account-button');
+            accountButton.querySelector('.account-email').classList.add('light-account-email');
+            //ora aggiornare tutte le componenti dinamici del sito, considerando se sono mostrate o no
+            updateSearchBarTheme();
+            updateHistoryTheme();
+            updateAllHistoryTheme();
+            updateChatTheme();
+            updateAccountTheme();
+            updateVoiceRecorderTheme();
+            updateFloatingLettersTheme();
             break;
         case 'Dark': 
+            removeTheme();
+            console.log('sono in Dark');
             currentTheme = 'Dark';
             body.classList.add('dark-body');   
             //header Area
@@ -278,7 +308,7 @@ function showThemesGrid(){
     });
     settingsGrid.appendChild(themesDiv);
 }
-function updateClickedThemeButton(themeButton, themes){
+function updateClickedThemeButton(themeButton){
     let buttons = document.querySelectorAll('.theme-button');
     buttons.forEach((button) => {
         if (button !== themeButton){
