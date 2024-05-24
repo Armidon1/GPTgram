@@ -2,7 +2,7 @@ import { SENDTEXTCLASS, RECEIVETEXTCLASS, currentChatId } from "./chat.js";
 import { createID, focusUserInput } from "./utils.js";
 import WaveSurfer from "https://cdn.jsdelivr.net/npm/wavesurfer.js@7.7.14/dist/wavesurfer.js";
 import RecordPlugin from "https://cdn.jsdelivr.net/npm/wavesurfer.js@7.7.14/dist/plugins/record.js";
-import { applyClassTheme, currentTheme } from "./settings.js";
+import { applyClassTheme, currentTheme , removeClassTheme} from "./settings.js";
 
 const TYPEAUDIO = "AUDIO";
 
@@ -135,6 +135,16 @@ export async function toggleRecording() {
     }
 }
 
+export function removeVoiceRecorderTheme(){
+    let allSendAudio = document.querySelectorAll('.send-audio');
+    allSendAudio.forEach((audio) => {
+        removeClassTheme("send-audio", audio);
+    });
+    if (isRecording) {
+        let userRecord = document.querySelector(".user-record");
+        removeClassTheme("user-record", userRecord);
+    }
+}
 export function updateVoiceRecorderTheme(){ //da implementare
     let allSendAudio = document.querySelectorAll('.send-audio');
     allSendAudio.forEach((audio) => {

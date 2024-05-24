@@ -1,9 +1,9 @@
-import { clickedAccountButton, updateAccountTheme} from './account.js';
-import { lettersCanMove ,animateFloatingLetters, setLettersCanMove, updateFloatingLettersTheme} from './letters.js';
-import { updateSearchBarTheme , updateHistoryTheme} from './history.js';
-import { updateAllHistoryTheme } from './all_history.js';
-import { updateVoiceRecorderTheme , isRecording} from './audio.js';
-import { updateChatTheme } from './chat.js';
+import { clickedAccountButton, updateAccountTheme, removeAccountTheme} from './account.js';
+import { lettersCanMove ,animateFloatingLetters, setLettersCanMove, updateFloatingLettersTheme, removeFloatingLettersTheme} from './letters.js';
+import { updateSearchBarTheme , updateHistoryTheme, removeSearchBar, removeHistoryTheme, removeSearchBarTheme} from './history.js';
+import { updateAllHistoryTheme , removeAllHistoryTheme} from './all_history.js';
+import { updateVoiceRecorderTheme , removeVoiceRecorderTheme,isRecording} from './audio.js';
+import { updateChatTheme , removeChatTheme} from './chat.js';
 import { currentFont , setCurrentFont} from './events.js';
 
 
@@ -186,8 +186,32 @@ export function removeClassTheme(classTheme, element){
 }
 function changeTheme(theme){ //da implementare meglio: prendere ogni componente ed inserirgli una classe custom in base al tema. nel caso Default, levare l'ultima classe inserita attraverso la variabile globale lastTheme
     let body = document.querySelector('body');
+    let header = document.querySelector('.header');
+    let buttons = document.querySelectorAll('.ui-button');
+    let accountButton = document.querySelector(".account-button");
     switch(theme){ //other changes implemented inside all javascript files
         case 'Default':
+            removeClassTheme('body',body);   
+            //header Area
+            removeClassTheme('header',header);
+            removeClassTheme('title',header.querySelector('.title'));
+            buttons.forEach((button) => {
+                removeClassTheme('ui-button',button);
+            });
+            if (!isRecording){
+                removeClassTheme("user-input",document.querySelector('#user-input'));
+            }
+            //account Area
+            removeClassTheme('account-button',accountButton);
+            removeClassTheme('account-email',accountButton.querySelector('.account-email'));
+            //ora aggiornare tutte le componenti dinamici del sito, considerando se sono mostrate o no
+            removeSearchBarTheme();
+            removeHistoryTheme();
+            removeAllHistoryTheme();
+            removeChatTheme();
+            removeAccountTheme();
+            removeVoiceRecorderTheme();
+            removeFloatingLettersTheme();
             currentTheme = 'Default';
             break;
         case 'Light':
@@ -197,12 +221,10 @@ function changeTheme(theme){ //da implementare meglio: prendere ogni componente 
             break;
         case 'Dark': 
             currentTheme = 'Dark';
-            document.body.classList.add('dark-body');   
+            body.classList.add('dark-body');   
             //header Area
-            let header = document.querySelector('.header');
             header.classList.add('dark-header');
             header.querySelector('.title').classList.add('dark-title');
-            let buttons = document.querySelectorAll('.ui-button');
             buttons.forEach((button) => {
                 button.classList.add('dark-ui-button');
             });
@@ -210,7 +232,6 @@ function changeTheme(theme){ //da implementare meglio: prendere ogni componente 
                 applyClassTheme("user-input",document.querySelector('#user-input'))
             }
             //account Area
-            let accountButton = document.querySelector(".account-button");
             accountButton.classList.add('dark-account-button');
             accountButton.querySelector('.account-email').classList.add('dark-account-email');
             //ora aggiornare tutte le componenti dinamici del sito, considerando se sono mostrate o no
@@ -234,6 +255,10 @@ function showThemesGrid(){
         themeButton.textContent = theme;
         themeButton.classList.add('theme-button');
         applyClassTheme('theme-button', themeButton);
+        if (theme === currentTheme){
+            themeButton.classList.add('settings-button-clicked');
+            applyClassTheme('settings-button-clicked', themeButton);
+        }
         themeButton.addEventListener('click', function() {
             updateClickedThemeButton(themeButton, themes);
             switch(theme){
@@ -289,6 +314,34 @@ export function setIsThemeClicked(value){
     isThemeClicked = value;
 }
 
+export function removeSettingsTheme(){
+    let settingsGrid = document.querySelector('.settings-grid');
+    let settingsButtons = settingsGrid.querySelectorAll('.settings-grid-button');
+    settingsButtons.forEach(button => {
+        removeClassTheme("scroll-button",button);
+        if (button.classList.contains('settings-button-clicked')){
+            removeClassTheme("settings-button-clicked",button);
+        }
+    });
+    if (isFontClicked){
+        let fontButtons = document.querySelectorAll('.font-button');
+        fontButtons.forEach(button => {
+            removeClassTheme("font-button",button);
+            if (button.classList.contains('settings-button-clicked')){
+                removeClassTheme("settings-button-clicked",button);
+            }
+        });
+    }
+    if (isThemeClicked){
+        let themeButtons = document.querySelectorAll('.theme-button');
+        themeButtons.forEach(button => {
+            removeClassTheme("theme-button",button);
+            if (button.classList.contains('settings-button-clicked')){
+                removeClassTheme("settings-button-clicked",button);
+            }
+        });
+    }
+}
 export function updateSettingsTheme(){ //da implementare
     let settingsGrid = document.querySelector('.settings-grid');
     let settingsButtons = settingsGrid.querySelectorAll('.settings-grid-button');

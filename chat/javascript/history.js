@@ -1,7 +1,7 @@
 import { restoreChat, sortedHistoryChat } from './chat.js';
 import { handleAllHistoryChat } from './all_history.js';
 import { preciseSetTimeout } from './utils.js';
-import { applyClassTheme } from './settings.js';
+import { applyClassTheme , removeClassTheme} from './settings.js';
 
 let isSearchBarShowed = false;
 let isHistoryChatShowed = false;
@@ -129,10 +129,29 @@ function showHistoryChat() {
 }
 
 //themes
+export function removeSearchBarTheme(){
+    if (isSearchBarShowed){
+        let searchBar = document.querySelector('#searchBar');
+        removeClassTheme('slide',searchBar);
+    }
+}
 export function updateSearchBarTheme(){
     if (isSearchBarShowed){
         let searchBar = document.querySelector('#searchBar');
         applyClassTheme('slide',searchBar);
+    }
+}
+
+export function removeHistoryTheme(){
+    if (isHistoryChatShowed){
+        let historyChat = document.querySelector('#historyChat');
+        removeClassTheme('scroll',historyChat);
+        if (isHistoryChatEmpty){
+            removeClassTheme('no-result-all-history-list',document.querySelector('#noResultAllHistoryList'));
+        } else {
+            let scrollButtons = document.querySelectorAll('.scroll-button');
+            scrollButtons.forEach(button => removeClassTheme('scroll-button',button));
+        }
     }
 }
 export function updateHistoryTheme(){ 

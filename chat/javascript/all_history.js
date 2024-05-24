@@ -1,7 +1,7 @@
 import { createAndAppendNoResults } from './history.js';
 import { history, sortedHistoryChat , restoreChat} from './chat.js';
 import { preciseSetTimeout } from './utils.js';
-import { applyClassTheme } from './settings.js';
+import { applyClassTheme , removeClassTheme} from './settings.js';
 
 let isAllHistoryChatShowed = false;
 let isAllHistoryChatEmpty = true;
@@ -90,7 +90,21 @@ export function handleAllHistoryChat(){
     }
 }
 
-export function updateAllHistoryTheme(theme){
+export function removeAllHistoryTheme(){
+    if (isAllHistoryChatShowed){
+        let allHistoryChat = document.querySelector('#allHistoryChat');
+        removeClassTheme("all-history",allHistoryChat);
+        removeClassTheme("all-history-title",allHistoryChat.querySelector('#allHistoryChatTitle'));
+        if (isAllHistoryChatEmpty)
+            removeClassTheme("no-results",allHistoryChat.querySelector('#noResultAllHistoryList'));
+        else{
+            allHistoryChat.querySelectorAll('.scroll-button').forEach((button) => {
+                removeClassTheme("scroll-button",button);
+            });
+        }
+    }
+}
+export function updateAllHistoryTheme(){
     if (isAllHistoryChatShowed){
         let allHistoryChat = document.querySelector('#allHistoryChat');
         applyClassTheme("all-history",allHistoryChat);

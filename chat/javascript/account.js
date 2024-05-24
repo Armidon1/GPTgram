@@ -1,6 +1,6 @@
 import {insertButtonsInsideSettingsGrid, setIsFontClicked, setIsThemeClicked} from './settings.js';
 export let emailAccount = "account@email.com"; 
-import {applyClassTheme, removeClassTheme, updateSettingsTheme} from './settings.js';
+import {applyClassTheme, removeClassTheme, updateSettingsTheme, removeSettingsTheme} from './settings.js';
 let accountButtons = ['Settings', 'Logout'];
 let isAccountClicked = false;
 let isSettingsClicked = false;
@@ -82,6 +82,22 @@ export function clickedAccountButton(){
 }
 
 //Settings
+export function removeAccountTheme(){
+    if (isAccountClicked){
+        let accountGrid = document.querySelector('.account-grid');
+        removeClassTheme("account-grid",accountGrid);
+        let accountButtons = accountGrid.querySelectorAll('.account-grid-button');
+        accountButtons.forEach(button => {
+            removeClassTheme("scroll-button",button);
+            if (button.classList.contains('settings-button-clicked')){
+                removeClassTheme("settings-button-clicked",button);
+            }
+        });
+        if (isSettingsClicked){
+            removeSettingsTheme();
+        } 
+    }
+}
 export function updateAccountTheme(){ //da implementare, considerare anche updateSettingsTheme
     if (isAccountClicked){
         let accountGrid = document.querySelector('.account-grid');

@@ -3,7 +3,7 @@ import { sendMessage , serverMessage} from './connection.js';
 import { updateListHistoryChat, removeHistoryChat, removeSearchBar} from './history.js';
 import { updateListAllHistoryChat, removeAllHistoryChat} from './all_history.js';
 import { fakeAI } from './events.js';
-import { applyClassTheme } from './settings.js';
+import { applyClassTheme , removeClassTheme} from './settings.js';
 
 export const SENDTEXTCLASS = 'sendbox';
 export const RECEIVETEXTCLASS = 'receivebox'
@@ -141,7 +141,20 @@ export async function newChat(){
     }
 }
 
-export function updateChatTheme(theme){ //da implementare
+export function removeChatTheme(){
+    let chatbox = document.querySelector('.chatbox');
+    if (chatbox){
+        let messages = chatbox.querySelectorAll('.send, .receive');
+        messages.forEach(message => {
+            removeClassTheme(message.classList[0], message);
+        });
+        let icons = chatbox.querySelectorAll('.default-user, .default-ai');
+        icons.forEach(icon => {
+            removeClassTheme(icon.classList[1], icon);
+        });
+    }
+}
+export function updateChatTheme(){ //da implementare
     let chatbox = document.querySelector('.chatbox');
     if (chatbox){
         let messages = chatbox.querySelectorAll('.send, .receive');

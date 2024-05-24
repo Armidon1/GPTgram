@@ -1,4 +1,4 @@
-import { applyClassTheme } from './settings.js';
+import { applyClassTheme , removeClassTheme} from './settings.js';
 export let lettersCanMove = true;
 export const LETTERS ='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
 export const LETTERS_AMOUNT = 69;
@@ -77,6 +77,13 @@ export function animateFloatingLetters(){
     animate();
 }
 
+export function removeFloatingLettersTheme(){
+    const letters = document.querySelectorAll('.letters');
+    letters.forEach(letter => {
+        removeClassTheme("letters", letter);
+    });
+
+}
 export function updateFloatingLettersTheme(){
     const letters = document.querySelectorAll('.letters');
     letters.forEach(letter => {
