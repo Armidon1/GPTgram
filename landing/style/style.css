@@ -1,0 +1,105 @@
+/*general tweaks*/
+:root{
+    --background-color: #2f3e46;
+    --ui-width-percentage: 50%;
+    --ui-min-width: 1000px;
+    --standard-border-radius: 10px;
+    --send-bg: rgb(29, 129, 76);
+    --send-color: white;
+    --receive-bg: #E5E5EA;
+    --receive-text: black;
+    --message-border-radius: 10px;
+    --notification-background: rgb(29, 129, 76);; /*used in notification pop-up when copy to clipboard*/
+    --notification-primary: white;    /*used in notification pop-up when copy to clipboard*/
+    --user-input-background-color: rgba(50, 50, 50, 1);
+    --user-input-text-color: white;
+    --time-slide-animation: 0.3s;
+    --user-font-size: 16px;
+    --title-color: rgb(45, 209, 121);
+    --floating-letters-color: rgb(150, 150, 150);
+}   
+
+body{
+    font-family: "Georgia";
+    margin: 0px;
+    background-color: var(--background-color);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    overflow-x: hidden;
+}
+.title{
+    color: var(--title-color);
+    text-align: center;
+    font-size: 60px;
+    font-family: "Helvetica";
+    margin: 10px;
+    padding-bottom: 10px;
+    flex-grow: 3;
+}
+
+/* Per dispositivi con larghezza massima di 1200px */
+@media only screen and (max-width: 1200px) {
+    .title {
+        font-size: 4em;
+    }
+}
+
+/* Per dispositivi con larghezza massima di 992px */
+@media only screen and (max-width: 992px) {
+    .title {
+        font-size: 3em;
+    }
+}
+
+/* Per dispositivi con larghezza massima di 768px */
+@media only screen and (max-width: 768px) {
+    .title {
+        font-size: 2em;
+    }
+}
+
+/* Per dispositivi con larghezza massima di 576px */
+@media only screen and (max-width: 576px) {
+    .title {
+        font-size: 1.5em;
+    }
+}
+
+
+.image-grid {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    overflow: hidden; /* Hide images that don't fit in the container */
+}
+
+.carousel-image-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transition: transform 3s ease-in-out;
+}
+
+.carousel-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.blur-background{
+    background-color:var(--background-color);
+    width: 100%;
+    height: 100%;
+    filter: blur(3px);
+    z-index: 0;
+  }
+  .letters {
+    color: rgb(150, 150, 150);
+    font-size: 18px;
+    z-index: -1;
+    position: fixed;
+    transform: translate(-50%, -50%);
+  }
+  
