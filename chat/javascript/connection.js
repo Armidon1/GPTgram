@@ -41,7 +41,8 @@ export function sendMessage(message){
         let messageJSON = {
             'typeMessage': TYPE_CHAT_MESSAGE,
             'message': message,
-            'chatId': currentChatId
+            'chatId': currentChatId,
+            'user' : 'user', // TODO: change to user
         };
         ws.send(JSON.stringify(messageJSON));
         return true;
