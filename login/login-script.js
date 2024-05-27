@@ -3,6 +3,8 @@ import { sendMessage } from "./connection-login.js";
 const SENDTEXTCLASS = "sendbox";
 const RECEIVETEXTCLASS = "receivebox";
 const LETTERS ="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+const GRAINS_SALT = "#%&=?¡¿,Ç_";
+const ALL_SALT_PERMUTATIONS = ['#%&', '#%=', '#%?', '#%¡', '#%¿', '#%,', '#%Ç', '#%_', '#&%', '#&=', '#&?', '#&¡', '#&¿', '#&,', '#&Ç', '#&_', '#=%', '#=&', '#=?', '#=¡', '#=¿', '#=,', '#=Ç', '#=_', '#?%', '#?&', '#?=', '#?¡', '#?¿', '#?,', '#?Ç', '#?_', '#¡%', '#¡&', '#¡=', '#¡?', '#¡¿', '#¡,', '#¡Ç', '#¡_', '#¿%', '#¿&', '#¿=', '#¿?', '#¿¡', '#¿,', '#¿Ç', '#¿_', '#,%', '#,&', '#,=', '#,?', '#,¡', '#,¿', '#,Ç', '#,_', '#Ç%', '#Ç&', '#Ç=', '#Ç?', '#Ç¡', '#Ç¿', '#Ç,', '#Ç_', '#_%', '#_&', '#_=', '#_?', '#_¡', '#_¿', '#_,', '#_Ç', '%#&', '%#=', '%#?', '%#¡', '%#¿', '%#,', '%#Ç', '%#_', '%&#', '%&=', '%&?', '%&¡', '%&¿', '%&,', '%&Ç', '%&_', '%=#', '%=&', '%=?', '%=¡', '%=¿', '%=,', '%=Ç', '%=_', '%?#', '%?&', '%?=', '%?¡', '%?¿', '%?,', '%?Ç', '%?_', '%¡#', '%¡&', '%¡=', '%¡?', '%¡¿', '%¡,', '%¡Ç', '%¡_', '%¿#', '%¿&', '%¿=', '%¿?', '%¿¡', '%¿,', '%¿Ç', '%¿_', '%,#', '%,&', '%,=', '%,?', '%,¡', '%,¿', '%,Ç', '%,_', '%Ç#', '%Ç&', '%Ç=', '%Ç?', '%Ç¡', '%Ç¿', '%Ç,', '%Ç_', '%_#', '%_&', '%_=', '%_?', '%_¡', '%_¿', '%_,', '%_Ç', '&#%', '&#=', '&#?', '&#¡', '&#¿', '&#,', '&#Ç', '&#_', '&%#', '&%=', '&%?', '&%¡', '&%¿', '&%,', '&%Ç', '&%_', '&=#', '&=%', '&=?', '&=¡', '&=¿', '&=,', '&=Ç', '&=_', '&?#', '&?%', '&?=', '&?¡', '&?¿', '&?,', '&?Ç', '&?_', '&¡#', '&¡%', '&¡=', '&¡?', '&¡¿', '&¡,', '&¡Ç', '&¡_', '&¿#', '&¿%', '&¿=', '&¿?', '&¿¡', '&¿,', '&¿Ç', '&¿_', '&,#', '&,%', '&,=', '&,?', '&,¡', '&,¿', '&,Ç', '&,_', '&Ç#', '&Ç%', '&Ç=', '&Ç?', '&Ç¡', '&Ç¿', '&Ç,', '&Ç_', '&_#', '&_%', '&_=', '&_?', '&_¡', '&_¿', '&_,', '&_Ç', '=#%', '=#&', '=#?', '=#¡', '=#¿', '=#,', '=#Ç', '=#_', '=%#', '=%&', '=%?', '=%¡', '=%¿', '=%,', '=%Ç', '=%_', '=&#', '=&%', '=&?', '=&¡', '=&¿', '=&,', '=&Ç', '=&_', '=?#', '=?%', '=?&', '=?¡', '=?¿', '=?,', '=?Ç', '=?_', '=¡#', '=¡%', '=¡&', '=¡?', '=¡¿', '=¡,', '=¡Ç', '=¡_', '=¿#', '=¿%', '=¿&', '=¿?', '=¿¡', '=¿,', '=¿Ç', '=¿_', '=,#', '=,%', '=,&', '=,?', '=,¡', '=,¿', '=,Ç', '=,_', '=Ç#', '=Ç%', '=Ç&', '=Ç?', '=Ç¡', '=Ç¿', '=Ç,', '=Ç_', '=_#', '=_%', '=_&', '=_?', '=_¡', '=_¿', '=_,', '=_Ç', '?#%', '?#&', '?#=', '?#¡', '?#¿', '?#,', '?#Ç', '?#_', '?%#', '?%&', '?%=', '?%¡', '?%¿', '?%,', '?%Ç', '?%_', '?&#', '?&%', '?&=', '?&¡', '?&¿', '?&,', '?&Ç', '?&_', '?=#', '?=%', '?=&', '?=¡', '?=¿', '?=,', '?=Ç', '?=_', '?¡#', '?¡%', '?¡&', '?¡=', '?¡¿', '?¡,', '?¡Ç', '?¡_', '?¿#', '?¿%', '?¿&', '?¿=', '?¿¡', '?¿,', '?¿Ç', '?¿_', '?,#', '?,%', '?,&', '?,=', '?,¡', '?,¿', '?,Ç', '?,_', '?Ç#', '?Ç%', '?Ç&', '?Ç=', '?Ç¡', '?Ç¿', '?Ç,', '?Ç_', '?_#', '?_%', '?_&', '?_=', '?_¡', '?_¿', '?_,', '?_Ç', '¡#%', '¡#&', '¡#=', '¡#?', '¡#¿', '¡#,', '¡#Ç', '¡#_', '¡%#', '¡%&', '¡%=', '¡%?', '¡%¿', '¡%,', '¡%Ç', '¡%_', '¡&#', '¡&%', '¡&=', '¡&?', '¡&¿', '¡&,', '¡&Ç', '¡&_', '¡=#', '¡=%', '¡=&', '¡=?', '¡=¿', '¡=,', '¡=Ç', '¡=_', '¡?#', '¡?%', '¡?&', '¡?=', '¡?¿', '¡?,', '¡?Ç', '¡?_', '¡¿#', '¡¿%', '¡¿&', '¡¿=', '¡¿?', '¡¿,', '¡¿Ç', '¡¿_', '¡,#', '¡,%', '¡,&', '¡,=', '¡,?', '¡,¿', '¡,Ç', '¡,_', '¡Ç#', '¡Ç%', '¡Ç&', '¡Ç=', '¡Ç?', '¡Ç¿', '¡Ç,', '¡Ç_', '¡_#', '¡_%', '¡_&', '¡_=', '¡_?', '¡_¿', '¡_,', '¡_Ç', '¿#%', '¿#&', '¿#=', '¿#?', '¿#¡', '¿#,', '¿#Ç', '¿#_', '¿%#', '¿%&', '¿%=', '¿%?', '¿%¡', '¿%,', '¿%Ç', '¿%_', '¿&#', '¿&%', '¿&=', '¿&?', '¿&¡', '¿&,', '¿&Ç', '¿&_', '¿=#', '¿=%', '¿=&', '¿=?', '¿=¡', '¿=,', '¿=Ç', '¿=_', '¿?#', '¿?%', '¿?&', '¿?=', '¿?¡', '¿?,', '¿?Ç', '¿?_', '¿¡#', '¿¡%', '¿¡&', '¿¡=', '¿¡?', '¿¡,', '¿¡Ç', '¿¡_', '¿,#', '¿,%', '¿,&', '¿,=', '¿,?', '¿,¡', '¿,Ç', '¿,_', '¿Ç#', '¿Ç%', '¿Ç&', '¿Ç=', '¿Ç?', '¿Ç¡', '¿Ç,', '¿Ç_', '¿_#', '¿_%', '¿_&', '¿_=', '¿_?', '¿_¡', '¿_,', '¿_Ç', ',#%', ',#&', ',#=', ',#?', ',#¡', ',#¿', ',#Ç', ',#_', ',%#', ',%&', ',%=', ',%?', ',%¡', ',%¿', ',%Ç', ',%_', ',&#', ',&%', ',&=', ',&?', ',&¡', ',&¿', ',&Ç', ',&_', ',=#', ',=%', ',=&', ',=?', ',=¡', ',=¿', ',=Ç', ',=_', ',?#', ',?%', ',?&', ',?=', ',?¡', ',?¿', ',?Ç', ',?_', ',¡#', ',¡%', ',¡&', ',¡=', ',¡?', ',¡¿', ',¡Ç', ',¡_', ',¿#', ',¿%', ',¿&', ',¿=', ',¿?', ',¿¡', ',¿Ç', ',¿_', ',Ç#', ',Ç%', ',Ç&', ',Ç=', ',Ç?', ',Ç¡', ',Ç¿', ',Ç_', ',_#', ',_%', ',_&', ',_=', ',_?', ',_¡', ',_¿', ',_Ç', 'Ç#%', 'Ç#&', 'Ç#=', 'Ç#?', 'Ç#¡', 'Ç#¿', 'Ç#,', 'Ç#_', 'Ç%#', 'Ç%&', 'Ç%=', 'Ç%?', 'Ç%¡', 'Ç%¿', 'Ç%,', 'Ç%_', 'Ç&#', 'Ç&%', 'Ç&=', 'Ç&?', 'Ç&¡', 'Ç&¿', 'Ç&,', 'Ç&_', 'Ç=#', 'Ç=%', 'Ç=&', 'Ç=?', 'Ç=¡', 'Ç=¿', 'Ç=,', 'Ç=_', 'Ç?#', 'Ç?%', 'Ç?&', 'Ç?=', 'Ç?¡', 'Ç?¿', 'Ç?,', 'Ç?_', 'Ç¡#', 'Ç¡%', 'Ç¡&', 'Ç¡=', 'Ç¡?', 'Ç¡¿', 'Ç¡,', 'Ç¡_', 'Ç¿#', 'Ç¿%', 'Ç¿&', 'Ç¿=', 'Ç¿?', 'Ç¿¡', 'Ç¿,', 'Ç¿_', 'Ç,#', 'Ç,%', 'Ç,&', 'Ç,=', 'Ç,?', 'Ç,¡', 'Ç,¿', 'Ç,_', 'Ç_#', 'Ç_%', 'Ç_&', 'Ç_=', 'Ç_?', 'Ç_¡', 'Ç_¿', 'Ç_,', '_#%', '_#&', '_#=', '_#?', '_#¡', '_#¿', '_#,', '_#Ç', '_%#', '_%&', '_%=', '_%?', '_%¡', '_%¿', '_%,', '_%Ç', '_&#', '_&%', '_&=', '_&?', '_&¡', '_&¿', '_&,', '_&Ç', '_=#', '_=%', '_=&', '_=?', '_=¡', '_=¿', '_=,', '_=Ç', '_?#', '_?%', '_?&', '_?=', '_?¡', '_?¿', '_?,', '_?Ç', '_¡#', '_¡%', '_¡&', '_¡=', '_¡?', '_¡¿', '_¡,', '_¡Ç', '_¿#', '_¿%', '_¿&', '_¿=', '_¿?', '_¿¡', '_¿,', '_¿Ç', '_,#', '_,%', '_,&', '_,=', '_,?', '_,¡', '_,¿', '_,Ç', '_Ç#', '_Ç%', '_Ç&', '_Ç=', '_Ç?', '_Ç¡', '_Ç¿', '_Ç,'];
 const LETTERS_AMOUNT = 69;
 let lettersCanMove = true;
 let TYPE_REGISTER_MESSAGE = "register";
@@ -19,6 +21,37 @@ function preciseSetTimeout(callback, delay) {
     difference >= delay ? callback() : requestAnimationFrame(tick);
   }
   tick();
+}
+
+async function hashRegisterPassword(password){
+  let salt = '';
+  for (let i = 0; i < 3; i++){
+    salt += GRAINS_SALT.charAt(Math.floor(Math.random() * GRAINS_SALT.length));
+  }
+  const encoder = new TextEncoder();
+  password = encoder.encode(salt + password);
+  
+  const hash = await window.crypto.subtle.digest('SHA-256', password);
+  const hashArray = Array.from(new Uint8Array(hash));
+  let hashString = hashArray.map(n => n.toString(16).padStart(2, '0')).join('');
+  
+  return hashString;
+}
+
+async function hashLoginPassword(password){
+  let hashArrayString = [];
+  const encoder = new TextEncoder();
+
+  for (let i = 0; i < ALL_SALT_PERMUTATIONS.length; i++){
+    let saltedPassword = ALL_SALT_PERMUTATIONS[i] + password;
+    saltedPassword = encoder.encode(saltedPassword);
+
+    const hash = await window.crypto.subtle.digest('SHA-256', saltedPassword);
+    const hashArray = Array.from(new Uint8Array(hash));
+    let hashString = hashArray.map(n => n.toString(16).padStart(2, '0')).join('');
+    hashArrayString.push(hashString);
+  }
+  return hashArrayString;
 }
 
 function popUpMessage(message){
@@ -106,11 +139,8 @@ function animateFloatingLetters() {
 //prevent form submit to refresh the page
 // Register Functions
 function checkRegisterEmail(email){
-  let emailConfirm = document.getElementById("register-email-confirm").value;
   if (email.includes("@") && email.includes(".")){
-    if (email === emailConfirm){
-      return true;
-    }
+    return true;
   }
   return false;
 }
@@ -124,6 +154,7 @@ function checkRegisterPassword(password){
 
 function clickedRegisterButton(){
   let email = document.getElementById("register-email").value;
+  let username = document.getElementById("register-username").value;
   let password = document.getElementById("register-password").value;
   if (!checkRegisterEmail(email)){
     popUpMessage("wrong email format");
@@ -131,7 +162,7 @@ function clickedRegisterButton(){
     popUpMessage("wrong password format");
   } else{
     console.log("typeMessage: "+TYPE_REGISTER_MESSAGE+" email: "+email+" password: "+password);
-    sendMessage({typeMessage: TYPE_REGISTER_MESSAGE ,email: email, password: password});
+    sendMessage({typeMessage: TYPE_REGISTER_MESSAGE ,email: email, username: username,  password: hashRegisterPassword(password)});
     console.log("message sent");
   }
 }
@@ -150,7 +181,7 @@ function clickedLogginButton(){
     popUpMessage("wrong email format");
   } else{
     console.log("typeMessage: "+TYPE_LOGIN_MESSAGE+" email: "+email+" password: "+password);
-    sendMessage({typeMessage: TYPE_LOGIN_MESSAGE ,email: email, password: password});
+    sendMessage({typeMessage: TYPE_LOGIN_MESSAGE ,email: email, password: hashLoginPassword(password)});
     console.log("message sent");
   }
 }
