@@ -43,6 +43,7 @@ export function sendMessage(message){
             'message': message,
             'chatId': currentChatId,
             'user' : 'user', // TODO: change to user
+            'email': 'email@example.com' // TODO: change to email
         };
         ws.send(JSON.stringify(messageJSON));
         return true;
