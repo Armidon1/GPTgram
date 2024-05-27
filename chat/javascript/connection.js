@@ -1,4 +1,4 @@
-import { createMessage } from "./chat.js";
+import { createMessage, currentChatId} from "./chat.js";
 export let serverMessage = '';
 
 let TYPE_CHAT_MESSAGE = "chat";
@@ -40,7 +40,8 @@ export function sendMessage(message){
     if (ws.readyState === WebSocket.OPEN) {
         let messageJSON = {
             'typeMessage': TYPE_CHAT_MESSAGE,
-            'message': message
+            'message': message,
+            'chatId': currentChatId
         };
         ws.send(JSON.stringify(messageJSON));
         return true;
