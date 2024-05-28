@@ -23,6 +23,23 @@ function preciseSetTimeout(callback, delay) {
   tick();
 }
 
+async function generateCookieHash(email){
+  let date = new Date().toLocaleString();
+  let hashRandom = ''
+
+  for (let i = 0; i < 14; i++){
+    hashRandom += LETTERS.charAt(Math.floor(Math.random() * LETTERS.length));
+  }
+
+  const encoder = new TextEncoder();
+  let cookie = encoder.encode(email + date + hashRandom);
+  const hash = await window.crypto.subtle.digest('SHA-256', cookie);
+  const hashArray = Array.from(new Uint8Array(hash));
+  let hashString = hashArray.map(n => n.toString(16).padStart(2, '0')).join('');
+
+  return hashString;
+}
+
 async function hashRegisterPassword(password){
   let salt = '';
   for (let i = 0; i < 3; i++){
@@ -152,7 +169,7 @@ function checkRegisterPassword(password){
   return false;
 }
 
-function clickedRegisterButton(){
+async function clickedRegisterButton(){
   let email = document.getElementById("register-email").value;
   let username = document.getElementById("register-username").value;
   let password = document.getElementById("register-password").value;
@@ -162,7 +179,7 @@ function clickedRegisterButton(){
     popUpMessage("wrong password format");
   } else{
     console.log("typeMessage: "+TYPE_REGISTER_MESSAGE+" email: "+email+" password: "+password);
-    sendMessage({typeMessage: TYPE_REGISTER_MESSAGE ,email: email, username: username,  password: hashRegisterPassword(password)});
+    sendMessage({typeMessage: TYPE_REGISTER_MESSAGE ,email: email, username: username,  password: await hashRegisterPassword(password)});
     console.log("message sent");
   }
 }
@@ -174,14 +191,14 @@ function checkLoginEmail(email){
   }
   return false;
 }
-function clickedLogginButton(){
+async function clickedLogginButton(){
   let email = document.getElementById("login-email").value;
   let password = document.getElementById("login-password").value;
   if (!checkLoginEmail(email)){
     popUpMessage("wrong email format");
   } else{
     console.log("typeMessage: "+TYPE_LOGIN_MESSAGE+" email: "+email+" password: "+password);
-    sendMessage({typeMessage: TYPE_LOGIN_MESSAGE ,email: email, password: hashLoginPassword(password)});
+    sendMessage({typeMessage: TYPE_LOGIN_MESSAGE ,email: email, password: await hashLoginPassword(password)});
     console.log("message sent");
   }
 }
@@ -195,16 +212,16 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   //login form
   let loginForm = document.querySelector('#login form');
-  loginForm.addEventListener('submit', function(event) {
+  loginForm.addEventListener('submit', async function(event) {
     event.preventDefault();
-    clickedLogginButton();
+    await clickedLogginButton();
   });
 
 
   //register form
   let registerForm = document.querySelector('#register form');
-  registerForm.addEventListener('submit', function(event) {
+  registerForm.addEventListener('submit', async function(event) {
     event.preventDefault();
-    clickedRegisterButton()
+    await clickedRegisterButton()
   });
 });
