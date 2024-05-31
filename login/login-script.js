@@ -155,16 +155,13 @@ function animateFloatingLetters() {
 //FUNCTIONs
 //prevent form submit to refresh the page
 // Register Functions
-function checkRegisterEmail(email){
-  if (email.includes("@") && email.includes(".")){
-    return true;
-  }
-  return false;
-}
-function checkRegisterPassword(password){
-  let passwordConfirm = document.getElementById("register-password-confirm").value;
-  if (password === passwordConfirm){
-    return true;
+function checkRegisterEmail(email) {
+  // Regex per il controllo del formato dell'email
+  var regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+  // Verifica se l'email corrisponde al formato
+  if (regex.test(email)) {
+      return true;
   }
   return false;
 }
