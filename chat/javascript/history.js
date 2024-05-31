@@ -9,6 +9,7 @@ let isHistoryChatEmpty = true;
 
 //GESTIONE DELLA RICERCA
 function showSearchBar(header, title) {
+    header.classList.add('high-z-index');
     isSearchBarShowed = true;
     let searchBar = document.createElement('input');
     searchBar.addEventListener('input', function(event) {
@@ -27,6 +28,7 @@ function showSearchBar(header, title) {
     }, 300);
 }
 export function removeSearchBar(header) {
+    header.classList.remove('high-z-index');
     isSearchBarShowed = false;
     let searchBar = document.querySelector('#searchBar');
     searchBar.classList.remove('slide-in');
@@ -55,7 +57,7 @@ function createAndAppendClickableElement(parent, key) {
     let clickableElement = document.createElement('button');
     clickableElement.classList.add('scroll-button');
     applyClassTheme('scroll-button',clickableElement);
-    clickableElement.textContent = key;
+    clickableElement.textContent = key.title;
     clickableElement.onclick = function() {
         console.log('Hai cliccato la chiave ' + key + '!');
         restoreChat(key);
@@ -119,6 +121,7 @@ function showHistoryChat() {
     let historyChat = document.createElement('div');
     historyChat.id = 'historyChat';
     historyChat.className = 'scroll scroll-below';
+    historyChat.classList.add('high-z-index');
     applyClassTheme('scroll',historyChat);
     let header = document.querySelector('.header');
     header.style.borderRadius = '10px 10px 0 0';

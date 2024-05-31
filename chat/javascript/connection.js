@@ -1,7 +1,20 @@
-import { createMessage, currentChatId} from "./chat.js";
+import { createMessage, currentChatId, currentChatTitle} from "./chat.js";
 export let serverMessage = '';
 
+
 let TYPE_CHAT_MESSAGE = "chat";
+let TYPE_CHAT_TITLE_MESSAGE = "chatTitle";      // Tipo di messaggio per il titolo della chat
+
+let isFirstMessage = true;
+export function setFirstMessage(value){
+    isFirstMessage = value;
+}
+export function getFirstMessage(){
+    return isFirstMessage;
+}
+
+let currentUser = 'user'; //TODO
+let currentEmail = 'email@example.com'; //TODO
 
 const ws = new WebSocket('ws://localhost:8765');
 
@@ -20,9 +33,19 @@ ws.onmessage = function(event) {
         // checks if ws is ready to transmit
         if (ws.readyState === WebSocket.OPEN) {
             createMessage(false);
+            if (isFirstMessage) {
+                getChatTitle();
+                setFirstMessage(false);
+            }
         } else {
             console.log('Cannot send message, WebSocket connection is not open');
         }
+    } else if (data.typeMessage === TYPE_CHAT_TITLE_MESSAGE) {
+        title = data.title;
+        console.log("Chat title: "+title);
+        //sovrascrive il titolo della chat
+        currentChatTitle = title;
+        updateChatTitle();
     }
 }
 
@@ -42,8 +65,26 @@ export function sendMessage(message){
             'typeMessage': TYPE_CHAT_MESSAGE,
             'message': message,
             'chatId': currentChatId,
-            'user' : 'user', // TODO: change to user
-            'email': 'email@example.com' // TODO: change to email
+            'user' : currentUser, // TODO: change to user
+            'email': currentEmail // TODO: change to email
+        };
+        ws.send(JSON.stringify(messageJSON));
+        return true;
+    } else {
+        console.log('Cannot send message, WebSocket connection is not open');
+        return false; //needed to the user output
+    }
+}
+
+export function getChatTitle(){
+    console.log("Asking for chat title");
+    // checks if ws is ready to transmit
+    if (ws.readyState === WebSocket.OPEN) {
+        let messageJSON = {
+            'typeMessage': TYPE_CHAT_TITLE_MESSAGE,
+            'chatId': currentChatId,
+            'user' : currentUser, // TODO: change to user
+            'email': currentEmail // TODO: change to email
         };
         ws.send(JSON.stringify(messageJSON));
         return true;

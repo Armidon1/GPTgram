@@ -1,5 +1,5 @@
 import { preciseSetTimeout , createID , preventDefaultSelection , copyToClipboard} from './utils.js';
-import { sendMessage , serverMessage} from './connection.js';
+import { sendMessage , serverMessage, getFirstMessage, setFirstMessage} from './connection.js';
 import { updateListHistoryChat, removeHistoryChat, removeSearchBar} from './history.js';
 import { updateListAllHistoryChat, removeAllHistoryChat} from './all_history.js';
 import { fakeAI } from './events.js';
@@ -12,6 +12,7 @@ const TYPECHAT = 'CHAT';
 const TYPEMSG = 'MSG';
 
 export let currentChatId = null;
+export let currentChatTitle = "*";
 
 export let history = {};               //contiene dall'ID della chat associata all'intera chatbox
 export let sortedHistoryChat = {};     //contiene la data associata all'ID della chat
@@ -82,6 +83,10 @@ export async function createMessage(asUser = true){
 }
 
 //GESTIONE DELLA CHAT
+export function updateChatTitle(){
+    let chatbox = document.querySelector('.chatbox');
+    chatbox.setAttribute('data-title', currentChatTitle);
+}
 function chatIsNotEmpty(chatbox){
     return chatbox.childElementCount > 0;
 }
@@ -109,12 +114,14 @@ export function restoreChat(chatId){
     }, 300);
 }
 export async function newChat(){
+    setFirstMessage(true);
     let chatflow = document.querySelector('.chatflow');
     let newChat = document.createElement('div');
     newChat.classList.add('chatbox');
     let newDate = (new Date()).getTime();
     newChat.id = await createID(TYPECHAT, "chatbox", newDate);
     newChat.setAttribute("data-time", newDate);
+    newChat.setAttribute("data-title", currentChatTitle);
     newChat.dateTime = newDate;
 
     let endSeparator = document.querySelector('.end-separator');

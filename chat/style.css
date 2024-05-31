@@ -74,7 +74,7 @@ body{
     box-sizing: border-box;
     top: 0;
     min-width: var(--ui-min-width);
-    z-index: 999; /*sempre in primo piano*/
+    z-index: 2; /*sempre in primo piano*/
     border-radius: 10px;
 
     /*responsibilità*/
@@ -88,6 +88,14 @@ body{
     margin: 10px;
     padding: 0px;
     flex-grow: 3;
+}
+
+
+/* Nascondi .title quando la larghezza della finestra è inferiore a 600px */
+@media (max-width: 600px) {
+    .title {
+        color: var(--user-input-background-color);
+    }
 }
 
 .ui-button
@@ -104,17 +112,20 @@ body{
 }
 
 /*search button*/
-#search
-{
+#search{
     background-image: var(--search-path);
     background-size: 32px;
     min-width: 60px;
     aspect-ratio: 1;
     float: right;
+    right: 0;
     padding: 0px;
     margin: 10px;
     z-index: 2;
+    position: relative;
 }
+/* Nascondi .title quando la larghezza della finestra è inferiore a 600px */
+
 
 @keyframes slide-in {
     0% {
@@ -149,6 +160,7 @@ body{
     color: var(--user-input-text-color);
     border: 1px solid white;
 }
+
 .slide-out {
     animation: slide-out var(--time-slide-animation) forwards;
 }
@@ -156,6 +168,17 @@ body{
 .slide-in {
     animation: slide-in var(--time-slide-animation) forwards;
 }
+@media (max-width: 800px) {
+    .slide{
+        position: absolute;
+        max-width: 250px;
+        z-index: 4;
+    }
+    .slide-out , .slide-in, #search{
+        z-index: 4;
+    }
+}
+
 
 /*history char SEARCH*/
 @keyframes scroll-below-animation {
@@ -184,7 +207,7 @@ body{
     position: absolute;
     display: flex;
     flex-wrap: wrap;
-    z-index: 998;
+    z-index: 2;
     left: 0; /* Permette all'elemento di spostarsi a sinistra */
     right: 0; /* Permette all'elemento di spostarsi a destra */
     margin-left: auto; /* Centra l'elemento */
@@ -254,10 +277,17 @@ body{
     right: 0; /* sposta l'elemento a destra */
     top: 50%; /* posiziona l'elemento al centro verticalmente */
     flex-wrap: wrap;
-    z-index: 998;
+    z-index: 2;
     background-color: var(--user-input-background-color);
     border-radius: 10px 0 0px 10px;
     overflow-x: hidden;
+}
+
+/* Nascondi .all-history quando la larghezza della finestra è inferiore a 600px */
+@media (max-width: 600px) {
+    .all-history {
+        display: none;
+    }
 }
 .all-history-slide-left{
     animation: all-history-slide-left-animation var(--time-slide-animation) forwards;
@@ -309,7 +339,7 @@ body{
     overflow: hidden; /* Nasconde il contenuto che sfora */
     text-overflow: ellipsis; /* Mostra '...' se il testo sfora */
     white-space: nowrap; /* Impedisce al testo di andare a capo */
-    z-index: 999; /*sempre in primo piano*/
+    z-index: 2; /*sempre in primo piano*/
     position: relative;
 }
 .account-image{
@@ -317,7 +347,7 @@ body{
     height: 100%;
     background-position: center center;
     background-repeat: no-repeat;
-    z-index: 999;
+    z-index: 2;
 }
 .account-email{
     color: var(--title-color);
@@ -328,11 +358,10 @@ body{
     overflow: hidden; /* Nasconde il contenuto che sfora */
     text-overflow: ellipsis; /* Mostra '...' se il testo sfora */
     white-space: nowrap; /* Impedisce al testo di andare a capo */
-    z-index: 999;
 }
 
 .account-grid{
-    z-index: 998;
+    z-index: 2;
     position: absolute;
     display: flex;
     background-color: var(--user-input-background-color);
@@ -354,6 +383,19 @@ body{
     animation: scroll-above-animation var(--time-slide-animation) forwards;
 }
 
+@media (max-width: 600px) {
+    .account {
+        position: absolute;
+        left: 0%;
+    }
+    .account-button, .account-email, .account-grid {
+        width: 250px; /* Imposta una larghezza fissa */
+        max-width: 250px;
+    }
+    .account, .account-button, .account-email, .account-grid , .account-image, .account-grid-show, .account-grid-hide, .account-button-clicked{
+        z-index: 3;
+    }
+}
 /*settings*/
 .settings-grid{
     width: 100%;
@@ -400,7 +442,7 @@ body{
 .letters{
     color: var(--floating-letters-color);
     font-size: 18px;
-    z-index: -1; 
+    z-index: 0; 
     position: fixed;
     transform: translate(-50%, -50%);
 }
@@ -587,7 +629,7 @@ p {
     position: fixed;
     bottom:0;
 
-    z-index: 999; /*sempre in primo piano*/
+    z-index: 2; /*sempre in primo piano*/
 
     /*responsibilità*/
     @media (max-width: 1200px) {    /*font size da un minimo di 10px fino ad un massimo di calc(10px+1vm) con laghezza massima 1200px*/
@@ -705,4 +747,7 @@ p {
 /*high priority*/
 .settings-button-clicked{
     background-color: var(--title-color)
+}
+.high-z-index{
+    z-index: 4;
 }

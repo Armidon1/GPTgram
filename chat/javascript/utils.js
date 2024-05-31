@@ -27,7 +27,7 @@ export async function createID(type, classString, date){
     const encoder = new TextEncoder();
     ID = encoder.encode(ID);
     
-    const hash = await window.crypto.subtle.digest('SHA-256', ID);
+    const hash = await window.crypto.subtle.digest('SHA-1', ID);
     const hashArray = Array.from(new Uint8Array(hash));
     let hashString = hashArray.map(n => n.toString(16).padStart(2, '0')).join('');
     

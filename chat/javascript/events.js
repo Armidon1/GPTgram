@@ -1,6 +1,6 @@
 import { focusUserInput , scrollToEnd} from './utils.js';
 import { clickedSearchButton } from './history.js';
-import { createMessage , newChat} from './chat.js';
+import { createMessage , newChat, updateChatTitle} from './chat.js';
 import { generateFloatingLetters } from './letters.js';
 import { toggleRecording } from './audio.js';
 import { insertEmail , clickedAccountButton } from './account.js';
