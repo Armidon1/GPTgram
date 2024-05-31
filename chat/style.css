@@ -443,7 +443,7 @@ body{
 .letters{
     color: var(--floating-letters-color);
     font-size: 18px;
-    z-index: 0; 
+    z-index: -1; 
     position: fixed;
     transform: translate(-50%, -50%);
 }
