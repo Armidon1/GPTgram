@@ -13,6 +13,7 @@
     --light-default-user-path: url('../../asset/light-user.svg');
     --light-default-ai-path: url('../../asset/light-cpu.svg');
     --light-floating-letters-color: #8E8E5E;
+    --light-user-input-placeholder-color: rgb(83, 83, 83);
 }
 
 .light-body{

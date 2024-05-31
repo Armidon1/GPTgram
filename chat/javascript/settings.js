@@ -244,7 +244,7 @@ function changeTheme(theme){
                 button.classList.add('light-ui-button');
             });
             if (!isRecording){
-                applyClassTheme("user-input",document.querySelector('#user-input'))
+                applyClassTheme("user-input",document.querySelector('#user-input'));
             }
             //account Area
             accountButton.classList.add('light-account-button');

@@ -17,6 +17,7 @@
     --user-font-size: 16px;
     --title-color: rgb(45, 209, 121);
     --floating-letters-color: rgb(150, 150, 150);
+    --user-input-placeholder-color: rgb(116, 116, 116);
 
     --search-path: url('../asset/search.svg');
     --default-user-path: url('../asset/user.svg');
@@ -671,7 +672,7 @@ p {
 }
 
 #user-input::placeholder{
-    color: rgb(170, 170, 170);
+    color: var(--user-input-placeholder-color);
 }
 
 #user-record{
