@@ -1,4 +1,4 @@
-import { restoreChat, sortedHistoryChat } from './chat.js';
+import { restoreChat, sortedHistoryChat , fromChatIDtoTitle} from './chat.js';
 import { handleAllHistoryChat } from './all_history.js';
 import { preciseSetTimeout } from './utils.js';
 import { applyClassTheme , removeClassTheme} from './settings.js';
@@ -57,7 +57,9 @@ function createAndAppendClickableElement(parent, key) {
     let clickableElement = document.createElement('button');
     clickableElement.classList.add('scroll-button');
     applyClassTheme('scroll-button',clickableElement);
-    clickableElement.textContent = key.title;
+    console.log(key);
+    console.log(key.title);
+    clickableElement.textContent = fromChatIDtoTitle[key];
     clickableElement.onclick = function() {
         console.log('Hai cliccato la chiave ' + key + '!');
         restoreChat(key);

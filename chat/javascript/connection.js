@@ -1,4 +1,4 @@
-import { createMessage, currentChatId, currentChatTitle} from "./chat.js";
+import { createMessage, currentChatId, currentChatTitle, setChatTitle, setIsClickableNewChat, updateChatTitle, handleNewChat} from "./chat.js";
 export let serverMessage = '';
 
 
@@ -41,11 +41,13 @@ ws.onmessage = function(event) {
             console.log('Cannot send message, WebSocket connection is not open');
         }
     } else if (data.typeMessage === TYPE_CHAT_TITLE_MESSAGE) {
-        title = data.title;
+        let title = data.title;
         console.log("Chat title: "+title);
         //sovrascrive il titolo della chat
-        currentChatTitle = title;
+        setChatTitle(title);
         updateChatTitle();
+        setIsClickableNewChat(true);
+        handleNewChat();
     }
 }
 
@@ -80,6 +82,8 @@ export function getChatTitle(){
     console.log("Asking for chat title");
     // checks if ws is ready to transmit
     if (ws.readyState === WebSocket.OPEN) {
+        setIsClickableNewChat(false);
+        handleNewChat();
         let messageJSON = {
             'typeMessage': TYPE_CHAT_TITLE_MESSAGE,
             'chatId': currentChatId,

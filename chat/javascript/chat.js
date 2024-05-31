@@ -16,6 +16,9 @@ export let currentChatTitle = "*";
 
 export let history = {};               //contiene dall'ID della chat associata all'intera chatbox
 export let sortedHistoryChat = {};     //contiene la data associata all'ID della chat
+export let fromChatIDtoTitle = {};     //contiene l'ID della chat associata al titolo della chat
+
+export let isClickableNewChat = true;
 
 let devMode = true;
 
@@ -83,9 +86,17 @@ export async function createMessage(asUser = true){
 }
 
 //GESTIONE DELLA CHAT
+export function getChatTitle(){
+    return currentChatTitle;
+}
+export function setChatTitle(title){
+    currentChatTitle = title;
+}
 export function updateChatTitle(){
     let chatbox = document.querySelector('.chatbox');
     chatbox.setAttribute('data-title', currentChatTitle);
+    fromChatIDtoTitle[currentChatId] = currentChatTitle;
+    setIsClickableNewChat(true);
 }
 function chatIsNotEmpty(chatbox){
     return chatbox.childElementCount > 0;
@@ -114,7 +125,8 @@ export function restoreChat(chatId){
     }, 300);
 }
 export async function newChat(){
-    setFirstMessage(true);
+    if (isClickableNewChat){
+        setFirstMessage(true);
     let chatflow = document.querySelector('.chatflow');
     let newChat = document.createElement('div');
     newChat.classList.add('chatbox');
@@ -145,8 +157,26 @@ export async function newChat(){
 
         updateListHistoryChat(historyChat, "");
         updateListAllHistoryChat(allHistoryChat);
+    } else{
+        console.log("newChat: is not already clickable");
+    }
     }
 }
+export function getIsClickableNewChat(){
+    return isClickableNewChat;
+}
+export function setIsClickableNewChat(value){
+    isClickableNewChat = value;
+}
+export function handleNewChat(){
+    let newChatButton = document.querySelector('#newchat');
+    if (isClickableNewChat){
+        newChatButton.classList.remove('new-chat-disabled');
+    } else {
+        newChatButton.classList.add('new-chat-disabled');
+    }
+}
+
 
 export function removeChatTheme(){
     let chatbox = document.querySelector('.chatbox');

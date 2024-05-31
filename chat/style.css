@@ -27,6 +27,7 @@
     --export-path: url('../asset/download.svg');
     --sync-path: url('../asset/refresh-cw.svg');
     --new-chat-path: url('../asset/edit.svg');
+    --gray-new-chat-path: url('../asset/edit-gray.svg');
     --more-path: url('../asset/more-horizontal.svg');
     --play-path: url('../asset/play-circle.svg');
     --pause-path: url('../asset/pause-circle.svg');
@@ -724,8 +725,11 @@ p {
 {
     background-image: var(--sync-path);
 }
-#newchat{
+.newchat{
     background-image: var(--new-chat-path);
+}
+.new-chat-disabled{
+    background-image: var(--gray-new-chat-path);
 }
 
 #more{

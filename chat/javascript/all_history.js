@@ -1,5 +1,5 @@
 import { createAndAppendNoResults } from './history.js';
-import { history, sortedHistoryChat , restoreChat} from './chat.js';
+import { history, sortedHistoryChat , restoreChat, fromChatIDtoTitle} from './chat.js';
 import { preciseSetTimeout } from './utils.js';
 import { applyClassTheme , removeClassTheme} from './settings.js';
 
@@ -27,7 +27,7 @@ function createAndAppendClickableAllHistoryButton(parent, key) {
     applyClassTheme("scroll-button",clickableElement);
     clickableElement.classList.add('all-history-button');
     //console.log("inserito con la chiave: "+key+", valore: "+History[key]);
-    clickableElement.textContent = key;
+    clickableElement.textContent = fromChatIDtoTitle[key];
     clickableElement.onclick = function() {
         console.log('Hai cliccato la chiave ' + key + '!');
         restoreChat(key);
