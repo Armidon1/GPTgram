@@ -1,15 +1,23 @@
-import {insertButtonsInsideSettingsGrid, setIsFontClicked, setIsThemeClicked} from './settings.js';
+import {insertButtonsInsideSettingsGrid, setIsFontClicked, setIsThemeClicked, applyClassTheme, removeClassTheme, updateSettingsTheme, removeSettingsTheme} from './settings.js';
+
 export let emailAccount = "account@email.com"; 
-import {applyClassTheme, removeClassTheme, updateSettingsTheme, removeSettingsTheme} from './settings.js';
 let accountButtons = ['Settings', 'Logout'];
 let isAccountClicked = false;
 let isSettingsClicked = false;
 
+
+//Account stuff
 export function insertEmail(){
     let emailInput = document.createElement('div');
     emailInput.textContent = emailAccount;
     emailInput.classList.add('account-email');
     document.querySelector('.account-button').appendChild(emailInput);
+}
+export function setEmailAccount(email){
+    emailAccount = email;
+}
+export function getEmailAccount(){
+    return emailAccount;
 }
 
 function findAccountGridButton(buttonText){

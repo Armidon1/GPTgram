@@ -165,6 +165,13 @@ function checkRegisterEmail(email) {
   }
   return false;
 }
+function checkRegisterPassword(password){
+  if (password === document.getElementById("register-password-confirm").value){
+    return true;
+  }
+  else 
+    return false;
+}
 
 async function clickedRegisterButton(){
   let email = document.getElementById("register-email").value;
