@@ -119,3 +119,23 @@ export function getChatTitle(){
         return false; //needed to the user output
     }
 }
+
+export function requestChatsBackups(){
+    console.log("Asking for chat title");
+    // checks if ws is ready to transmit
+    if (ws.readyState === WebSocket.OPEN) {
+        setIsClickableNewChat(false);
+        handleNewChat();
+        let messageJSON = {
+            'typeMessage': TYPE_CHAT_TITLE_MESSAGE,
+            'chatId': currentChatId,
+            'user' : userAccount, 
+            'email': emailAccount 
+        };
+        ws.send(JSON.stringify(messageJSON));
+        return true;
+    } else {
+        console.log('Cannot send message, WebSocket connection is not open');
+        return false; //needed to the user output
+    }
+}

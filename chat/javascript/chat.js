@@ -1,9 +1,10 @@
 import { preciseSetTimeout , createID , preventDefaultSelection , copyToClipboard} from './utils.js';
-import { sendMessage , serverMessage, getFirstMessage, setFirstMessage} from './connection.js';
+import { sendMessage , serverMessage, getFirstMessage, setFirstMessage, requestChatsBackups} from './connection.js';
 import { updateListHistoryChat, removeHistoryChat, removeSearchBar} from './history.js';
 import { updateListAllHistoryChat, removeAllHistoryChat} from './all_history.js';
 import { fakeAI } from './events.js';
 import { applyClassTheme , removeClassTheme} from './settings.js';
+
 
 export const SENDTEXTCLASS = 'sendbox';
 export const RECEIVETEXTCLASS = 'receivebox'
@@ -178,7 +179,8 @@ export function handleNewChat(){
 
 //BACKUP CHATS
 export function retriveServerChats(){
-    
+    let chatList = requestChatsBackups();
+    //TODO: implementare la visualizzazione delle chat
 }
 
 //THEME

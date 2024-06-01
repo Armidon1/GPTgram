@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     scrollToEnd();
     focusUserInput();
     updateCurrentFont();
-    retriveServerChats();
+    //retriveServerChats();
 });
 
 function updateCurrentFont(){
