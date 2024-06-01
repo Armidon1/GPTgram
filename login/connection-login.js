@@ -37,7 +37,6 @@ async function checksumHash(email, user, date){
     return hashString;
 }
 
-
 /* gestisci connessione*/
 ws.onopen = function() {
     console.log('WebSocket connection opened');
