@@ -1,3 +1,5 @@
+import { setHashAccount, setUserAccount, setEmailAccount} from "./account.js";
+
 //APP TOOLS
 export function preciseSetTimeout(callback, delay) {
     let start = performance.now();
@@ -63,4 +65,21 @@ export async function copyToClipboard(event){
     } catch (error){
         console.error('Errore durante la copia nella clipboard: ', error);
     }
+}
+
+//set current email, user and hash
+export function updateGlobalVariables() {
+    let cookie = document.cookie.split('; ').find(row => row.startsWith('login'));
+    let cookieValue = JSON.parse(cookie.split('=')[1]);
+
+    // Extract the hash, username, and expire date from the cookie
+    let hash = cookieValue.hash;
+    let username = cookieValue.user;
+    let email = cookieValue.email;
+    //let expireDate = new Date(cookieValue.expire);
+
+    // Set the global variables
+    setEmailAccount(email);
+    setUserAccount(username);
+    setHashAccount(hash);
 }

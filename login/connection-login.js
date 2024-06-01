@@ -59,6 +59,7 @@ ws.onmessage = async function(event) {
             let cookieValue = {
                 hash: hashString,
                 user: user,
+                email: email,
             };
             document.cookie = `login=${JSON.stringify(cookieValue)}; expires=${expireDate.toUTCString()}; path=/`;
             ws.send(JSON.stringify({typeMessage: TYPE_MESSAGE_NEW_COOKIE, hash: hashString, username: user, expire: expireDate.toLocaleString()}));

@@ -1,6 +1,31 @@
+import { logout } from './connection.js';
 import {insertButtonsInsideSettingsGrid, setIsFontClicked, setIsThemeClicked, applyClassTheme, removeClassTheme, updateSettingsTheme, removeSettingsTheme} from './settings.js';
 
 export let emailAccount = "account@email.com"; 
+export function setEmailAccount(email){
+    emailAccount = email;
+}
+export function getEmailAccount(){
+    return emailAccount;
+}
+
+export let userAccount = "account";
+export function setUserAccount(user){
+    userAccount = user;
+}
+export function getUserAccount(){
+    return userAccount;
+}
+
+export let hashAccount = "hash";
+export function setHashAccount(hash){
+    hashAccount = hash;
+}
+export function getHashAccount(){
+    return hashAccount;
+}
+
+
 let accountButtons = ['Settings', 'Logout'];
 let isAccountClicked = false;
 let isSettingsClicked = false;
@@ -13,13 +38,6 @@ export function insertEmail(){
     emailInput.classList.add('account-email');
     document.querySelector('.account-button').appendChild(emailInput);
 }
-export function setEmailAccount(email){
-    emailAccount = email;
-}
-export function getEmailAccount(){
-    return emailAccount;
-}
-
 function findAccountGridButton(buttonText){
     let accountGrid = document.querySelector('.account-grid');
     let accountButtons = accountGrid.querySelectorAll('.account-grid-button');
@@ -157,5 +175,5 @@ function clickedAccountSettingsButton(){
 }
 //da implementare
 function clickedAccountLogoutButton(){
-    console.log('clicked account loggout button');
+    logout();
 }

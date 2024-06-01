@@ -1,4 +1,4 @@
-import { focusUserInput , scrollToEnd} from './utils.js';
+import { focusUserInput , scrollToEnd, updateGlobalVariables} from './utils.js';
 import { clickedSearchButton } from './history.js';
 import { createMessage , newChat, updateChatTitle} from './chat.js';
 import { generateFloatingLetters } from './letters.js';
@@ -17,11 +17,13 @@ export function setCurrentFont(newFont){
 //EVENT LISTENERS
 document.addEventListener("DOMContentLoaded", async function() {
     generateFloatingLetters();
+    updateGlobalVariables();
     insertEmail();
     newChat();
     scrollToEnd();
     focusUserInput();
     updateCurrentFont();
+    retriveServerChats();
 });
 
 function updateCurrentFont(){

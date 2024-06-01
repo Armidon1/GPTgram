@@ -55,7 +55,6 @@ async function newUserMessage(){
     currentChat.appendChild(newMessage);
     document.getElementsByClassName('end-separator')[0].scrollIntoView();
 }
-
 async function newAIMessage(){
     let newMessage = document.createElement('div');
     newMessage.classList.add(RECEIVETEXTCLASS);
@@ -177,7 +176,12 @@ export function handleNewChat(){
     }
 }
 
+//BACKUP CHATS
+export function retriveServerChats(){
+    
+}
 
+//THEME
 export function removeChatTheme(){
     let chatbox = document.querySelector('.chatbox');
     if (chatbox){
