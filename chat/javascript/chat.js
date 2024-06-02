@@ -1,5 +1,5 @@
 import { preciseSetTimeout , createID , preventDefaultSelection , copyToClipboard} from './utils.js';
-import { sendMessage , serverMessage, getFirstMessage, setFirstMessage, requestChatsBackups} from './connection.js';
+import { sendMessage , serverMessage, getFirstMessage, setFirstMessage, requestChatsBackups, getContentChatFromServer} from './connection.js';
 import { updateListHistoryChat, removeHistoryChat, removeSearchBar} from './history.js';
 import { updateListAllHistoryChat, removeAllHistoryChat} from './all_history.js';
 import { fakeAI } from './events.js';
@@ -18,6 +18,7 @@ export let currentChatTitle = "*";
 export let history = {};               //contiene dall'ID della chat associata all'intera chatbox
 export let sortedHistoryChat = {};     //contiene la data associata all'ID della chat
 export let fromChatIDtoTitle = {};     //contiene l'ID della chat associata al titolo della chat
+export let fromChatIDtoDate = {};      //contiene l'ID della chat associata alla data di creazione della chat
 
 export let isClickableNewChat = true;
 
@@ -85,10 +86,45 @@ export async function createMessage(asUser = true){
     else newAIMessage();
 }
 
-//GESTIONE DELLA CHAT
-export function getChatTitle(){
-    return currentChatTitle;
+function restoreOldUserMessage(message){
+    let newMessage = document.createElement('div');
+    newMessage.classList.add(SENDTEXTCLASS);
+    newMessage.id = message.id;
+    newMessage.setAttribute('data-time', message.date);
+    let newMessageText = document.createElement('p');
+    newMessageText.classList.add('send');
+    applyClassTheme('send',newMessageText);
+    newMessageText.textContent = message.message;
+    let Icon = document.createElement('div');
+    Icon.classList.add('icon', 'default-user');
+    newMessage.appendChild(newMessageText);
+    newMessage.appendChild(Icon);
+
+    return newMessage;
 }
+
+function restoreOldAIMessage(message){
+    let newMessage = document.createElement('div');
+    newMessage.classList.add(RECEIVETEXTCLASS);
+    newMessage.id = message.id;
+    newMessage.setAttribute('data-time', message.date);
+    let newMessageText = document.createElement('p');
+    newMessageText.classList.add('receive');
+    applyClassTheme('receive',newMessageText);
+    newMessageText.textContent = message.message;
+    let Icon = document.createElement('div');
+    Icon.classList.add('icon', 'default-ai');
+    newMessage.appendChild(Icon);
+    newMessage.appendChild(newMessageText);
+
+    return newMessage;
+}
+
+
+//GESTIONE DELLA CHAT
+// export function getChatTitle(){
+//     return currentChatTitle;
+// }
 export function setChatTitle(title){
     currentChatTitle = title;
 }
@@ -101,7 +137,8 @@ export function updateChatTitle(){
 function chatIsNotEmpty(chatbox){
     return chatbox.childElementCount > 0;
 }
-export function restoreChat(chatId){
+
+export function deleteCurrentChat(){
     let chatbox = document.querySelector('.chatbox');
     if (chatIsNotEmpty(chatbox)){       //salva la chat corrente nella history se non è vuota
         history[currentChatId] = document.querySelector('.chatbox');
@@ -109,13 +146,60 @@ export function restoreChat(chatId){
     let chatflow = document.querySelector('.chatflow');
     chatflow.removeChild(chatbox);
     chatflow.removeChild(document.querySelector('.end-separator'));
-    chatflow.appendChild(history[chatId]);
+}
+function insertMessagesInsideChatbox(chatbox, messages){
+    let newMessage;
+    //console.log(messages);
+    messages.forEach(message => {
+       if (message.sender === 'User'){ //User
+            switch (message.type) {
+                case 'text':
+                    newMessage = restoreOldUserMessage(message);
+                    break;
+                case 'image':
+                    break;
+                case 'audio':
+                    break;
+                case 'file':
+                    break;
+            }
+       } else { //AI
+            switch (message.type) {
+                case 'text':
+                    newMessage = restoreOldAIMessage(message);
+                    break;
+                case 'image':
+                    break;
+                case 'audio':
+                    break;
+                case 'file':
+                    break;
+            }
+       }
+       console.log(newMessage);
+       chatbox.appendChild(newMessage);
+    });
+}
+export function restoreChat(chatId, messages){
+    //crea una nuova chatbox con l'ID specificato
+    let chatflow = document.querySelector('.chatflow');
+    let newChat = document.createElement('div');
+    newChat.classList.add('chatbox');
+    newChat.id = chatId;
+    newChat.dateTime = fromChatIDtoDate[chatId];
+
+    insertMessagesInsideChatbox(newChat, messages);
+
+    chatflow.appendChild(newChat);
+
     let endSeparator = document.createElement('div');
     endSeparator.classList.add('end-separator');
     chatflow.appendChild(endSeparator);
+    
     currentChatId = chatId;
-    delete history[chatId];
     delete sortedHistoryChat[document.getElementById(chatId).dateTime];
+
+    //qui tutto ok in teoria
     removeHistoryChat();
     removeAllHistoryChat();
     removeSearchBar(document.querySelector('.header'));
@@ -144,10 +228,10 @@ export async function newChat(){
 
     } else if (chatIsNotEmpty(document.querySelector('.chatbox'))){
         let oldChat = document.querySelector(".chatbox");
-        history[oldChat.id] = oldChat;
+        //history[oldChat.id] = oldChat;
         sortedHistoryChat[oldChat.dateTime] = oldChat.id;
         chatflow.removeChild(oldChat);
-        // chatflow.removeChild(document.querySelector(".end-separator"));
+        chatflow.removeChild(document.querySelector(".end-separator"));
         
         currentChatId = newChat.id
         chatflow.insertBefore(newChat, endSeparator);
@@ -178,9 +262,17 @@ export function handleNewChat(){
 }
 
 //BACKUP CHATS
-export function retriveServerChats(){
-    let chatList = requestChatsBackups();
-    //TODO: implementare la visualizzazione delle chat
+export function importServerChats(chatList){
+    for (let chat of chatList){
+        console.log(`Chat : hash=${chat["hash"]} - title=${chat["title"]} - creation_date=${chat["creation_date"]}`);
+        fromChatIDtoTitle[chat["hash"]] = chat["title"];
+
+        let creationDate = chat["creation_date"];
+        let date = new Date(creationDate);
+        
+        sortedHistoryChat[date] = chat["hash"];
+        fromChatIDtoDate[chat["hash"]] = date;
+    }
 }
 
 //THEME

@@ -1,5 +1,5 @@
 import { createAndAppendNoResults } from './history.js';
-import { history, sortedHistoryChat , restoreChat, fromChatIDtoTitle} from './chat.js';
+import { sortedHistoryChat , restoreChat, fromChatIDtoTitle} from './chat.js';
 import { preciseSetTimeout } from './utils.js';
 import { applyClassTheme , removeClassTheme} from './settings.js';
 

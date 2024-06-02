@@ -1,6 +1,6 @@
 import { focusUserInput , scrollToEnd, updateGlobalVariables} from './utils.js';
 import { clickedSearchButton } from './history.js';
-import { createMessage , newChat, updateChatTitle} from './chat.js';
+import { createMessage , newChat, updateChatTitle, importServerChats} from './chat.js';
 import { generateFloatingLetters } from './letters.js';
 import { toggleRecording } from './audio.js';
 import { insertEmail , clickedAccountButton } from './account.js';
@@ -23,7 +23,6 @@ document.addEventListener("DOMContentLoaded", async function() {
     scrollToEnd();
     focusUserInput();
     updateCurrentFont();
-    //retriveServerChats();
 });
 
 function updateCurrentFont(){

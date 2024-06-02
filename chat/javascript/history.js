@@ -1,7 +1,8 @@
-import { restoreChat, sortedHistoryChat , fromChatIDtoTitle} from './chat.js';
+import { restoreChat, sortedHistoryChat , fromChatIDtoTitle, deleteCurrentChat} from './chat.js';
 import { handleAllHistoryChat } from './all_history.js';
 import { preciseSetTimeout } from './utils.js';
 import { applyClassTheme , removeClassTheme} from './settings.js';
+import { getContentChatFromServer } from './connection.js';
 
 let isSearchBarShowed = false;
 let isHistoryChatShowed = false;
@@ -62,7 +63,8 @@ function createAndAppendClickableElement(parent, key) {
     clickableElement.textContent = fromChatIDtoTitle[key];
     clickableElement.onclick = function() {
         console.log('Hai cliccato la chiave ' + key + '!');
-        restoreChat(key);
+        deleteCurrentChat();
+        getContentChatFromServer(key);
     };
     parent.appendChild(clickableElement);
 }
