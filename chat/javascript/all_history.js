@@ -1,7 +1,8 @@
 import { createAndAppendNoResults } from './history.js';
-import { sortedHistoryChat , restoreChat, fromChatIDtoTitle} from './chat.js';
+import { sortedHistoryChat , restoreChat, fromChatIDtoTitle, deleteCurrentChat} from './chat.js';
 import { preciseSetTimeout } from './utils.js';
 import { applyClassTheme , removeClassTheme} from './settings.js';
+import { getContentChatFromServer } from './connection.js';
 
 let isAllHistoryChatShowed = false;
 let isAllHistoryChatEmpty = true;
@@ -30,7 +31,8 @@ function createAndAppendClickableAllHistoryButton(parent, key) {
     clickableElement.textContent = fromChatIDtoTitle[key];
     clickableElement.onclick = function() {
         console.log('Hai cliccato la chiave ' + key + '!');
-        restoreChat(key);
+        deleteCurrentChat();
+        getContentChatFromServer(key);
     };
     parent.appendChild(clickableElement);
     return clickableElement;
@@ -89,7 +91,6 @@ export function handleAllHistoryChat(){
         showAllHistoryChat();
     }
 }
-
 export function removeAllHistoryTheme(){
     if (isAllHistoryChatShowed){
         let allHistoryChat = document.querySelector('#allHistoryChat');

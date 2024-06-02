@@ -31,7 +31,7 @@ ws.onopen = function() {
 
 
 ws.onmessage = function(event) {
-    console.log('Message from server: ' + event.data);
+    //console.log('Message from server: ' + event.data);
     let data = JSON.parse(event.data);
     switch(data.typeMessage){
         case TYPE_CHAT_MESSAGE:
@@ -59,14 +59,18 @@ ws.onmessage = function(event) {
             break;
         case TYPE_REQUEST_CHAT_LIST:
             let titles = data.titles;
-            console.log("Chat titles: "+titles);
+            //console.log("Chat titles: "+titles);
             importServerChats(titles);
+            setIsClickableNewChat(true);
+            handleNewChat();
             break;
         case TYPE_REQUEST_CHAT_CONTENT:
             let messages = data.messages;
-            let chatID = data.chatId;
-            console.log("Chat content: "+messages);
+            let chatID = data.chatID;
+            console.log("chatID: "+ chatID +"chat content: "+messages);
             restoreChat(chatID, messages);
+            setIsClickableNewChat(true);
+            handleNewChat();
             break;
         }
         
@@ -100,7 +104,7 @@ export function logout(chatId){
 }
 
 export function sendMessage(message){
-    console.log("Message sent from client: "+message);
+    //console.log("Message sent from client: "+message);
     // checks if ws is ready to transmit
     if (ws.readyState === WebSocket.OPEN) {
         let messageJSON = {
@@ -160,6 +164,10 @@ export function getContentChatFromServer(chatID){
     console.log("Asking for chat content");
     // checks if ws is ready to transmit
     if (ws.readyState === WebSocket.OPEN) {
+        setIsClickableNewChat(false);
+        handleNewChat();
+        //console.log("user: "+userAccount);
+        //console.log("chatID: "+chatID);
         let messageJSON = {
             'typeMessage': TYPE_REQUEST_CHAT_CONTENT,
             'chatId': chatID,

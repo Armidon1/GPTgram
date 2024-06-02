@@ -58,8 +58,8 @@ function createAndAppendClickableElement(parent, key) {
     let clickableElement = document.createElement('button');
     clickableElement.classList.add('scroll-button');
     applyClassTheme('scroll-button',clickableElement);
-    console.log(key);
-    console.log(key.title);
+    //console.log(key);
+    //console.log(key.title);
     clickableElement.textContent = fromChatIDtoTitle[key];
     clickableElement.onclick = function() {
         console.log('Hai cliccato la chiave ' + key + '!');
@@ -82,7 +82,8 @@ export function updateListHistoryChat(historyChat, text) {
                                                                                     //le chiavi ordinate verrano usate nuovamente su sortedHistoryChat 
                                                                                     //per ottenere l'ID della chat in ordine
         let sortedChatIds = sortedDateKeys.map(date => sortedHistoryChat[date]);
-        let results = text == "" ? sortedChatIds : sortedChatIds.filter(id => id.includes(text));
+        let results = text == "" ? sortedChatIds : sortedChatIds.filter(id => fromChatIDtoTitle[id].includes(text));
+        //console.log(results);
         cancelContentHistoryChat();
         if (text == ""){
             if (results.length == 0) {
@@ -173,7 +174,6 @@ export function updateHistoryTheme(){
         }
     }
 }
-
 function handleHistoryChat() {
     if (isHistoryChatShowed){
         removeHistoryChat();
@@ -181,7 +181,6 @@ function handleHistoryChat() {
         showHistoryChat();
     }
 }
-
 export function clickedSearchButton() {
     let header = document.querySelector('.header');
     let title = document.querySelector('.title');

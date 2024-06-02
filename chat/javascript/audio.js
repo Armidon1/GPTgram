@@ -60,6 +60,7 @@ export async function userAudioMessage(blob) {
     audioButton.onclick = () => wavesurferAudio.playPause();
     wavesurferAudio.on('pause', () => (audioButton.style.backgroundImage = "var(--play-path)"));
     wavesurferAudio.on('play', () => (audioButton.style.backgroundImage = "var(--pause-path)"));
+    
     audioMessage.insertBefore(audioButton, audioMessage.firstElementChild);//appendChild(audioButton);
     newMessage.appendChild(audioMessage);
     newMessage.appendChild(Icon);

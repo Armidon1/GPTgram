@@ -15,7 +15,6 @@ const TYPEMSG = 'MSG';
 export let currentChatId = null;
 export let currentChatTitle = "*";
 
-export let history = {};               //contiene dall'ID della chat associata all'intera chatbox
 export let sortedHistoryChat = {};     //contiene la data associata all'ID della chat
 export let fromChatIDtoTitle = {};     //contiene l'ID della chat associata al titolo della chat
 export let fromChatIDtoDate = {};      //contiene l'ID della chat associata alla data di creazione della chat
@@ -140,10 +139,12 @@ function chatIsNotEmpty(chatbox){
 
 export function deleteCurrentChat(){
     let chatbox = document.querySelector('.chatbox');
-    if (chatIsNotEmpty(chatbox)){       //salva la chat corrente nella history se non è vuota
-        history[currentChatId] = document.querySelector('.chatbox');
-    }
     let chatflow = document.querySelector('.chatflow');
+    if (chatIsNotEmpty(chatbox)){
+        sortedHistoryChat[chatbox.dateTime] = chatbox.id;
+        fromChatIDtoDate[chatbox.id] = chatbox.dateTime;
+        fromChatIDtoTitle[chatbox.id] = currentChatTitle;
+    } 
     chatflow.removeChild(chatbox);
     chatflow.removeChild(document.querySelector('.end-separator'));
 }
@@ -176,7 +177,7 @@ function insertMessagesInsideChatbox(chatbox, messages){
                     break;
             }
        }
-       console.log(newMessage);
+       //console.log(newMessage);
        chatbox.appendChild(newMessage);
     });
 }
@@ -197,16 +198,17 @@ export function restoreChat(chatId, messages){
     chatflow.appendChild(endSeparator);
     
     currentChatId = chatId;
-    delete sortedHistoryChat[document.getElementById(chatId).dateTime];
+    currentChatTitle = fromChatIDtoTitle[chatId];
+    console.log("restoreChat: ho ripristinato la chat con ID: "+chatId+ " e titolo: "+currentChatTitle);
+    delete sortedHistoryChat[fromChatIDtoDate[chatId]];
+    delete fromChatIDtoTitle[chatId];
+    delete fromChatIDtoDate[chatId];
+    //console.log("restoreChat: ho eliminato la chat con ID: "+chatId);
 
     //qui tutto ok in teoria
     removeHistoryChat();
     removeAllHistoryChat();
     removeSearchBar(document.querySelector('.header'));
-    preciseSetTimeout(function() {
-        updateListHistoryChat(document.querySelector('#historyChat'), "");
-        updateListAllHistoryChat(document.querySelector('#allHistoryChat'));
-    }, 300);
 }
 export async function newChat(){
     if (isClickableNewChat){
@@ -229,9 +231,14 @@ export async function newChat(){
     } else if (chatIsNotEmpty(document.querySelector('.chatbox'))){
         let oldChat = document.querySelector(".chatbox");
         //history[oldChat.id] = oldChat;
-        sortedHistoryChat[oldChat.dateTime] = oldChat.id;
+        if (sortedHistoryChat[oldChat.dateTime] === undefined){
+            // If it doesn't exist, insert it
+            sortedHistoryChat[oldChat.dateTime] = oldChat.id;
+            fromChatIDtoDate[oldChat.id] = oldChat.dateTime;
+            fromChatIDtoTitle[oldChat.id] = currentChatTitle;
+        } 
         chatflow.removeChild(oldChat);
-        chatflow.removeChild(document.querySelector(".end-separator"));
+        //chatflow.removeChild(document.querySelector(".end-separator"));
         
         currentChatId = newChat.id
         chatflow.insertBefore(newChat, endSeparator);
@@ -264,7 +271,7 @@ export function handleNewChat(){
 //BACKUP CHATS
 export function importServerChats(chatList){
     for (let chat of chatList){
-        console.log(`Chat : hash=${chat["hash"]} - title=${chat["title"]} - creation_date=${chat["creation_date"]}`);
+        //console.log(`Chat : hash=${chat["hash"]} - title=${chat["title"]} - creation_date=${chat["creation_date"]}`);
         fromChatIDtoTitle[chat["hash"]] = chat["title"];
 
         let creationDate = chat["creation_date"];
