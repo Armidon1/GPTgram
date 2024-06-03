@@ -25,7 +25,7 @@ body{
     background-color: var(--background-color);
     background-repeat: no-repeat;
     background-attachment: fixed;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 .title{
     color: var(--title-color);
