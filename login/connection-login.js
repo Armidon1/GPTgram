@@ -1,3 +1,4 @@
+import {popUpMessage} from "../login/login-script.js";
 export let serverMessage = '';
 
 let LetterPool = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"; //salt for the hash
@@ -49,34 +50,53 @@ ws.onmessage = async function(event) {
     if (ws.readyState === WebSocket.OPEN) {
         serverMessage = JSON.parse(event.data);
         console.log("Message received from server: ", serverMessage);
-        if (serverMessage.status === "success") { //login success and cookie creation
-            email = serverMessage.email;
-            user = serverMessage.user;
-            let currentDate = new Date();
-            let hashString = await checksumHash(email, user, currentDate.toLocaleString());
-            let expireDate = new Date(currentDate);
-            expireDate.setDate(currentDate.getDate() + 7);
-            let cookieValue = {
-                hash: hashString,
-                user: user,
-                email: email,
-            };
-            document.cookie = `login=${JSON.stringify(cookieValue)}; expires=${expireDate.toUTCString()}; path=/`;
-            ws.send(JSON.stringify({typeMessage: TYPE_MESSAGE_NEW_COOKIE, hash: hashString, username: user, expire: expireDate.toLocaleString()}));
-            //window.location.href = chatpage;
-        } else if (serverMessage.status === "RegisterSuccess") {
-            console.log("Registation success");
-        } else if (serverMessage.status === "NewCookieSuccess") {
-            if (serverMessage.email === email){
-                // window.location.href = chatpage;
+        switch (serverMessage.status) {
+            case "success": //login success and cookie creation
+                popUpMessage("Login success!");
+                email = serverMessage.email;
+                user = serverMessage.user;
+                let currentDate = new Date();
+                let hashString = await checksumHash(email, user, currentDate.toLocaleString());
+                let expireDate = new Date(currentDate);
+                expireDate.setDate(currentDate.getDate() + 7);
+                let cookieValue = {
+                    hash: hashString,
+                    user: user,
+                    email: email,
+                };
+                document.cookie = `login=${JSON.stringify(cookieValue)}; expires=${expireDate.toUTCString()}; path=/`;
+                ws.send(JSON.stringify({typeMessage: TYPE_MESSAGE_NEW_COOKIE, hash: hashString, username: user, expire: expireDate.toLocaleString()}));
+                //window.location.href = chatpage;
+                break;
+            case "RegisterSuccess":
+                console.log("Registation success");
+                popUpMessage("Registration success!");
+                break;
+            case "errorRegisterUserExist":
+                popUpMessage("User already exists");
+                break;
+            case "NewCookieSuccess":
+                if (serverMessage.email === email){
+                    // window.location.href = chatpage;
+                    window.location.replace(chatpage);
+                } else {
+                    console.log("Cookie not valid");
+                }
+                break;
+            case "CookieSuccess":
                 window.location.replace(chatpage);
-            } else {
-                console.log("Cookie not valid");
-            }
-        } else if (serverMessage.status === "CookieSuccess") {
-            window.location.replace(chatpage);
-        } else {
-            console.log('Cannot send message, WebSocket connection is not open');
+                break;
+            case "CookieInvalid":
+                document.cookie = "login=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                break;
+            case "errorLoginWrongPassword":
+                popUpMessage("Wrong password");
+                break;
+            case "errorLoginUserNotExist":
+                popUpMessage("User does not exist");
+                break;
+            default:
+                console.log('Cannot send message, WebSocket connection is not open');
         }
     }
 }

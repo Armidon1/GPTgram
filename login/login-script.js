@@ -71,12 +71,27 @@ async function hashLoginPassword(password){
   return hashArrayString;
 }
 
-function popUpMessage(message){
+export function popUpMessage(message){
   //da implementare
-  console.log("implementare la funzione popUpMessage");
-  alert(message);
-  console.log(message);
-  //inserire i messaggi pop-up belli
+    try{
+        let notification = document.createElement('div');
+        notification.classList.add("notification");
+        let notification_body = document.createElement('div');
+        notification_body.classList.add("notification-body");
+        notification_body.textContent = message;
+        let notification_progress = document.createElement("div");
+        notification_progress.classList.add("notification-progress");
+        notification.appendChild(notification_body);
+        notification.appendChild(notification_progress);
+        document.body.appendChild(notification);
+
+        preciseSetTimeout(function() {
+            document.body.removeChild(notification);
+        }, 10000);
+    
+    } catch (error){
+        console.error('Error during pop up message ', error);
+    }
 }
 
 //FLOATING LETTERS
