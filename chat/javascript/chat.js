@@ -96,6 +96,8 @@ function restoreOldUserMessage(message){
     newMessageText.textContent = message.message;
     let Icon = document.createElement('div');
     Icon.classList.add('icon', 'default-user');
+    newMessage.addEventListener('dblclick', copyToClipboard);
+    newMessage.addEventListener('mousedown', preventDefaultSelection);
     newMessage.appendChild(newMessageText);
     newMessage.appendChild(Icon);
 
@@ -113,6 +115,8 @@ function restoreOldAIMessage(message){
     newMessageText.textContent = message.message;
     let Icon = document.createElement('div');
     Icon.classList.add('icon', 'default-ai');
+    newMessage.addEventListener('dblclick', copyToClipboard);
+    newMessage.addEventListener('mousedown', preventDefaultSelection);
     newMessage.appendChild(Icon);
     newMessage.appendChild(newMessageText);
 
