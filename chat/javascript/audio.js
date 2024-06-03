@@ -1,3 +1,4 @@
+import { sendAudio } from "./connection.js"
 import { SENDTEXTCLASS, RECEIVETEXTCLASS, currentChatId } from "./chat.js";
 import { createID, focusUserInput } from "./utils.js";
 import WaveSurfer from "https://cdn.jsdelivr.net/npm/wavesurfer.js@7.7.14/dist/wavesurfer.js";
@@ -60,13 +61,25 @@ export async function userAudioMessage(blob) {
     audioButton.onclick = () => wavesurferAudio.playPause();
     wavesurferAudio.on('pause', () => (audioButton.style.backgroundImage = "var(--play-path)"));
     wavesurferAudio.on('play', () => (audioButton.style.backgroundImage = "var(--pause-path)"));
+   
+    blob = await fetch(recordedUrl);
+    blob = await blob.blob();
     
+    if(!sendAudio(blob)){
+        alert("ERRORE: La connessione WebSocket non è aperta ancora (?)");
+    }
     audioMessage.insertBefore(audioButton, audioMessage.firstElementChild);//appendChild(audioButton);
     newMessage.appendChild(audioMessage);
     newMessage.appendChild(Icon);
     let currentChat = document.getElementById(currentChatId);
     currentChat.appendChild(newMessage);
     document.getElementsByClassName('end-separator')[0].scrollIntoView();
+
+    window.addEventListener('resize', () => {
+        wavesurferAudio.setOptions({
+            width: (document.querySelector('.chatbox').offsetWidth * 0.800) - 20 - 50 - 10,
+        });
+    });
 }
 
 function updateProgress(time) {

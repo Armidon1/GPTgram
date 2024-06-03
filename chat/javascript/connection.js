@@ -8,6 +8,7 @@ let TYPE_CHAT_TITLE_MESSAGE = "chatTitle";      // Tipo di messaggio per il tito
 let TYPE_LOGOUT_MESSAGE = "logout";      // Tipo di messaggio per il logout
 let TYPE_REQUEST_CHAT_LIST = "chatList"          // Tipo di messaggio per la lista delle chat
 let TYPE_REQUEST_CHAT_CONTENT = "chatContent"          // Tipo di messaggio per il contenuto della chat
+let TYPE_AUDIO_MESSAGE = "audio";          // Tipo di messaggio per l'audio
 
 let homepage = "http://localhost:5500";
 let loginpage = "http://localhost:5500/login/index.html";
@@ -100,6 +101,29 @@ export function logout(chatId){
         window.location.href = homepage;
     } else {
         console.log('Cannot send message, WebSocket connection is not open');
+    }
+}
+
+export function sendAudio(blob){
+    if (ws.readyState === WebSocket.OPEN) {
+        let binaryDataReader = new FileReader();
+        binaryDataReader.onload = function(event) {
+            let base64Audio = btoa(event.target.result); // Encode the audio data in base64
+            let audioJSON = {
+                'typeMessage': TYPE_AUDIO_MESSAGE,
+                'audio': base64Audio,
+                'chatId': currentChatId,
+                'user' : userAccount,
+                'email': emailAccount,
+                'date' : (new Date()).toISOString()
+            };
+            ws.send(JSON.stringify(audioJSON));
+        };
+        binaryDataReader.readAsBinaryString(blob);
+        return true;
+    } else {
+        console.log('Cannot send message, WebSocket connection is not open');
+        return false;
     }
 }
 
