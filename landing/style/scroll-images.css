@@ -1,9 +1,6 @@
 :root {
   --primary-color: slategrey;
 }
-
-
-
 .carousel-container {
   border-radius: 30px;
   overflow: hidden;
@@ -13,7 +10,6 @@
   margin: auto;
   z-index: 0;
 }
-
 /* Hide the images by default */
 .mySlides {
   display: none;
@@ -22,15 +18,6 @@
   display: block;
   width: 100%;
 }
-
-/* image gradient overlay [optional] */
-/*  .mySlides::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-    background-image: linear-gradient(-45deg, rgba(110, 0, 255, .1), rgba(70, 0, 255, .2));
-} */
-
 /* Next & previous buttons */
 .prev,
 .next {
@@ -55,7 +42,6 @@
 .next:hover {
   background-color: rgba(173, 216, 230, 0.3);
 }
-
 /* Caption text */
 .text-container {
   position: absolute;
@@ -69,9 +55,8 @@
 }
 .text-title{
   color: #f2f2f2;
-  font-size: 90px;
+  font-size: 5vw;
   font-weight: bold;
-  /* margin: 10px; */
   font-family: "Helvetica Neue", sans-serif;
   text-align: center;
 }
@@ -80,27 +65,27 @@
   background-color: rgba(10, 10, 20, 0.1);
   backdrop-filter: blur(10px);
   border-radius: 10px;
-  font-size: 50px;
+  font-size: 3vw;
   font-family: "Helvetica Neue", sans-serif;
   text-align: center;
-  /* margin: 10px; */
 }
+
 .button{
-    background-color: rgba(50, 50, 50, 1);;
-    backdrop-filter: blur(10%);
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: 50px;  
-    color: white;
-    margin: 20px;
-    padding: 15px;
-    padding-left: 40px;
-    padding-right: 40px;
-    border: 1px solid white;
-    border-radius: var(--standard-border-radius);
-    font-size: 30px;
-    font-family: "Helvetica Neue", sans-serif;
-    text-decoration: none;
+  background-color: rgba(50, 50, 50, 1);;
+  backdrop-filter: blur(10%);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 50px;  
+  color: white;
+  margin: 2vw; 
+  padding: 1.5vw;
+  padding-left: 4vw;
+  padding-right: 4vw; 
+  border: 1px solid white;
+  border-radius: var(--standard-border-radius);
+  font-size: 3vw;
+  font-family: "Helvetica Neue", sans-serif;
+  text-decoration: none;
 }
 
 
