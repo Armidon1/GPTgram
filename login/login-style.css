@@ -27,6 +27,7 @@ h5 {
   background-color: rgba(50, 50, 50, 1); 
   border-radius: 10px;
   box-shadow: 0 0 20px 7px rgba(0, 0, 0, 0.6);
+  overflow-x:   hidden;
   overflow-y: auto; /* per permettere lo scrolling se il contenuto è troppo grande */
 }
 .container {
@@ -116,6 +117,8 @@ h5 {
   width: 100%;
   background-color: rgb(29, 129, 76);
   border-radius: 10px 10px 0 0;
+  overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 
@@ -221,4 +224,10 @@ input[type="password"].validate {
   to {
       transform: scaleX(1);
   }
+}
+
+.green-input {
+  color: rgb(75, 195, 75);
+  border-bottom: 1px solid rgb(75, 195, 75) !important;
+  box-shadow: 0 1px 0 0 rgb(75, 195, 75) !important;
 }
