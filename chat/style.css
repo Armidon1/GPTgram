@@ -25,6 +25,7 @@
     --mic-path: url('../asset/mic.svg');
     --recording-path: url('../asset/recording.svg');
     --send-path: url('../asset/send.svg');
+    --gray-send-path: url('../asset/send-gray.svg');
     --export-path: url('../asset/download.svg');
     --sync-path: url('../asset/refresh-cw.svg');
     --new-chat-path: url('../asset/edit.svg');
@@ -33,6 +34,11 @@
     --play-path: url('../asset/play-circle.svg');
     --pause-path: url('../asset/pause-circle.svg');
     --minecraft-font-path: url('../asset/Monocraft-nerd-fonts-patched.ttf');
+    --upload-path: url('../asset/paperclip.svg');
+    --gray-upload-path: url('../asset/paperclip-gray.svg');
+    --x-path: url('../asset/x.svg');
+    --pdf-path: url('../asset/pdf.svg');
+    --generic-file-path: url('../asset/file.svg');
 }   
 
 * {
@@ -57,6 +63,18 @@ body{
     padding: 0px;
     border-radius: 50%;
     border: 1px solid white;
+}
+
+.big-icon{
+    height: 80px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    aspect-ratio: 1;
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+    flex-shrink: 1;
 }
 
 .header{
@@ -644,6 +662,32 @@ p {
     min-width: 300px; /* Imposta una larghezza minima per evitare che il chatflow diventi troppo piccolo */
 }
 
+.file-holder{
+    display: flex ;
+    background-color: var(--user-input-background-color);
+    color: var(--user-input-text-color);
+    font-size: var(--user-font-size);
+    margin: 5px;
+    padding: 5px;
+    border: 0px;
+    border-radius: 5px;
+    width: 100%;
+    height: 100px;
+    grid-template-columns: 1fr 1fr;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+    gap: 10px;
+}
+
+.file-holder h1{
+    font-size:  44px;
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 100;
+}
+
 .input-grid{
     display: flex;
     justify-content: center;
@@ -681,7 +725,7 @@ p {
     margin: 5px 0px 5px 0px;
     padding: 0px 10px 0px 10px;
     width: 100%;
-    height: 100;
+    height: 100px;
     flex-grow: 1;
     resize: none;
 }
@@ -712,9 +756,11 @@ p {
     background-image: var(--mic-path);
 }
 
-#send
-{
+.sendButton{
     background-image: var(--send-path);
+}
+.sendButton-disabled{
+    background-image: var(--gray-send-path);
 }
 
 #export
@@ -736,6 +782,23 @@ p {
 #more{
     background-image: var(--more-path);
 }
+.file-pdf{
+    background-image: var(--pdf-path);
+}
+
+.file-generic{
+    background-image: var(--generic-file-path);
+}
+
+.upload{
+    background-image: var(--upload-path);
+}
+.upload-disabled{
+    background-image: var(--gray-upload-path);
+}
+.uploaded-file{
+    background-image: var(--x-path);
+}
 
 .text-footer{
     color: rgb(170, 170, 170);
@@ -746,8 +809,6 @@ p {
     /* background-color: rgba(50, 50, 50, 0.5); */
     backdrop-filter: blur(30px);
 }
-
-
 
 /*high priority*/
 .settings-button-clicked{
