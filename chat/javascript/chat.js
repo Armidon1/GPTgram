@@ -122,9 +122,6 @@ function restoreOldAIMessage(message){
 
     return newMessage;
 }
-function restoreOldAudioMessage(message){
-    
-}
 
 
 //GESTIONE DELLA CHAT
@@ -168,7 +165,8 @@ function insertMessagesInsideChatbox(chatbox, messages){
                 case 'pdf':
                     break;
                 case 'audio':
-                    newMessage = restoreOldAudioMessage(message);
+                    console.log("audio message");
+                    newMessage = restoreOldUserMessage(message);
                     break;
                 // Add cases for 'audio' and 'pdf'...
                 default:
@@ -185,7 +183,8 @@ function insertMessagesInsideChatbox(chatbox, messages){
                 case 'pdf':
                     break;
                 case 'audio':
-                    newMessage = restoreOldAudioMessage(message);
+                    console.log("audio message");
+                    newMessage = restoreOldAIMessage(message);
                     break;
                     // Add cases 
                 // Add cases for 'audio' and 'file'...
