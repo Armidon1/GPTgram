@@ -1,10 +1,10 @@
-import { preciseSetTimeout , createID , preventDefaultSelection , copyToClipboard} from './utils.js';
+import { preciseSetTimeout , createID , preventDefaultSelection , copyToClipboard, popUpMessage} from './utils.js';
 import { sendMessage , serverMessage, getFirstMessage, setFirstMessage, requestChatsBackups, getContentChatFromServer} from './connection.js';
 import { updateListHistoryChat, removeHistoryChat, removeSearchBar} from './history.js';
 import { updateListAllHistoryChat, removeAllHistoryChat} from './all_history.js';
-import { fakeAI } from './events.js';
+import { currentFile, fakeAI , setCurrentFile} from './events.js';
 import { applyClassTheme , removeClassTheme} from './settings.js';
-
+import { createFileHolder, deleteFileHolder } from './files.js';
 
 export const SENDTEXTCLASS = 'sendbox';
 export const RECEIVETEXTCLASS = 'receivebox'
@@ -122,6 +122,9 @@ function restoreOldAIMessage(message){
 
     return newMessage;
 }
+function restoreOldAudioMessage(message){
+    
+}
 
 
 //GESTIONE DELLA CHAT
@@ -154,7 +157,6 @@ export function deleteCurrentChat(){
 }
 function insertMessagesInsideChatbox(chatbox, messages){
     let newMessage;
-    //console.log(messages);
     messages.forEach(message => {
        if (message.sender === 'User'){ //User
             switch (message.type) {
@@ -163,10 +165,15 @@ function insertMessagesInsideChatbox(chatbox, messages){
                     break;
                 case 'image':
                     break;
+                case 'pdf':
+                    break;
                 case 'audio':
+                    newMessage = restoreOldAudioMessage(message);
                     break;
-                case 'file':
-                    break;
+                // Add cases for 'audio' and 'pdf'...
+                default:
+                    console.error(`Unknown message type: ${message.type}`);
+                    return;  // Skip this message
             }
        } else { //AI
             switch (message.type) {
@@ -175,14 +182,21 @@ function insertMessagesInsideChatbox(chatbox, messages){
                     break;
                 case 'image':
                     break;
+                case 'pdf':
+                    break;
                 case 'audio':
+                    newMessage = restoreOldAudioMessage(message);
                     break;
-                case 'file':
-                    break;
+                    // Add cases 
+                // Add cases for 'audio' and 'file'...
+                default:
+                    console.error(`Unknown message type: ${message.type}`);
+                    return;  // Skip this message
             }
        }
-       //console.log(newMessage);
-       chatbox.appendChild(newMessage);
+       if (newMessage) {
+           chatbox.appendChild(newMessage);
+       }
     });
 }
 export function restoreChat(chatId, messages){
@@ -286,6 +300,25 @@ export function importServerChats(chatList){
     }
 }
 
+//UPLOAD DOCUMENTS
+export function clickedUploadButton(){
+    if (currentFile == null){
+        //isClickableUploadButton = false;
+        //let uploadButton = document.querySelector('#upload');
+        //uploadButton.classList.add('upload-disabled');
+        let fileInput = document.querySelector('#file-input');
+        //fileInput.style.display = 'block';
+        fileInput.click();
+    } else {
+        console.log(currentFile);
+        deleteFileHolder(currentFile);
+        setCurrentFile(null);
+        let uploadButton = document.querySelector('#upload');
+        uploadButton.classList.remove('uploaded-file');
+        console.log("removed file");
+        popUpMessage('File removed');
+    }
+}
 //THEME
 export function removeChatTheme(){
     let chatbox = document.querySelector('.chatbox');
@@ -300,7 +333,7 @@ export function removeChatTheme(){
         });
     }
 }
-export function updateChatTheme(){ //da implementare
+export function updateChatTheme(){
     let chatbox = document.querySelector('.chatbox');
     if (chatbox){
         let messages = chatbox.querySelectorAll('.send, .receive');

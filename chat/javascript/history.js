@@ -19,7 +19,7 @@ function showSearchBar(header, title) {
         updateListHistoryChat(historyChat, text);
     });
     searchBar.type = 'text';
-    searchBar.placeholder = 'Cerca...';
+    searchBar.placeholder = 'Search...';
     searchBar.id = 'searchBar';
     searchBar.className = 'slide slide-in';
     applyClassTheme('slide',searchBar);
@@ -87,7 +87,7 @@ export function updateListHistoryChat(historyChat, text) {
         cancelContentHistoryChat();
         if (text == ""){
             if (results.length == 0) {
-                let message = "Nessun risultato trovato. Prova a divertirti con GPTgram e crea una nuova chat!" ;
+                let message = "No results found. Try having fun with GPTgram and create a new chat!" ;
                 isHistoryChatEmpty = true;
                 createAndAppendNoResults(historyChat, message);
             } else {
@@ -99,7 +99,7 @@ export function updateListHistoryChat(historyChat, text) {
         } else{
             if (results.length == 0) {
                 isHistoryChatEmpty = true;
-                let message = "Nessun risultato trovato. Prova a cercare con un testo diverso!";
+                let message = "No results found. Try searching with a different text!";
                 createAndAppendNoResults(historyChat, message);
             } else {
                 for(let i = 0; (i < results.length && i<5); i++) {

@@ -45,7 +45,7 @@ export function updateListAllHistoryChat(allHistoryChat){
         cancelContentAllHistoryChat();
         if (sortedDateKeys.length == 0) {
             isAllHistoryChatEmpty = true;
-            let message = "La lista è vuota! Premi il pulsante \"nuova chat\" per scoprirne di più ;)";
+            let message = "The list is empty! Press the \"new chat\" button to find out more ;)";
             createAndAppendNoResults(allHistoryChat.querySelector('#allHistoryChatButtonList'), message);
         } else {
             isAllHistoryChatEmpty = false;

@@ -132,6 +132,10 @@ export async function toggleRecording() {
         let deviceId = mics[0].deviceId;
         await setupWavesurferRecordorder();
         audioRecorder.startRecording({ micDeviceId });
+
+        let send = document.querySelector('.sendButton');
+        send.classList.add("sendButton-disabled");
+        send.disabled = true;
     } else {
         if (audioRecorder.isRecording() || audioRecorder.isPaused()) {
             audioRecorder.stopRecording();
@@ -146,6 +150,9 @@ export async function toggleRecording() {
         userInput.placeholder = "chiedimi tutto quello che vuoi";
         inputGrid.insertBefore(userInput, commandsGrid);
         focusUserInput();
+        let send = document.querySelector('.sendButton');
+        send.classList.remove("sendButton-disabled");
+        send.disabled = false;
     }
 }
 

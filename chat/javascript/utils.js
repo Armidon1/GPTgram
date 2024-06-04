@@ -47,11 +47,20 @@ export async function copyToClipboard(event){
     let textToCopy = event.target.textContent;
     try{
         await navigator.clipboard.writeText(textToCopy);
+        popUpMessage('Copied to clipboard');
+    } catch (error){
+        console.error('Errore durante la copia nella clipboard: ', error);
+    }
+}
+
+//popup message
+export function popUpMessage(message){
+    try{
         let notification = document.createElement('div');
         notification.classList.add("notification");
         let notification_body = document.createElement('div');
         notification_body.classList.add("notification-body");
-        notification_body.textContent = "messaggio copiato!\n";
+        notification_body.textContent = message;
         let notification_progress = document.createElement("div");
         notification_progress.classList.add("notification-progress");
         notification.appendChild(notification_body);
@@ -63,9 +72,10 @@ export async function copyToClipboard(event){
         }, 10000);
     
     } catch (error){
-        console.error('Errore durante la copia nella clipboard: ', error);
+        console.error('Error during pop up message ', error);
     }
 }
+
 
 //set current email, user and hash
 export function updateGlobalVariables() {
