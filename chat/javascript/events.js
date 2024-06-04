@@ -63,6 +63,11 @@ document.querySelector('#file-input').addEventListener('change', function(event)
     currentFile = event.target.files[0];
     console.log(currentFile);
     let uploadButton = document.querySelector('#upload');
+    if (!(currentFile.name && currentFile.name.endsWith('.pdf'))){
+        popUpMessage('Only PDF files are allowed');
+        currentFile = null;
+        return;
+    }
     if  (currentFile!=null){
         console.log(currentFile.name);
         popUpMessage('File selected! Now ask someting');

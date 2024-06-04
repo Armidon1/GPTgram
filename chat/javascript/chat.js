@@ -49,11 +49,25 @@ async function newUserMessage(){
     if (!sendMessage(newMessageText.textContent)){ //sends message at the server
         alert("ERRORE: La connessione WebSocket non è aperta ancora (?)");
     }
+   
     newMessage.appendChild(newMessageText);
     newMessage.appendChild(Icon);
     
     let currentChat = document.getElementById(currentChatId);
     currentChat.appendChild(newMessage);
+    // if (currentFile != null){
+    //     let documentFile = document.createElement('div');
+    //     documentFile.classList.add('file-item');
+    //     let fileIcon = document.createElement('div');
+    //     fileIcon.classList.add('icon', 'file-pdf');
+    //     let fileTitle = document.createElement('p');
+    //     fileTitle.classList.add('.file-title');
+    //     fileTitle.textContent = currentFile.name;
+    //     documentFile.appendChild(fileIcon);
+    //     documentFile.appendChild(fileTitle);
+
+    //     newMessage.insertBefore(documentFile, newMessage.firstElementChild);
+    // }
     document.getElementsByClassName('end-separator')[0].scrollIntoView();
 }
 async function newAIMessage(){

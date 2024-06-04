@@ -548,6 +548,25 @@ p {
     gap: 10px;
 }
 
+.file-item{
+    border-radius: var(--standard-border-radius);
+    border: 1px solid var(--send-color);
+    padding: 5px;
+    margin: 5px;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.file-title-message{
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 100;
+}
+
 .audio-button{
     background-image: var(--play-path);
     background-size: 40px;
@@ -681,7 +700,7 @@ p {
 }
 
 .file-holder h1{
-    font-size:  44px;
+    font-size: 44px;
     flex-grow: 1;
     overflow: hidden;
     text-overflow: ellipsis;
