@@ -1,4 +1,4 @@
-import { logout } from './connection.js';
+import { logout , homepage} from './connection.js';
 import {insertButtonsInsideSettingsGrid, setIsFontClicked, setIsThemeClicked, applyClassTheme, removeClassTheme, updateSettingsTheme, removeSettingsTheme} from './settings.js';
 
 export let emailAccount = "account@email.com"; 
@@ -174,6 +174,8 @@ function clickedAccountSettingsButton(){
     }
 }
 //da implementare
-function clickedAccountLogoutButton(){
-    logout();
+async function clickedAccountLogoutButton(){
+    await logout();
+    document.cookie = "login=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"; // Delete the login cookie by setting its expiry date to a date in the past
+    window.location.href = homepage;
 }

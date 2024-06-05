@@ -13,7 +13,7 @@ let TYPE_REQUEST_CHAT_CONTENT = "chatContent"          // Tipo di messaggio per 
 let TYPE_AUDIO_MESSAGE = "audio";          // Tipo di messaggio per l'audio
 let TYPE_FILE_MESSAGE = "file";          // Tipo di messaggio per il file
 
-let homepage = "http://localhost:5500";
+export let homepage = "http://localhost:5500";
 let loginpage = "http://localhost:5500/login/index.html";
 let chatpage = "http://localhost:5500/chat/index.html";
 
@@ -94,7 +94,7 @@ ws.onerror = function(event) {
     console.error("WebSocket error observed:", event);
 };
 
-export function logout(chatId){
+export async function logout(chatId){
     console.log("Logout");
     let hash = "hash"; //TODO
     // checks if ws is ready to transmit
@@ -105,11 +105,11 @@ export function logout(chatId){
             'email': emailAccount, 
             'hash': hashAccount,
         };
-        ws.send(JSON.stringify(messageJSON));
-        document.cookie = "login=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"; // Delete the login cookie by setting its expiry date to a date in the past
-        window.location.href = homepage;
+        await ws.send(JSON.stringify(messageJSON));
+        return
     } else {
         console.log('Cannot send message, WebSocket connection is not open');
+        return
     }
 }
 

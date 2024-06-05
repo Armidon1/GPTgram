@@ -41,6 +41,7 @@ async function newUserMessage(){
     newMessage.setAttribute('data-time', msgDate);
     let newMessageText = document.createElement('p');
     newMessageText.classList.add('send');
+    //newMessageText.style.display = 'None';
     applyClassTheme('send',newMessageText);
     newMessageText.textContent = userInput.value.trim();
     userInput.value = '';
@@ -55,6 +56,10 @@ async function newUserMessage(){
     
     let currentChat = document.getElementById(currentChatId);
     currentChat.appendChild(newMessage);
+    
+
+    //preciseSetTimeout(()=>{newMessageText.style.display = 'block';}, CAPTURE_TIME * 1000);
+    
     // if (currentFile != null){
     //     let documentFile = document.createElement('div');
     //     documentFile.classList.add('file-item');

@@ -2,6 +2,7 @@ import { applyClassTheme , removeClassTheme} from './settings.js';
 export let lettersCanMove = true;
 export const LETTERS ='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
 export const LETTERS_AMOUNT = 69;
+export const CAPTURE_TIME = 2;
 
 export function setLettersCanMove(value) {
     lettersCanMove = value;
@@ -11,7 +12,7 @@ export function generateFloatingLetters(letterAmount = LETTERS_AMOUNT){
     let LetterPool;
 
     if (document.querySelector('#letter-pool') != null) {
-        letterPool = document.querySelector('#letter-pool');
+        LetterPool = document.querySelector('#letter-pool');
     } else {
         LetterPool = document.createElement('div');
         LetterPool.id = 'letter-pool';
@@ -76,6 +77,8 @@ export function animateFloatingLetters(){
 
     animate();
 }
+
+
 
 export function removeFloatingLettersTheme(){
     const letters = document.querySelectorAll('.letters');
