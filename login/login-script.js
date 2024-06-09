@@ -23,22 +23,22 @@ function preciseSetTimeout(callback, delay) {
   tick();
 }
 
-async function generateCookieHash(email){
-  let date = new Date().toLocaleString();
-  let hashRandom = ''
+// async function generateCookieHash(email){
+//   let date = new Date().toLocaleString();
+//   let hashRandom = ''
 
-  for (let i = 0; i < 14; i++){
-    hashRandom += LETTERS.charAt(Math.floor(Math.random() * LETTERS.length));
-  }
+//   for (let i = 0; i < 14; i++){
+//     hashRandom += LETTERS.charAt(Math.floor(Math.random() * LETTERS.length));
+//   }
 
-  const encoder = new TextEncoder();
-  let cookie = encoder.encode(email + date + hashRandom);
-  const hash = await window.crypto.subtle.digest('SHA-256', cookie);
-  const hashArray = Array.from(new Uint8Array(hash));
-  let hashString = hashArray.map(n => n.toString(16).padStart(2, '0')).join('');
+//   const encoder = new TextEncoder();
+//   let cookie = encoder.encode(email + date + hashRandom);
+//   const hash = await window.crypto.subtle.digest('SHA-256', cookie);
+//   const hashArray = Array.from(new Uint8Array(hash));
+//   let hashString = hashArray.map(n => n.toString(16).padStart(2, '0')).join('');
 
-  return hashString;
-}
+//   return hashString;
+// }
 
 async function hashRegisterPassword(password){
   let salt = '';

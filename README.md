@@ -1,5 +1,5 @@
 # GPTgram
-a better chatGPT
+Una versione di chat con un Inteligenza Artificiale orientato alla privacy e con un interfaccia personalizzabile ed user-friendly.
 
 ## Tree Structure
 .  
@@ -44,10 +44,6 @@ a better chatGPT
 
 ## Docs
 
-### Asset
-* Nella cartella `asset` ci sono le icone del sito
-* Dentro `asset`, c'è una sottocartella index ci sono le immagini del carrosello della landing page
-
 ### Chat
 * nella cartella ci sono tutti i file che riguardano la pagina della chat di interazione con l'IA
 * nel file `index` vi è la struttura base della pagina (parte di essa viene generata in javascript)
@@ -65,22 +61,36 @@ a better chatGPT
 * `letters` gestisce il movimeno delle lettere di sfondo
 * in `settings` vi sono tutte le impostazioni della tendina laterale account che permettono di creare le varie combinazioni di stile
 * in `utils` ci sono funzioni varie che sono utilizzate un po ovunque e il sistema di notifiche
-#### themes
-* il file `light` si occupa del tema light della chat in cui vi sono i corrispettivi delle varie classi
-* il file `dark` gestisce il tema dark con corrispettive classi dei vari elementi
+#### CSS
+* il file `style` gestisce lo stile generale di ogni elemento grafico dentro la pagina
+* il file `light` dentro la cartella `themes` si occupa del tema light della chat in cui vi sono i corrispettivi delle varie classi
+* il file `dark` dentro la cartella `themes` si occupa del tema light della chat in cui vi sono i corrispettivi delle varie classi
 
-
-### landing
-* la pagina html è presente nella root mentre gli elementi javascript e css sono inseriti dentro le corrispettive sottocartelle nella cartella landing
+---
+### Landing
+* la pagina html è presente nella root mentre gli elementi javascript e css sono inseriti dentro le corrispettive sottocartelle nella cartella `landing`
 
 #### javascript
 * `connection-landpage` fa semplicemente un controllo di connessione con il server
 * `script` si occupa della generazione e del movimento delle lettere in background 
 * `scroll-images` si occupa del cambio automatico delle immagini del carosello, oltre che andare avanti/indietro in esso
 
+#### CSS
+* il file `style` gestisce lo stile generale di ogni elemento grafico dentro la pagina
+
+---
 ### Login
 * gli elementi inerenti al login sono inseriti dentro la cartella `login` 
 
 #### javascript
-* connection-login gestisce il login con il server
-* login-script gestisce le lettere genera/muove le lettere in backgroound, controlla che 
+* `connection-login` gestisce le interazioni con il server
+* `login-script` gestisce le lettere genera/muove le lettere in background, controlla che i campi dei form register/login siano stati compilati correttametnte ed implementa il sistema di notifiche pop-up.
+
+#### CSS
+* il file `style` gestisce lo stile generale di ogni elemento grafico dentro la pagina
+
+---
+### Asset
+* Nella cartella `asset` ci sono le icone del sito
+* Dentro `asset`, c'è una sottocartella index ci sono le immagini del carrosello della landing page
+
