@@ -7,7 +7,7 @@ let homepage = "http://localhost:5500";
 let loginpage = "http://localhost:5500/login/index.html";
 let chatpage = "http://localhost:5500/chat/index.html";
 
-const ws = new WebSocket('wss://localhost:8765');
+const ws = new WebSocket('ws://localhost:8765');
 const TYPE_MESSAGE_NEW_COOKIE = "newCookie";
 const TYPE_MESSAGE_COOKIE = "cookie";
 

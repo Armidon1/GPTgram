@@ -25,7 +25,7 @@ export function getFirstMessage(){
     return isFirstMessage;
 }
 
-const ws = new WebSocket('wss://localhost:8765');
+const ws = new WebSocket('ws://localhost:8765');
 
 /* gestisci connessione*/
 ws.onopen = function() {
